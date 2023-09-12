@@ -5,5 +5,5 @@
 package assignment;
 
 public enum venueType {
-    PAVILION, MIDVALLEY, GENTING;
+    Pavilion, Midvalley, Genting;
 }

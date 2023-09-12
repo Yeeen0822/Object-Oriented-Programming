@@ -4,6 +4,12 @@
  */
 package assignment;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class testRun {
@@ -24,7 +30,8 @@ public class testRun {
                     + "Enter your choice: ");
             int choice = s1.nextInt();
             while (choice != 1 && choice != 2) {
-                System.out.println("Invalid choice!\n"
+
+                System.out.print("\nInvalid choice!\n"
                         + "Enter a valid choice: ");
                 choice = s1.nextInt();
 
@@ -35,7 +42,7 @@ public class testRun {
                 case 1: {
 
                     //Admin login screen
-                    System.out.println("Admin Login:");
+                    System.out.println("\n---Admin Login---");
                     System.out.print("Enter your name: ");
                     String name = s1.nextLine();
                     System.out.print("Enter your password: ");
@@ -53,7 +60,7 @@ public class testRun {
                             boolean adminLoginStatus = true;
                             while (adminLoginStatus) {
 
-                                System.out.print("Please Choose an Option\n"
+                                System.out.print("\nPlease Choose an Option\n"
                                         + "1. Event Management\n"
                                         + "2. Exhibitor Profile Management\n"
                                         + "3. Analytics Report\n"
@@ -63,7 +70,7 @@ public class testRun {
                                 int adminChoice = s1.nextInt();
 
                                 while (adminChoice != 1 && adminChoice != 2 && adminChoice != 3 && adminChoice != 4) {
-                                    System.out.println("Invalid choice!\n"
+                                    System.out.print("\nInvalid choice!\n"
                                             + "Enter a valid choice: ");
                                     adminChoice = s1.nextInt();
                                 }
@@ -91,19 +98,19 @@ public class testRun {
                                         switch (EventChoice) {
                                             //Create Booking
                                             case 1: {
-                                                //Create Exhibitor
+                                                //--------------------------Create Exhibitor
 
                                                 //-Exhibitor name
                                                 System.out.print("Enter Exhibitor Name: ");
-                                                String ExName = s1.nextLine();
+                                                String exName = s1.nextLine();
 
                                                 //-Email
                                                 System.out.print("Enter Exhibitor Email: ");
-                                                String ExEmail = s1.nextLine();
-                                                while (Person.vldEmail(ExEmail) == false) {
+                                                String exEmail = s1.nextLine();
+                                                while (Person.vldEmail(exEmail) == false) {
                                                     System.out.print("Invalid address!\n"
                                                             + "Enter Exhibitor Email: ");
-                                                    ExEmail = s1.nextLine();
+                                                    exEmail = s1.nextLine();
                                                 }
 
                                                 //-phoneNo
@@ -121,14 +128,116 @@ public class testRun {
 
                                                 //-Input IC
                                                 System.out.print("Enter IC: ");
-                                                String exhibitorIC = s1.nextLine();
-                                                while (Exhibitor.vldIC(exhibitorIC)) {
+                                                String exIC = s1.nextLine();
+                                                while (Exhibitor.vldIC(exIC) == false) {
                                                     System.out.print("Invalid IC!\n"
                                                             + "Enter IC: ");
-                                                    exhibitorIC = s1.nextLine();
+                                                    exIC = s1.nextLine();
                                                 }
                                                 //-ArrayList<Product> products
-                                                //Create Event
+                                                ArrayList<Product> productArrList = new ArrayList<>();
+                                                System.out.print("Enter the number of products: ");
+                                                int productNum = s1.nextInt();
+                                                
+
+                                                for (int j = 0; j < productNum; j++) {
+                                                    s1.nextLine();
+                                                    System.out.println("Enter product details for product " + (j + 1) + ":");
+                                                    //prod name
+                                                    System.out.print("Enter Product Name: ");
+                                                    String prodName = s1.nextLine();
+                                                    //prod desc
+                                                    System.out.print("Enter Product Description: ");
+                                                    String prodDesc = s1.nextLine();
+                                                    //prod price
+                                                    System.out.print("Enter Product Price: ");
+                                                    double prodPrice = s1.nextDouble();
+
+                                                    Product product = new Product(prodName, prodDesc, prodPrice);
+                                                    productArrList.add(product);
+                                                }
+
+                                                //Invoke Exhibitor Constructor 
+                                                Exhibitor exhibitor = new Exhibitor(companyName, exIC, productArrList, exName, exEmail, phoneNo);
+
+                                                //------------------Create Event
+                                                System.out.println("\nEnter Details About the Event");
+
+                                                //-eventName
+                                                System.out.print("Enter Event Name: ");
+                                                String eventName = s1.nextLine();
+
+                                                //-eventDate
+                                                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+                                                LocalDate currentDate = LocalDate.now();
+
+                                                LocalDate eventDate = null;
+
+                                                boolean isValidInput = false;
+
+                                                while (!isValidInput) {
+                                                    System.out.print("Enter Event Date (YYYY-MM-DD): ");
+                                                    String dateInput = s1.nextLine();
+
+                                                    try {
+                                                        eventDate = LocalDate.parse(dateInput, dateFormatter);
+
+                                                        // Check if the event date is at least 15 days in the future
+                                                        long daysUntilEvent = ChronoUnit.DAYS.between(currentDate, eventDate);
+
+                                                        if (daysUntilEvent >= 15) {
+                                                            isValidInput = true;
+                                                        } else {
+                                                            System.out.println("Event date must be at least 15 days in the future.");
+                                                        }
+                                                    } catch (Exception e) {
+                                                        System.out.println("Invalid date format. Please use YYYY-MM-DD.");
+                                                    }
+
+                                                }
+
+                                                //-eventTime
+                                                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+                                                LocalTime currentTime = LocalTime.now();
+                                                LocalTime eventTime = null;
+                                                isValidInput = false;
+
+                                                while (!isValidInput) {
+                                                    System.out.print("Enter Event Time (HH:mm): ");
+                                                    String timeInput = s1.nextLine();
+
+                                                    try {
+                                                        eventTime = LocalTime.parse(timeInput, timeFormatter);
+                                                        isValidInput = true;
+
+                                                    } catch (Exception e) {
+                                                        System.out.println("Invalid time format. Please use HH:mm.");
+                                                    }
+                                                }
+
+                                                //-eventVenue
+                                                venueType[] venues = venueType.values();
+                                                System.out.println("\nVenue List:");
+                                                for (int k = 0; k < venues.length; k++) {
+                                                    System.out.println((k + 1) + ". " + venues[k]);
+                                                }
+
+                                                System.out.print("Enter Event Venue (1-3): ");
+                                                int eventVenueNum = s1.nextInt();
+                                                while(vldIntInput(1,3,eventVenueNum)==false){
+                                                    System.out.print("\nInvalid Input!\n"
+                                                            + "Enter again: ");
+                                                    eventVenueNum = s1.nextInt();
+                                                }
+                                                s1.nextLine();
+                                                venueType venueType = venues[eventVenueNum-1];
+                                                System.out.println(venueType);
+
+                                                //-decoration
+                                                //-price
+                                                //-eventProducts ArrayList<Product> use = to do reference
+                                                //-participantArr: ArrayList<Participant>
                                                 //Create the Booking
                                                 break;
 
@@ -209,6 +318,14 @@ public class testRun {
 
         }
 
+    }
+
+    public static boolean vldIntInput(int min, int max, int input) {
+        if (input > max || input < min) {
+            return false;
+        }else{
+            return true;
+        }
     }
 
 }

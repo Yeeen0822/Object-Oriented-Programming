@@ -18,13 +18,13 @@ public class Event {
     private double price;
     private static double totalRevenue;
     private static int eventCount;
-    private Product[] eventProducts;
+    private ArrayList<Product> eventProducts;
     private ArrayList<Participant> participantsArr;
     private int eventAttendance;
     
     public Event(){};
     public Event(String eventName, LocalDate eventDate, LocalTime eventTime, 
-            venueType eventVenue, decorationType decoration, Product[] eventProducts,
+            venueType eventVenue, decorationType decoration, ArrayList<Product> eventProducts,
             ArrayList<Participant> participantsArr  ){
         this.eventName = eventName;
         this.eventDate = eventDate;
@@ -33,6 +33,7 @@ public class Event {
         this.decoration = decoration;
         this.eventProducts = eventProducts;
         this.participantsArr = participantsArr;
+        eventAttendance = 0;
         price = (double)decoration.price;
         totalRevenue += price;
         eventCount++;
@@ -71,7 +72,7 @@ public class Event {
         return eventCount;
     }
 
-    public Product[] getEventProducts() {
+    public ArrayList<Product> getEventProducts() {
         return eventProducts;
     }
 
@@ -99,7 +100,7 @@ public class Event {
         this.eventVenue = eventVenue;
     }
 
-    public void setEventProducts(Product[] eventProducts) {
+    public void setEventProducts(ArrayList<Product> eventProducts) {
         this.eventProducts = eventProducts;
     }
     
