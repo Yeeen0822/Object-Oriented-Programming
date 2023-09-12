@@ -16,9 +16,11 @@ public class testRun {
 
     public static void main(String[] args) {
 
-//        Make Admin Array and create the main Admin
+//      Make Admin Array and create the main Admin
         Admin[] adminArray = new Admin[3];
         adminArray[0] = new Admin("1", "yamjason04@gmail.com", "0168962213", "1");
+        //Create an array list for booking
+        ArrayList<Booking> bookingArrList = new ArrayList<>();
 
         Scanner s1 = new Scanner(System.in);
 
@@ -138,7 +140,6 @@ public class testRun {
                                                 ArrayList<Product> productArrList = new ArrayList<>();
                                                 System.out.print("Enter the number of products: ");
                                                 int productNum = s1.nextInt();
-                                                
 
                                                 for (int j = 0; j < productNum; j++) {
                                                     s1.nextLine();
@@ -219,26 +220,54 @@ public class testRun {
                                                 //-eventVenue
                                                 venueType[] venues = venueType.values();
                                                 System.out.println("\nVenue List:");
-                                                for (int k = 0; k < venues.length; k++) {
-                                                    System.out.println((k + 1) + ". " + venues[k]);
+                                                for (int j = 0; j < venues.length; j++) {
+                                                    System.out.println((j + 1) + ". " + venues[j]);
                                                 }
 
-                                                System.out.print("Enter Event Venue (1-3): ");
+                                                System.out.print("Enter Event Venue (1-" + venues.length + "): ");
                                                 int eventVenueNum = s1.nextInt();
-                                                while(vldIntInput(1,3,eventVenueNum)==false){
+                                                while (vldIntInput(1, 3, eventVenueNum) == false) {
                                                     System.out.print("\nInvalid Input!\n"
                                                             + "Enter again: ");
                                                     eventVenueNum = s1.nextInt();
                                                 }
                                                 s1.nextLine();
-                                                venueType venueType = venues[eventVenueNum-1];
-                                                System.out.println(venueType);
+                                                venueType venueType = venues[eventVenueNum - 1];
 
                                                 //-decoration
-                                                //-price
-                                                //-eventProducts ArrayList<Product> use = to do reference
+                                                decorationType[] decoration = decorationType.values();
+                                                System.out.println("\nDecoration List:");
+                                                for (int k = 0; k < decoration.length; k++) {
+                                                    System.out.println((k + 1) + ". " + decoration[k]);
+                                                }
+
+                                                System.out.print("Enter Event Decoration (1-" + decoration.length + "): ");
+                                                int eventDecorationNum = s1.nextInt();
+                                                while (vldIntInput(1, 3, eventVenueNum) == false) {
+                                                    System.out.print("\nInvalid Input!\n"
+                                                            + "Enter again: ");
+                                                    eventDecorationNum = s1.nextInt();
+                                                }
+                                                s1.nextLine();
+                                                decorationType decorationType = decoration[eventDecorationNum - 1];
+
+                                                //-eventProducts ArrayList<Product> use = to do reference to the productArrList created when creating exhibitor
+                                                ArrayList<Product> eventProduct = productArrList;
+
                                                 //-participantArr: ArrayList<Participant>
+                                                ArrayList<Participant> participantArrList = new ArrayList<>();
+                                                
+                                                //Invoke the event constructor
+                                                Event event = new Event(eventName, eventDate, eventTime, venueType, decorationType, eventProduct, participantArrList);
+                                                
+                                                //Make Payment
+                                                
+                                                
+
                                                 //Create the Booking
+//                                                Booking booking = new Booking(exhibitor, event, payment);
+//                                                bookingArrList.add(booking);
+
                                                 break;
 
                                             }
@@ -323,7 +352,7 @@ public class testRun {
     public static boolean vldIntInput(int min, int max, int input) {
         if (input > max || input < min) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
