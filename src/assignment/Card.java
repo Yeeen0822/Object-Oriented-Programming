@@ -30,17 +30,33 @@ public class Card extends Payment {
     }
 
     //validate cardEXP
-    public static boolean vldIC(String IC) {
-        // Regular expression for a Malaysian IC
-        String icRegex = "^[0-9]{12}$";
+    public static boolean vldCardExp(String cardExp) {
+        // Regular expression for a cardExp
+        String cardExpRegex = "^(0[1-9]|1[0-2])/(20\\d{2}|[3-9]\\d)$";
 
         // Compile the regex pattern
-        Pattern pattern = Pattern.compile(icRegex);
+        Pattern pattern = Pattern.compile(cardExpRegex);
 
-        // Match the phone number against the pattern
-        Matcher matcher = pattern.matcher(IC);
+        // Match the cardExp against the pattern
+        Matcher matcher = pattern.matcher(cardExp);
 
-        // Check if the IC matches the pattern
+        // Check if the cardExp matches the pattern
+        return matcher.matches(); // True for valid, false for invalid
+    }
+    
+    //validate cardCVV
+
+    public static boolean vldCardCvv(String cardCVV) {
+        // Regular expression for a card CVV
+        String cardCVVRegex = "^\\d{3,4}$";
+
+        // Compile the regex pattern
+        Pattern pattern = Pattern.compile(cardCVVRegex);
+
+        // Match the cardCVV against the pattern
+        Matcher matcher = pattern.matcher(cardCVV);
+
+        // Check if the card cvv matches the pattern
         return matcher.matches(); // True for valid, false for invalid
     }
 
