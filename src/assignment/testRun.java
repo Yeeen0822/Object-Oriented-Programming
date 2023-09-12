@@ -122,10 +122,10 @@ public class testRun {
                                                 //-Input IC
                                                 System.out.print("Enter IC: ");
                                                 String exhibitorIC = s1.nextLine();
-                                                while (Exhibitor.vldIC(ic)) {
+                                                while (Exhibitor.vldIC(exhibitorIC)) {
                                                     System.out.print("Invalid IC!\n"
                                                             + "Enter IC: ");
-                                                    ic = s1.nextLine();
+                                                    exhibitorIC = s1.nextLine();
                                                 }
                                                 //-ArrayList<Product> products
                                                 //Create Event
