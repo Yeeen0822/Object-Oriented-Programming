@@ -226,7 +226,7 @@ public class testRun {
 
                                                 System.out.print("Enter Event Venue (1-" + venues.length + "): ");
                                                 int eventVenueNum = s1.nextInt();
-                                                while (vldIntInput(1, 3, eventVenueNum) == false) {
+                                                while (vldIntInput(1, venues.length, eventVenueNum) == false) {
                                                     System.out.print("\nInvalid Input!\n"
                                                             + "Enter again: ");
                                                     eventVenueNum = s1.nextInt();
@@ -243,7 +243,7 @@ public class testRun {
 
                                                 System.out.print("Enter Event Decoration (1-" + decoration.length + "): ");
                                                 int eventDecorationNum = s1.nextInt();
-                                                while (vldIntInput(1, 3, eventVenueNum) == false) {
+                                                while (vldIntInput(1, decoration.length, eventDecorationNum) == false) {
                                                     System.out.print("\nInvalid Input!\n"
                                                             + "Enter again: ");
                                                     eventDecorationNum = s1.nextInt();
@@ -256,18 +256,45 @@ public class testRun {
 
                                                 //-participantArr: ArrayList<Participant>
                                                 ArrayList<Participant> participantArrList = new ArrayList<>();
-                                                
+
                                                 //Invoke the event constructor
                                                 Event event = new Event(eventName, eventDate, eventTime, venueType, decorationType, eventProduct, participantArrList);
-                                                
-                                                //Make Payment
-                                                
-                                                
 
+                                                //Make Payment
+                                                System.out.print("1. Card\n"
+                                                        + "2. Cash\n"
+                                                        + "Select Payment Type: ");
+                                                int paymentNum = s1.nextInt();
+                                                while (vldIntInput(1, 2, paymentNum) == false) {
+                                                    System.out.print("\nInvalid Input!\n"
+                                                            + "Enter again: ");
+                                                    paymentNum = s1.nextInt();
+                                                }
+                                                s1.nextLine();
+                                                
+                                                //paymentAmount = event object's price
+                                                
+                                                //Create Card object
+                                                if(paymentNum == 1){
+                                                    
+                                                    //cardNum
+                                                    
+                                                    //cardHolder
+                                                    
+                                                    //cardExp
+                                                    
+                                                    //cardCVV
+                                                    
+                                                }else{
+                                                    //Create Cash object
+                                                    
+
+                                                }
+                                                
+                                                
                                                 //Create the Booking
 //                                                Booking booking = new Booking(exhibitor, event, payment);
 //                                                bookingArrList.add(booking);
-
                                                 break;
 
                                             }
