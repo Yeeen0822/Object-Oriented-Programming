@@ -9,7 +9,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Exhibitor extends Person {
-
+    
+    private static int nextExhibitor = 100;
+    private String exhibitorID;
     private String companyName;
     private String IC;
     private static int exhibitorCount;
@@ -20,10 +22,40 @@ public class Exhibitor extends Person {
 
     public Exhibitor(String companyName, String IC, ArrayList<Product> products, String name, String email, String phoneNo) {
         super(name, email, phoneNo);
+        exhibitorID = "EX" + nextExhibitor++;
         this.companyName = companyName;
         this.IC = IC;
         this.products = products;
     }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setIC(String IC) {
+        this.IC = IC;
+    }
+    
+    public String getExhibitorID() {
+        return exhibitorID;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public String getIC() {
+        return IC;
+    }
+
+    public static int getExhibitorCount() {
+        return exhibitorCount;
+    }
+
+    public ArrayList<Product> getProducts() {
+        return products;
+    }
+    
 
     public static boolean vldIC(String IC) {
         // Regular expression for a Malaysian IC

@@ -63,22 +63,24 @@ public class testRun {
                             while (adminLoginStatus) {
 
                                 System.out.print("\nPlease Choose an Option\n"
-                                        + "1. Event Management\n"
-                                        + "2. Exhibitor Profile Management\n"
-                                        + "3. Analytics Report\n"
-                                        + "4. Back\n"
+                                        + "1. Booking Management\n"
+                                        + "2. Event Management\n"
+                                        + "3. Exhibitor Profile Management\n"
+                                        + "4. Analytics Report\n"
+                                        + "5. Back\n"
                                         + "Enter your choice: "
                                 );
                                 int adminChoice = s1.nextInt();
 
-                                while (adminChoice != 1 && adminChoice != 2 && adminChoice != 3 && adminChoice != 4) {
+                                while (vldIntInput(1,5,adminChoice) == false) {
+                                    s1.nextLine();
                                     System.out.print("\nInvalid choice!\n"
                                             + "Enter a valid choice: ");
                                     adminChoice = s1.nextInt();
                                 }
                                 s1.nextLine();
                                 switch (adminChoice) {
-                                    //event management
+                                    //booking management
                                     case 1: {
                                         System.out.print("\nPlease Choose an Option\n"
                                                 + "1. Create Booking\n"
@@ -321,7 +323,7 @@ public class testRun {
                                                         payment.makePayment();
 
                                                     } else if (paymentCheck == 'N') {
-                                                        payment.cancelPayment();
+                                                        payment.pendingPayment();
                                                     }
 
                                                     //Create the booking for Card payment
@@ -349,7 +351,7 @@ public class testRun {
 
                                                     //if amount tendered >= event.getPrice(), make the paid = true, if 0 = paid = false
                                                     if (amountTendered == 0) {
-                                                        payment.cancelPayment();
+                                                        payment.pendingPayment();
                                                         System.out.println("Payment Not Received.");
 
                                                     } else {
@@ -394,18 +396,23 @@ public class testRun {
                                         }
                                         break;
                                     }
-                                    //Exhibitor Profile Management
+                                    //Event Management
                                     case 2: {
                                         break;
 
                                     }
-                                    //Analytics Report
+                                    // Exhibitor Profile management
                                     case 3: {
+                                        break;
+                                        
+                                    }
+                                    //Analytics Report
+                                    case 4: {
                                         break;
                                     }
                                     //Back, prompt to log out
-                                    case 4: {
-                                        s1.nextLine();
+                                    case 5: {
+                                        
                                         System.out.print("Log out? (Y/N)");
                                         char adminLogout = s1.nextLine().charAt(0);
                                         while (adminLogout != 'Y' && adminLogout != 'N') {

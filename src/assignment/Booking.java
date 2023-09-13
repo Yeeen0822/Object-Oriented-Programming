@@ -7,7 +7,7 @@ package assignment;
 import java.util.ArrayList;
 
 public class Booking {
-    private int bookingNum;
+    private int bookingNum = 100;
     private Exhibitor exhibitor;
     private Event event;
     private static ArrayList<Event> eventList = new ArrayList<>();

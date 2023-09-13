@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class Payment {
     private LocalDate paymentDate;
     private double paymentAmount;
-    private boolean paid;
+    private String paymentStatus;
     
     public Payment(){}
     public Payment(double paymentAmount){
@@ -26,10 +26,13 @@ public class Payment {
         return paymentAmount;
     }
     public void makePayment(){
-        paid = true;
+        paymentStatus = "Paid";
+    }
+    public void pendingPayment(){
+        paymentStatus = "Pending";
     }
     public void cancelPayment(){
-        paid = false;
+        paymentStatus = "Cancelled";
     }
     
 }

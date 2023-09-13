@@ -8,8 +8,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-
 public class Event {
+
+    private static int nextEvent = 100;
+    private String eventID;
     private String eventName;
     private LocalDate eventDate;
     private LocalTime eventTime;
@@ -21,11 +23,15 @@ public class Event {
     private ArrayList<Product> eventProducts;
     private ArrayList<Participant> participantsArr;
     private int eventAttendance;
-    
-    public Event(){};
-    public Event(String eventName, LocalDate eventDate, LocalTime eventTime, 
+
+    public Event() {
+    }
+
+    ;
+    public Event(String eventName, LocalDate eventDate, LocalTime eventTime,
             venueType eventVenue, decorationType decoration, ArrayList<Product> eventProducts,
-            ArrayList<Participant> participantsArr  ){
+            ArrayList<Participant> participantsArr) {
+        eventID = "E" + nextEvent++;
         this.eventName = eventName;
         this.eventDate = eventDate;
         this.eventTime = eventTime;
@@ -34,11 +40,13 @@ public class Event {
         this.eventProducts = eventProducts;
         this.participantsArr = participantsArr;
         eventAttendance = 0;
-        price = (double)decoration.price;
+        price = (double) decoration.price;
         totalRevenue += price;
         eventCount++;
-        
-    };
+
+    }
+
+    ;
 
     public String getEventName() {
         return eventName;
@@ -103,5 +111,5 @@ public class Event {
     public void setEventProducts(ArrayList<Product> eventProducts) {
         this.eventProducts = eventProducts;
     }
-    
+
 }
