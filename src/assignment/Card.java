@@ -32,7 +32,7 @@ public class Card extends Payment {
     //validate cardEXP
     public static boolean vldCardExp(String cardExp) {
         // Regular expression for a cardExp
-        String cardExpRegex = "^(0[1-9]|1[0-2])/(20\\d{2}|[3-9]\\d)$";
+        String cardExpRegex = "^(0[1-9]|1[0-2])/([3-9]\\d)$";
 
         // Compile the regex pattern
         Pattern pattern = Pattern.compile(cardExpRegex);

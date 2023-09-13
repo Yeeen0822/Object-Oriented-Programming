@@ -16,4 +16,8 @@ public class Cash extends Payment {
         changeAmount = amountTendered - paymentAmount;
     }
     
+    public double getChangeAmount(){
+        return changeAmount;
+    }
+    
 }
