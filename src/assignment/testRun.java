@@ -32,7 +32,7 @@ public class testRun {
                     + "Enter your choice: ");
             int choice = s1.nextInt();
             while (choice != 1 && choice != 2) {
-
+                s1.nextLine();
                 System.out.print("\nInvalid choice!\n"
                         + "Enter a valid choice: ");
                 choice = s1.nextInt();
@@ -52,6 +52,7 @@ public class testRun {
 
                     // Iterate through the AdminArray
                     boolean loggedIn = false;
+
                     for (int i = 0; i < adminArray.length; i++) {
                         if (adminArray[i] != null && adminArray[i].getName() != null && adminArray[i].getPassword() != null
                                 && adminArray[i].getName().equals(name) && adminArray[i].getPassword().equals(password)) {
@@ -72,7 +73,7 @@ public class testRun {
                                 );
                                 int adminChoice = s1.nextInt();
 
-                                while (vldIntInput(1,5,adminChoice) == false) {
+                                while (vldIntInput(1, 5, adminChoice) == false) {
                                     s1.nextLine();
                                     System.out.print("\nInvalid choice!\n"
                                             + "Enter a valid choice: ");
@@ -159,6 +160,7 @@ public class testRun {
                                                     Product product = new Product(prodName, prodDesc, prodPrice);
                                                     productArrList.add(product);
                                                 }
+                                                s1.nextLine();
 
                                                 //Invoke Exhibitor Constructor 
                                                 Exhibitor exhibitor = new Exhibitor(companyName, exIC, productArrList, exName, exEmail, phoneNo);
@@ -359,7 +361,7 @@ public class testRun {
                                                         //Display changeAmount                                                  
                                                         System.out.println("Change Amount: " + payment.getChangeAmount());
                                                     }
-                                                    
+
                                                     //create the booking for cash payment
                                                     Booking booking = new Booking(exhibitor, event, payment);
                                                     //Add the Booking to booking array list
@@ -372,7 +374,14 @@ public class testRun {
                                             }
                                             //View Booking
                                             case 2: {
-                                                
+
+                                                System.out.printf("%-15s %-15s %-15s %-15s %-15s", "\nBooking Number", "Exhibitor Name", "Company Name", "Event Name", "Payment Status\n");
+                                                for (int j = 0; j < bookingArrList.size(); j++) {
+
+                                                    System.out.print(bookingArrList.get(j));
+                                                    System.out.printf("%-15s %-15s %-15s %-15s", bookingArrList.get(j).getExhibitor().getName(), bookingArrList.get(j).getExhibitor().getCompanyName(), bookingArrList.get(j).getEvent().getEventName(), bookingArrList.get(j).getPaymentMethod().getPaymentStatus());
+                                                }
+                                                System.out.println("");
 
                                                 break;
 
@@ -404,7 +413,7 @@ public class testRun {
                                     // Exhibitor Profile management
                                     case 3: {
                                         break;
-                                        
+
                                     }
                                     //Analytics Report
                                     case 4: {
@@ -412,7 +421,7 @@ public class testRun {
                                     }
                                     //Back, prompt to log out
                                     case 5: {
-                                        
+
                                         System.out.print("Log out? (Y/N)");
                                         char adminLogout = s1.nextLine().charAt(0);
                                         while (adminLogout != 'Y' && adminLogout != 'N') {

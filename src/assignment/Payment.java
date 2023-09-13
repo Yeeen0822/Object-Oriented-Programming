@@ -34,5 +34,10 @@ public class Payment {
     public void cancelPayment(){
         paymentStatus = "Cancelled";
     }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+    
     
 }

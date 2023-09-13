@@ -7,16 +7,16 @@ package assignment;
 import java.util.ArrayList;
 
 public class Booking {
-    private int bookingNum = 100;
+    private int bookingNum;
     private Exhibitor exhibitor;
     private Event event;
     private static ArrayList<Event> eventList = new ArrayList<>();
     private Payment paymentMethod;
-    private static int nextBookingNum ;
+    private static int nextBookingNum = 100;
     
     public Booking(){}
     public Booking(Exhibitor exhibitor, Event event, Payment paymentMethod){
-        bookingNum = ++nextBookingNum;
+        bookingNum = nextBookingNum++;
         this.exhibitor = exhibitor;
         this.event = event;
         this.paymentMethod = paymentMethod;
@@ -34,5 +34,26 @@ public class Booking {
     public static ArrayList<Event> getEventList() {
         return eventList;
     }
+
+    public int getBookingNum() {
+        return bookingNum;
+    }
+
+    public Exhibitor getExhibitor() {
+        return exhibitor;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public Payment getPaymentMethod() {
+        return paymentMethod;
+    }
     
+    
+    @Override
+    public String toString(){
+        return String.format("%-15s", bookingNum);
+    }
 }
