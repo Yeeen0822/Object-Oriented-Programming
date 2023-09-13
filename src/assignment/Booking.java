@@ -50,6 +50,10 @@ public class Booking {
     public Payment getPaymentMethod() {
         return paymentMethod;
     }
+
+    public void setPaymentMethod(Payment paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
     
     
     @Override
