@@ -76,6 +76,14 @@ public class Event {
         return totalRevenue;
     }
 
+    public static void deductTotalRevenue(double amount) {
+        totalRevenue = totalRevenue - amount;
+    }
+
+    public static void addTotalRevenue(double amount) {
+        totalRevenue = totalRevenue + amount;
+    }
+
     public static int getEventCount() {
         return eventCount;
     }

@@ -10,6 +10,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class testRun {
@@ -325,7 +326,11 @@ public class testRun {
                                                         payment.makePayment();
 
                                                     } else if (paymentCheck == 'N') {
+                                                        //payment not paid, need to deduct event price from totalrevenue cuz event price 
+                                                        //will get added  to totalRevenue automatically when event object is created
                                                         payment.pendingPayment();
+                                                        Event.deductTotalRevenue(event.getPrice());
+
                                                     }
 
                                                     //Create the booking for Card payment
@@ -354,6 +359,10 @@ public class testRun {
                                                     //if amount tendered >= event.getPrice(), make the paid = true, if 0 = paid = false
                                                     if (amountTendered == 0) {
                                                         payment.pendingPayment();
+                                                        //payment not paid, need to deduct event price from totalrevenue cuz event price 
+                                                        //will get added  to totalRevenue automatically when event object is created
+
+                                                        Event.deductTotalRevenue(event.getPrice());
                                                         System.out.println("Payment Not Received.");
 
                                                     } else {
@@ -372,7 +381,7 @@ public class testRun {
                                                 break;
 
                                             }
-                                            //View Booking
+                                            //----------------------------View Booking----------------------------------------
                                             case 2: {
 
                                                 System.out.printf("%-15s %-15s %-15s %-15s %-15s", "\nBooking Number", "Exhibitor Name", "Company Name", "Event Name", "Payment Status");
@@ -386,7 +395,7 @@ public class testRun {
                                                 break;
 
                                             }
-                                            //pay unpaid booking
+                                            //------------------------------------------pay unpaid booking---------------------------------------
                                             case 3: {
 
                                                 System.out.printf("%-15s %-15s %-15s %-15s %-15s", "\nBooking Number", "Exhibitor Name", "Company Name", "Event Name", "Payment Status");
@@ -398,10 +407,14 @@ public class testRun {
                                                     }
 
                                                 }
-                                                System.out.println("\nSelect which booking to pay");
-                                                System.out.print("Enter Booking ID: ");
+                                                System.out.println("\n\nSelect which booking to pay");
+                                                System.out.print("Enter Booking ID (999 to exit): ");
                                                 int bookingID = s1.nextInt();
+                                                if (bookingID == 999) {
+                                                    break;
+                                                }
                                                 boolean validBookingID = false;
+
                                                 for (int j = 0; j < bookingArrList.size(); j++) {
                                                     if (bookingID == bookingArrList.get(j).getBookingNum() && bookingArrList.get(j).getPaymentMethod().getPaymentStatus() == "Pending") {
 
@@ -457,17 +470,20 @@ public class testRun {
                                                                 paymentCheck = s1.nextLine().charAt(0);
 
                                                             }
+                                                            //Create Payment Object
+                                                            Card payment = new Card(cardNum, cardHolder, cardExp, cardCVV, bookingArrList.get(j).getEvent().getPrice());
 
                                                             //Update payment status, if paid, payment object's attribute "paid" will be true
                                                             if (paymentCheck == 'Y') {
-                                                                //Create Payment Object
-                                                                Card payment = new Card(cardNum, cardHolder, cardExp, cardCVV, bookingArrList.get(j).getEvent().getPrice());
+
                                                                 payment.makePayment();
-                                                                bookingArrList.get(j).setPaymentMethod(payment);
+                                                                //since the booking is paid, need to add the event price to totalRevenue
+                                                                Event.addTotalRevenue(bookingArrList.get(j).getEvent().getPrice());
 
                                                             } else if (paymentCheck == 'N') {
-                                                                bookingArrList.get(j).getPaymentMethod().pendingPayment();
+                                                                payment.pendingPayment();
                                                             }
+                                                            bookingArrList.get(j).setPaymentMethod(payment);
 
                                                         } else {
 
@@ -496,6 +512,8 @@ public class testRun {
                                                                 cash.makePayment();
                                                                 System.out.println("Change Amount: " + cash.getChangeAmount());
                                                                 bookingArrList.get(j).setPaymentMethod(cash);
+                                                                //since the booking is paid, need to add the event price to totalRevenue
+                                                                Event.addTotalRevenue(bookingArrList.get(j).getEvent().getPrice());
 
                                                             }
 
@@ -512,9 +530,44 @@ public class testRun {
                                                 break;
 
                                             }
-                                            //cancel Booking
 
+                                            //cancel Booking
+                                            //refund 50%, total revenue -50% of event.getprice()
+                                            //if payment pending, do not refund
                                             case 4: {
+                                                //show all bookings except bookings that have Cancelled paymentStatus
+                                                System.out.printf("%-15s %-15s %-15s %-15s %-15s", "\nBooking Number", "Exhibitor Name", "Company Name", "Event Name", "Payment Status");
+
+                                                for (int j = 0; j < bookingArrList.size(); j++) {
+                                                    if (bookingArrList.get(j).getPaymentMethod().getPaymentStatus().equals("Cancelled") == false) {
+                                                        System.out.print("\n" + bookingArrList.get(j));
+                                                        System.out.printf("%-15s %-15s %-15s %-15s", bookingArrList.get(j).getExhibitor().getName(), bookingArrList.get(j).getExhibitor().getCompanyName(), bookingArrList.get(j).getEvent().getEventName(), bookingArrList.get(j).getPaymentMethod().getPaymentStatus());
+                                                    }
+
+                                                }
+                                                System.out.println("\n\nSelect which booking to cancel");
+                                                System.out.print("Enter Booking ID: ");
+                                                int bookingID = s1.nextInt();
+                                                boolean validBookingID = false;
+                                                for (int j = 0; j < bookingArrList.size(); j++) {
+                                                    if (bookingID == bookingArrList.get(j).getBookingNum() && bookingArrList.get(j).getPaymentMethod().getPaymentStatus().equals("Cancelled") == false) {
+                                                        //make payment status = cancelled
+                                                        bookingArrList.get(j).getPaymentMethod().cancelPayment();
+
+                                                        //deduct totalRevenue with 50% of event price and refund the other 50% 
+                                                        Event.deductTotalRevenue(bookingArrList.get(j).getEvent().getPrice() * 0.5);
+
+                                                        //display the amount to refund
+                                                        System.out.println("Amount to refund: " + bookingArrList.get(j).getEvent().getPrice() * 0.5);
+
+                                                        validBookingID = true;
+
+                                                    }
+
+                                                }
+                                                if (validBookingID == false) {
+                                                    System.out.println("Invalid booking ID or the booking has been paid!");
+                                                }
 
                                                 break;
 
