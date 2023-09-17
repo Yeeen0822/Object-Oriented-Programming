@@ -11,7 +11,6 @@ public class Admin extends Person {
     public Admin(String name, String email, String phoneNo, String password){
         super(name, email, phoneNo);
         this.password = password;
-        
     }
 
     public String getPassword() {
