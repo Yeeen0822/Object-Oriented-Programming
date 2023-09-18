@@ -8,8 +8,8 @@ public class Admin extends Person {
     private String password;
     
     public Admin(){};
-    public Admin(String name, String email, String phoneNo, String password){
-        super(name, email, phoneNo);
+    public Admin(String name,String IC,String email, String phoneNo, String password){
+        super(name,IC, email, phoneNo);
         this.password = password;
     }
 

@@ -9,6 +9,8 @@ public class Participant extends Person{
     private Product interestedProduct;
     
     public Participant(){};
+    
+    
     public Participant(Event eventParticipate, Product interestedProduct){
         this.eventParticipate = eventParticipate;
         this.interestedProduct = interestedProduct;

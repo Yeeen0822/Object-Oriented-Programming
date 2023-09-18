@@ -18,19 +18,20 @@ public class Event {
     private venueType eventVenue;
     private decorationType decoration;
     private double price;
-    private static double totalRevenue;
-    private static int eventCount;
     private ArrayList<Product> eventProducts;
     private ArrayList<Participant> participantsArr;
     private int eventAttendance;
+    private static double totalRevenue = 0;
+    private static int eventCount = 0;
 
     public Event() {
-    }
-
-    ;
+        
+    };
+    
     public Event(String eventName, LocalDate eventDate, LocalTime eventTime,
             venueType eventVenue, decorationType decoration, ArrayList<Product> eventProducts,
             ArrayList<Participant> participantsArr) {
+        
         eventID = "E" + nextEvent++;
         this.eventName = eventName;
         this.eventDate = eventDate;

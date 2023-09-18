@@ -9,19 +9,25 @@ public class Person {
     private String name;
     private String email;
     private String phoneNo;
+    private String IC;
 
     public Person() {
     }
 
     
-   public Person(String name, String email, String phoneNo) {
+   public Person(String name,String IC,String email, String phoneNo) {
         this.name = name;
+        this.IC = IC;
         this.email = email;
         this.phoneNo = phoneNo;
     }
 
     public String getName() {
         return name;
+    }
+    
+    public String getIC(){
+        return IC;
     }
 
     public String getEmail() {
@@ -40,6 +46,14 @@ public class Person {
         this.phoneNo = phoneNo;
     }
 
+    public static boolean vldIC(String IC){
+        
+        String ICRegex = "^(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])-(0[1-9]|[1-9][0-9])-[0-9]{3}[0-9A-F]$";
+        Pattern pattern = Pattern.compile(ICRegex);
+        Matcher matcher = pattern.matcher(IC);
+        return matcher.matches();
+    }
+            
     public static boolean vldEmail(String email) {
         // Regular expression for a valid email address
         String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";

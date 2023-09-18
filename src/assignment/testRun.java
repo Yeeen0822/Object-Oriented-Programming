@@ -19,7 +19,7 @@ public class testRun {
 
 //      Make Admin Array and create the main Admin
         Admin[] adminArray = new Admin[3];
-        adminArray[0] = new Admin("1", "yamjason04@gmail.com", "0168962213", "1");
+        adminArray[0] = new Admin("1","030822103842", "yamjason04@gmail.com", "0168962213", "1");
         //Create an array list for booking
         ArrayList<Booking> bookingArrList = new ArrayList<>();
 
@@ -29,7 +29,7 @@ public class testRun {
             //Main screen, select option
             System.out.print("Please Choose an Option\n"
                     + "1. Admin\n"
-                    + "2. Attendee\n"
+                    + "2. Participant\n"
                     + "Enter your choice: ");
             int choice = s1.nextInt();
             while (choice != 1 && choice != 2) {

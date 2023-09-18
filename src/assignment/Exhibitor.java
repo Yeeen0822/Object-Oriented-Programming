@@ -21,10 +21,9 @@ public class Exhibitor extends Person {
     }
 
     public Exhibitor(String companyName, String IC, ArrayList<Product> products, String name, String email, String phoneNo) {
-        super(name, email, phoneNo);
+        super(name,IC, email, phoneNo);
         exhibitorID = "EX" + nextExhibitor++;
         this.companyName = companyName;
-        this.IC = IC;
         this.products = products;
     }
 
@@ -32,9 +31,6 @@ public class Exhibitor extends Person {
         this.companyName = companyName;
     }
 
-    public void setIC(String IC) {
-        this.IC = IC;
-    }
     
     public String getExhibitorID() {
         return exhibitorID;
@@ -42,10 +38,6 @@ public class Exhibitor extends Person {
 
     public String getCompanyName() {
         return companyName;
-    }
-
-    public String getIC() {
-        return IC;
     }
 
     public static int getExhibitorCount() {
