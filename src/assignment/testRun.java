@@ -22,7 +22,7 @@ public class testRun {
         adminArray[0] = new Admin("1","030822103842", "yamjason04@gmail.com", "0168962213", "1");
         //Create an array list for booking
         ArrayList<Booking> bookingArrList = new ArrayList<>();
-
+        printAdminList(adminArray);
         Scanner s1 = new Scanner(System.in);
 
         while (true) {
@@ -645,6 +645,17 @@ public class testRun {
         } else {
             return true;
         }
+    }
+    
+    public static void printAdminList(Admin[] adminArray) {
+        System.out.printf("%-10s %-20s %-15s %-20s %-15s\n", "Admin ID", "Name", "IC", "Phone Number", "Email");
+        
+        for(Admin adminprint:adminArray){
+            System.out.println(adminprint);
+        }
+        
+        
+        
     }
 
 }

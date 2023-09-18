@@ -82,5 +82,10 @@ public class Person {
         // Check if the phone number matches the pattern
         return matcher.matches(); // True for valid, false for invalid
     }
+    
+    @Override
+    public String toString(){
+        return String.format("%-20s %-15s %-20s %-15s",name,IC,email,phoneNo);
+    }
 
 }
