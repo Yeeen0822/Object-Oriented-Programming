@@ -135,7 +135,7 @@ public class testRun {
                                                 //-Input IC
                                                 System.out.print("Enter IC: ");
                                                 String exIC = s1.nextLine();
-                                                while (Exhibitor.vldIC(exIC) == false) {
+                                                while (Organizer.vldIC(exIC) == false) {
                                                     System.out.print("Invalid IC!\n"
                                                             + "Enter IC: ");
                                                     exIC = s1.nextLine();
@@ -164,7 +164,7 @@ public class testRun {
                                                 s1.nextLine();
 
                                                 //Invoke Exhibitor Constructor 
-                                                Exhibitor exhibitor = new Exhibitor(companyName, exIC, productArrList, exName, exEmail, phoneNo);
+                                                Organizer exhibitor = new Organizer(companyName, exIC, productArrList, exName, exEmail, phoneNo);
 
                                                 //------------------Create Event
                                                 System.out.println("\nEnter Details About the Event");

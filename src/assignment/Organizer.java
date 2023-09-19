@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Exhibitor extends Person {
+public class Organizer extends Person {
     
     private static int nextExhibitor = 100;
     private String exhibitorID;
@@ -17,10 +17,10 @@ public class Exhibitor extends Person {
     private static int exhibitorCount;
     private ArrayList<Product> products;
 
-    public Exhibitor() {
+    public Organizer() {
     }
 
-    public Exhibitor(String companyName, String IC, ArrayList<Product> products, String name, String email, String phoneNo) {
+    public Organizer(String companyName, String IC, ArrayList<Product> products, String name, String email, String phoneNo) {
         super(name,IC, email, phoneNo);
         exhibitorID = "EX" + nextExhibitor++;
         this.companyName = companyName;
