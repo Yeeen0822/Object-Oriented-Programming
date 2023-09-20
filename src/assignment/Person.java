@@ -4,12 +4,12 @@ package assignment;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-public class Person {
+public abstract class Person {
 
     private String name;
+    private String IC;
     private String email;
     private String phoneNo;
-    private String IC;
 
     public Person() {
     }
@@ -47,8 +47,7 @@ public class Person {
     }
 
     public static boolean vldIC(String IC){
-        
-        String ICRegex = "^(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])-(0[1-9]|[1-9][0-9])-[0-9]{3}[0-9A-F]$";
+        String ICRegex = "^[0-9]{12}$";
         Pattern pattern = Pattern.compile(ICRegex);
         Matcher matcher = pattern.matcher(IC);
         return matcher.matches();
@@ -85,7 +84,17 @@ public class Person {
     
     @Override
     public String toString(){
-        return String.format("%-20s %-15s %-20s %-15s",name,IC,email,phoneNo);
+        return String.format("%-20s%-15s%-20s%-15s",name,IC,email,phoneNo);
     }
-
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        if (name != null ? !name.equals(person.name) : person.name != null) return false;
+        if (IC != null ? !IC.equals(person.IC) : person.IC != null) return false;
+        if (email != null ? !email.equals(person.email) : person.email != null) return false;
+        return phoneNo != null ? phoneNo.equals(person.phoneNo) : person.phoneNo == null;  
+    }
 }

@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class testRun {
@@ -838,4 +839,474 @@ public class testRun {
         System.out.println("");
 
     }
+    
+    
+    public static void printAdminList(ArrayList<Admin> adminArray, int loggedInAdmin) throws InterruptedException {
+
+        if (loggedInAdmin != 0) {
+            System.out.println("\n---------------------------------");
+            System.out.println("You are not admin manager.");
+            System.out.println("You dont have this priviledge.");
+            System.out.println("---------------------------------");
+            adminProfileMenu(adminArray, loggedInAdmin);
+        }
+        
+        System.out.println("                                           Admins' Profiles                                                    ");
+        System.out.println("---------------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-10s%-20s%-15s%-30s%-15s\n", "Admin ID", "Name", "IC", "Email", "Phone Number");
+        for (int i = 0; i < adminArray.size(); i++) {
+            System.out.printf("%-10s%-20s%-15s%-30s%-15s\n", adminArray.get(i).getAdminID(), adminArray.get(i).getName(), adminArray.get(i).getIC(), adminArray.get(i).getEmail(), adminArray.get(i).getPhoneNo());
+        }
+        System.out.println("---------------------------------------------------------------------------------------------------------------");
+        adminProfileMenu(adminArray,loggedInAdmin);
+    }
+
+    private static void menu(ArrayList<Admin> adminArray) throws InterruptedException {
+        boolean optionVld = true;
+        int loginOrForgot;
+        Scanner sc = new Scanner(System.in);
+        do {
+            System.out.println("\n1. Login");
+            System.out.println("2. Forgot Password");
+            System.out.println("3. Back");
+
+            System.out.print("Selection: ");
+            try {
+                loginOrForgot = sc.nextInt();
+
+                switch (loginOrForgot) {
+                    case 1:
+                        adminLogin(adminArray);
+                        break;
+                    case 2:
+                        forgotPassword(adminArray);
+                        break;
+                    case 3:
+                        //TO be put  main menu 
+                        System.exit(0);
+                    default:
+                        optionVld = false;
+                        System.out.println("Please Enter the Valid Option.");
+
+                }
+            } catch (InputMismatchException inputMismatchException) {
+                optionVld = false;
+                System.out.println("Please Enter Only Integer.");
+                sc.nextLine();
+            }
+        } while (!optionVld);
+    }
+
+    public static void adminLogin(ArrayList<Admin> adminArray) throws InterruptedException {
+        int loggedInAdmin = 0;
+        String adminInputAdminID;
+        String adminInputPassword;
+        boolean loginSuccess = false;
+        Scanner sc = new Scanner(System.in);
+        int loginCount = 0;
+
+        do {
+            System.out.println();
+            System.out.print("Enter Admin ID: ");
+            adminInputAdminID = sc.next();
+            System.out.print("Enter Admin Password: ");
+            adminInputPassword = sc.next();
+            loginCount++;
+            for (int i = 0; i < adminArray.size(); i++) {
+                if (adminArray.get(i).getAdminID().equals(adminInputAdminID) && adminArray.get(i).getPassword().equals(adminInputPassword)) {
+                    loginSuccess = true;
+                    loggedInAdmin = i;
+                    break;
+                }
+
+            }
+            if (loginSuccess) {
+                System.out.println("Login Successfully");
+                adminMenu(adminArray, loggedInAdmin);
+            } else if (loginSuccess == false && loginCount >= 3) {
+                System.out.println("Wrong Credentials.Auto exit");
+                menu(adminArray);
+                System.exit(0);
+            } else {
+                System.out.println("Wrong Credentials, Please Try Again.");
+            }
+
+        } while (!loginSuccess);
+    }
+
+    public static void adminMenu(ArrayList<Admin> adminArray, int loggedInAdmin) throws InterruptedException {
+        Scanner scanner = new Scanner(System.in);
+        int selection;
+        boolean optionVld = true;
+
+        do {
+            System.out.printf("\n%55s", "+------------------+");
+            System.out.printf("%n%55s", "|    Admin Menu    |");
+            System.out.printf("%n%55s%n", "+------------------+");
+            System.out.println("Currently Logged In As Admin: " + adminArray.get(loggedInAdmin).getName());
+            System.out.println("Admin ID: " + adminArray.get(loggedInAdmin).getAdminID());
+            System.out.println();
+
+            System.out.println("[1] Admin Profile Management");
+            System.out.println("[2] Event Management");
+            System.out.println("[3] Analytics");
+            System.out.println("[4] Sign Out");
+            System.out.println("[5]Exit");
+
+            System.out.print("Selection: ");
+            try {
+                selection = scanner.nextInt();
+                scanner.nextLine();
+                switch (selection) {
+                    case 1:
+                        adminProfileMenu(adminArray, loggedInAdmin);
+                        break;
+                    case 2:
+                        System.out.println("Event Management");
+                        break;
+                    case 3:
+                        System.out.println("Analytics");
+                        break;
+
+                    case 4:
+                        System.out.println("You Are Signed Out.");
+                        menu(adminArray);
+                        break;
+                    case 5:
+                        System.exit(0);
+                        break;
+                    default:
+                        optionVld = false;
+                        System.out.println("Please Enter the Valid Option.");
+                }
+            } catch (InputMismatchException inputMismatchException) {
+                optionVld = false;
+                System.out.println("Please Enter Only Integer.");
+                scanner.nextLine();
+            }
+        } while (!optionVld);
+
+    }
+
+    public static void adminProfileMenu(ArrayList<Admin> adminArray, int loggedInAdmin) throws InterruptedException {
+
+        Scanner scanner = new Scanner(System.in);
+        int selection;
+        boolean optionVld = true;
+
+        do {
+
+            System.out.println("\n[1] View your profile");
+            System.out.println("[2] Update your profile");
+            System.out.println("[3] Register new admin's profile (Manager priviledge)");
+            System.out.println("[4] View all admins' profiles (Manager priviledge)");
+            System.out.println("[5] Back");
+
+            System.out.print("Selection: ");
+            try {
+                selection = scanner.nextInt();
+                scanner.nextLine();
+                switch (selection) {
+                    case 1:
+                        viewProfile(adminArray, loggedInAdmin);
+                        break;
+                    case 2:
+                        updateAdminMenu(adminArray, loggedInAdmin);
+                        break;
+                    case 3:
+                        adminRegister(adminArray, loggedInAdmin);
+                        break;
+                    case 4:
+                        printAdminList(adminArray, loggedInAdmin);
+                        break;
+                    case 5:
+                        adminMenu(adminArray, loggedInAdmin);
+                    default:
+                        optionVld = false;
+                        System.out.println("Please Enter the Valid Option.");
+                }
+            } catch (InputMismatchException inputMismatchException) {
+                optionVld = false;
+                System.out.println("Please Enter Only Integer.\n");
+                scanner.nextLine();
+            }
+        } while (!optionVld);
+
+    }
+
+    public static void viewProfile(ArrayList<Admin> adminArray, int loggedInAdmin) throws InterruptedException {
+        Scanner scanner = new Scanner(System.in);
+        char selection;
+        char selectionUpper;
+        boolean optionVld = true;
+        System.out.println("\n\t\t\t\t\t\tAdmin Profile\t\t\t\t");
+        System.out.println("----------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-10s%-25s%-15s%-25s%-15s\n", "Admin ID", "Name", "IC", "Email", "Phone No");
+        System.out.printf("%-10s%-25s%-15s%-25s%-15s\n", adminArray.get(loggedInAdmin).getAdminID(), adminArray.get(loggedInAdmin).getName(), adminArray.get(loggedInAdmin).getIC(), adminArray.get(loggedInAdmin).getEmail(), adminArray.get(loggedInAdmin).getPhoneNo());
+        System.out.println("----------------------------------------------------------------------------------------------------------");
+
+        adminProfileMenu(adminArray, loggedInAdmin);
+    }
+
+    public static void updateAdminMenu(ArrayList<Admin> adminArray, int loggedInAdmin) throws InterruptedException {
+
+        Scanner scanner = new Scanner(System.in);
+        int selection;
+        boolean optionVld = true;
+
+        do {
+
+            System.out.println("\n[1] Update Phone No");
+            System.out.println("[2] Update Email");
+            System.out.println("[3] Back");
+
+            System.out.print("Selection: ");
+            try {
+                selection = scanner.nextInt();
+                scanner.nextLine();
+                switch (selection) {
+                    case 1:
+                        updatePhoneNo(adminArray, loggedInAdmin);
+                        break;
+                    case 2:
+                        updateEmail(adminArray, loggedInAdmin);
+                        break;
+                    case 3:
+                        adminProfileMenu(adminArray, loggedInAdmin);
+                        break;
+                    default:
+                        optionVld = false;
+                        System.out.println("Please Enter the Valid Option.");
+                }
+            } catch (InputMismatchException inputMismatchException) {
+                optionVld = false;
+                System.out.println("Please Enter Only Integer.\n");
+                scanner.nextLine();
+            }
+        } while (!optionVld);
+    }
+
+    public static void updateEmail(ArrayList<Admin> adminArray, int loggedInAdmin) throws InterruptedException {
+        System.out.println("Your original email :" + adminArray.get(loggedInAdmin).getEmail());
+        System.out.print("Enter new email:");
+        Scanner sc = new Scanner(System.in);
+        String newEmail = sc.nextLine();
+
+        while (Person.vldEmail(newEmail) == false) {
+            System.out.print("Invalid Email!");
+            System.out.print("Please enter a valid Email:");
+            newEmail = sc.nextLine();
+        }
+        adminArray.get(loggedInAdmin).setEmail(newEmail);
+        System.out.println("Update Email Successfully.");
+        updateAdminMenu(adminArray, loggedInAdmin);
+
+    }
+
+    public static void updatePhoneNo(ArrayList<Admin> adminArray, int loggedInAdmin) throws InterruptedException {
+        System.out.println("\nYour original phone number :" + adminArray.get(loggedInAdmin).getPhoneNo());
+        System.out.print("Enter new phone number:");
+        Scanner sc = new Scanner(System.in);
+        String newPhoneNo = sc.nextLine();
+
+        while (Person.vldPhoneNumber(newPhoneNo) == false) {
+            System.out.print("Invalid! Phone Number must be starting with \"01\" followed by 8 digits");
+            System.out.print("Please enter a valid phone number");
+            newPhoneNo = sc.nextLine();
+        }
+        adminArray.get(loggedInAdmin).setPhoneNo(newPhoneNo);
+        System.out.println("Update Phone Number Successfully.");
+        updateAdminMenu(adminArray, loggedInAdmin);
+
+    }
+
+    public static void adminRegister(ArrayList<Admin> adminArray, int loggedInAdmin) throws InterruptedException {
+        boolean icValid = false, emailValid = false, passwordValid = false, phoneNoValid = false, confirmPwVld = false;
+        String adminName, adminIC, adminEmail, adminPassword, adminPhoneNo, adminPwConfirm;
+        Scanner scanner = new Scanner(System.in);
+
+        if (loggedInAdmin != 0) {
+            System.out.println("\n---------------------------------");
+            System.out.println("You are not admin manager.");
+            System.out.println("You dont have this priviledge.");
+            System.out.println("---------------------------------");
+            adminProfileMenu(adminArray, loggedInAdmin);
+        }
+        System.out.println("\n----------------------");
+        System.out.println("New Admin Registration");
+        System.out.println("----------------------\n");
+        System.out.print("Enter new admin's name: ");
+        adminName = scanner.nextLine();
+
+        do {
+            System.out.print("Enter new admin's IC (eg:030922101245) : ");
+            adminIC = scanner.nextLine();
+            if (Person.vldIC(adminIC)) {
+                icValid = true;
+            } else {
+                System.out.println("Please Enter A Valid IC.");
+                System.out.println();
+            }
+        } while (!icValid);
+
+        do {
+            System.out.print("Enter new admin's Email: ");
+            adminEmail = scanner.next();
+            scanner.nextLine();
+            if (Person.vldEmail(adminEmail)) {
+                emailValid = true;
+            } else {
+                System.out.println("Please Enter A Valid Email.");
+                System.out.println();
+            }
+        } while (!emailValid);
+
+        do {
+            System.out.print("Enter new admin's phone number eg:0123456789: ");
+            adminPhoneNo = scanner.nextLine();
+
+            if (Person.vldPhoneNumber(adminPhoneNo)) {
+                phoneNoValid = true;
+            } else {
+                System.out.println("Phone Number must be starting with \"01\" followed by 8 digits ");
+                System.out.println();
+            }
+        } while (!phoneNoValid);
+
+        System.out.println("\n--------------------------");
+        System.out.println("Assigned Admin ID :A" + Admin.getAdminCount());
+        System.out.println("--------------------------\n");
+
+        do {
+            System.out.print("Enter new admin's password: ");
+            adminPassword = scanner.nextLine();
+
+            if (Admin.vldPassword(adminPassword)) {
+                passwordValid = true;
+            } else {
+                System.out.println("Password Must Include Alphabet, Number and At Least 6 Characters.");
+                System.out.println();
+            }
+        } while (!passwordValid);
+
+        int confirmCount = 0;
+        do {
+            System.out.print("Confirm Password: ");
+            adminPwConfirm = scanner.next();
+            scanner.nextLine();
+            confirmCount++;
+            if (adminPwConfirm.equals(adminPassword)) {
+                confirmPwVld = true;
+            } else if (confirmCount >= 3) {
+                System.out.println("The Password Does Not Match with Previous Input,failed to sign up new admin\n");
+                adminProfileMenu(adminArray, loggedInAdmin);
+                System.out.println();
+            } else {
+                System.out.println("The Password Does Not Match with Previous Input\n");
+            }
+        } while (!confirmPwVld);
+
+        Admin newAdmin = new Admin(adminName, adminIC, adminEmail, adminPhoneNo, adminPassword);
+        adminArray.add(newAdmin);
+        System.out.println("\n----------------------------------");
+        System.out.println("Register a new admin successfully!");
+        System.out.println("----------------------------------");
+        adminProfileMenu(adminArray, loggedInAdmin);
+
+    }
+
+    public static void forgotPassword(ArrayList<Admin> adminArray) throws InterruptedException {
+        boolean adminIDValid, icValid, passwordValid, confirmPwVld, adminFound;
+        String adminID, adminIC, adminPassword, adminPwConfirm;
+        Scanner scanner = new Scanner(System.in);
+
+        do {
+            adminFound = false;
+            int tryIDCount = 0;
+            do {
+                adminIDValid = false;
+                System.out.print("Enter admin ID: ");
+                adminID = scanner.nextLine();
+                tryIDCount++;
+                if (Admin.vldAdminID(adminID)) {
+                    adminIDValid = true;
+                } else if (tryIDCount >= 3) {
+                    System.out.println("You keyed in invalid admin ID 3 times, auto back\n");
+                    menu(adminArray);
+                } else {
+                    System.out.println("Admin ID must start with capital A and followed by 1 integer eg:A1\n");
+                }
+            } while (!adminIDValid);
+            int tryICCount = 0;
+            do {
+
+                icValid = false;
+                System.out.print("Enter IC (eg:030922101245) : ");
+                adminIC = scanner.nextLine();
+                tryICCount++;
+                if (Person.vldIC(adminIC)) {
+                    icValid = true;
+                } else if (tryICCount >= 3) {
+                    System.out.println("You keyed in invalid IC 3 times, auto back\n");
+                    menu(adminArray);
+                } else {
+                    System.out.println("Please Enter A Valid IC.");
+                }
+            } while (!icValid);
+
+            for (int i = 0; i < adminArray.size(); i++) {
+                if (adminArray.get(i).getAdminID().equals(adminID) && adminArray.get(i).getIC().equals(adminIC)) {
+                    int foundAdminIndex = i;
+                    adminFound = true;
+
+                    System.out.println("\n---------------------------------------");
+                    System.out.println("You can change your password now!");
+                    System.out.println("---------------------------------------\n");
+                    do {
+                        passwordValid = false;
+                        System.out.print("Enter New Password: ");
+                        adminPassword = scanner.next();
+                        scanner.nextLine();
+
+                        if (Admin.vldPassword(adminPassword)) {
+                            passwordValid = true;
+                        } else {
+                            System.out.println("Password Must Include Alphabet, Number and At Least 6 Characters.");
+                            System.out.println();
+                        }
+                    } while (!passwordValid);
+
+                    int confirmCount = 0;
+                    do {
+                        confirmPwVld = false;
+                        System.out.print("Confirm New Password: ");
+                        adminPwConfirm = scanner.next();
+                        scanner.nextLine();
+                        confirmCount++;
+                        if (adminPwConfirm.equals(adminPassword)) {
+                            adminArray.get(foundAdminIndex).setPassword(adminPassword);
+                            confirmPwVld = true;
+                            System.out.println("\n---------------------------------------");
+                            System.out.println("Your password is changed successfully!");
+                            System.out.println("---------------------------------------\n");
+                            menu(adminArray);
+
+                        } else if (confirmCount >= 3) {
+                            System.out.println("The Password Does Not Match with Previous Input three times,fail to change your password. Auto back\n");
+                            menu(adminArray);
+                            System.out.println();
+                        } else {
+                            System.out.println("The Password Does Not Match with Previous Input\n");
+                        }
+                    } while (!confirmPwVld);
+
+                } else {
+                    System.out.println("Admin Not Found\n");
+                    adminFound = false;
+                }
+            }
+        } while (!adminFound);
+
+    }
+
 }
