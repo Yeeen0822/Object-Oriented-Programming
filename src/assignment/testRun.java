@@ -16,105 +16,59 @@ import java.util.Scanner;
 
 public class testRun {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
 //      Make Admin Array and create the main Admin
-        Admin[] adminArray = new Admin[3];
-        adminArray[0] = new Admin("1", "030822103842", "yamjason04@gmail.com", "0168962213", "1");
+        ArrayList<Admin> adminArray = new ArrayList<>();
+        Admin admin1 = new Admin("Yee En", "030822103842", "yamjason04@gmail.com", "0168962213", "1");
+        adminArray.add(admin1);
+
         //Create an array list for booking
         ArrayList<Booking> bookingArrList = new ArrayList<>();
-        printAdminList(adminArray);
         Scanner s1 = new Scanner(System.in);
+        boolean optionVld = true;
+        do {
 
-        while (true) {
             //Main screen, select option
-            System.out.print("Please Choose an Option\n"
-                    + "1. Admin\n"
-                    + "2. Participant\n"
-                    + "Enter your choice: ");
-            int choice = s1.nextInt();
-            while (choice != 1 && choice != 2) {
-                s1.nextLine();
-                System.out.print("\nInvalid choice!\n"
-                        + "Enter a valid choice: ");
-                choice = s1.nextInt();
-
-            }
-            s1.nextLine();
-            switch (choice) {
-
+            switch (mainMenu()) {
                 case 1: {
-
-                    //Admin login screen
-                    System.out.println("\n---Admin Login---");
-                    System.out.print("Enter your name: ");
-                    String name = s1.nextLine();
-                    System.out.print("Enter your password: ");
-                    String password = s1.nextLine();
-
-                    // Iterate through the AdminArray
-                    boolean loggedIn = false;
-
-                    for (int i = 0; i < adminArray.length; i++) {
-                        if (adminArray[i] != null && adminArray[i].getName() != null && adminArray[i].getPassword() != null
-                                && adminArray[i].getName().equals(name) && adminArray[i].getPassword().equals(password)) {
-                            loggedIn = true;
-                            System.out.println("Login successful. Welcome, " + adminArray[i].getName() + "!");
-
-                            //admin functions
-                            boolean adminLoginStatus = true;
-                            while (adminLoginStatus) {
-
-                                switch (adminChoice(s1)) {
-                                    //Admin Profile Management
-                                    case 1: {
-
-                                        break;
-                                    }
-                                    //Event Management 
-                                    case 2: {
-                                        bookingManagement(bookingArrList, s1);
-                                        break;
-                                    }
-                                    //Analytics Report
-                                    case 3: {
-                                        break;
-                                    }
-                                    //Back, prompt to log out
-                                    case 4: {
-                                        //will promp yes or no, will return either true or false
-                                        adminLoginStatus = checkAdminLogout(s1);
-                                    }
-
-                                }
-
-                            }
-
-                        }
-                    }
-
-                    if (!loggedIn) {
-                        System.out.println("Login failed. Please check your email and password.");
-                    }
-
+                    menu(adminArray, bookingArrList);
                     break;
-
                 }
                 //attendee screen
 
                 case 2: {
-
+                    System.out.println("Coming Soon");
                     break;
                 }
-
+                case 3: {
+                    System.exit(0);
+                }
+                default: {
+                    optionVld = false;
+                    System.out.println("Please Enter the Valid Option.");
+                }
             }
 
-        }
+        } while (!optionVld);
 
     }
 
-    public static void bookingManagement(ArrayList<Booking> bookingArrList, Scanner s1) {
+    public static int mainMenu() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Please Choose an Option\n"
+                + "1. Admin\n"
+                + "2. Participant\n"
+                + "3. Exit\n"
+                + "Enter your choice: ");
+        int choice = sc.nextInt();
+        sc.nextLine();
+        return choice;
+    }
 
+    public static void bookingManagement(ArrayList<Booking> bookingArrList) {
+
+        Scanner s1 = new Scanner(System.in);
         System.out.print("\nPlease Choose an Option\n"
                 + "1. Create Event Booking\n"
                 + "2. Update Event Booking\n"
@@ -337,7 +291,7 @@ public class testRun {
                     int numTestDriveLocation = s1.nextInt();
                     s1.nextLine();
                     //create CarEvent object
-                    event = new CarEvent(carEventTheme, numTestDriveLocation,  eventName, eventDate, eventTime, venueType, decorationType, promoterNum, productArrList);
+                    event = new CarEvent(carEventTheme, numTestDriveLocation, eventName, eventDate, eventTime, venueType, decorationType, promoterNum, productArrList);
                 }
 
                 //--------------------------Invoke the event constructor--------------------------------
@@ -562,7 +516,6 @@ public class testRun {
                                 }
                                 // 4: update event products
                                 case 4: {
-                                    
 
                                     break;
                                 }
@@ -594,13 +547,13 @@ public class testRun {
             //----------------------------View Booking----------------------------------------
             case 3: {
                 viewBookings(bookingArrList);
-
                 break;
 
             }
             //----------------------Search Booking-----------------------------------------------
             case 4: {
-
+                searchBooking(bookingArrList);
+                break;
             }
             //------------------------------------------pay unpaid booking---------------------------------------
             case 5: {
@@ -784,7 +737,6 @@ public class testRun {
             }
             //------------------View all Event---------------------
             case 7: {
-                
 
                 break;
             }
@@ -800,6 +752,42 @@ public class testRun {
             }
         }
 
+    }
+
+    public static void searchBooking(ArrayList<Booking> bookingArrList) {
+        int bookingNo;
+        boolean inputBookingNo = false, notFound;
+        Scanner sc = new Scanner(System.in);
+
+        do {
+            System.out.print("Enter booking number (Enter 999 to exit):");
+            bookingNo = sc.nextInt();
+
+            if (bookingNo == 999) {
+                break;
+            }
+
+            if (bookingNo >= 100) {
+                notFound = true;
+                for (int i = 0; i < bookingArrList.size(); i++) {
+                    if (bookingArrList.get(i).getBookingNum() == bookingNo) {
+                        inputBookingNo = true;
+                        System.out.printf("\n%-15s %-15s %-15s %-15s %-15s\n", "Booking Number", "Organizer Name", "Company Name", "Event Name", "Payment Status");
+                        System.out.println(bookingArrList.get(i));
+                        notFound = false;
+                        break;
+                    }
+                }
+                if (notFound) {
+                    System.out.println("Booking Not Found!");
+                }
+
+            } else {
+                System.out.println("Invalid booking number. Booking number starts from 100.\n");
+            }
+
+        } while (!inputBookingNo);
+        bookingManagement(bookingArrList);
     }
 
     public static boolean checkAdminLogout(Scanner s1) {
@@ -868,17 +856,18 @@ public class testRun {
 
         }
         System.out.println("");
+        bookingManagement(bookingArrList);
 
     }
 
-    public static void printAdminList(ArrayList<Admin> adminArray, int loggedInAdmin) throws InterruptedException {
+    public static void printAdminList(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList, int loggedInAdmin) throws InterruptedException {
 
         if (loggedInAdmin != 0) {
             System.out.println("\n---------------------------------");
             System.out.println("You are not admin manager.");
             System.out.println("You dont have this priviledge.");
             System.out.println("---------------------------------");
-            adminProfileMenu(adminArray, loggedInAdmin);
+            adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
         }
 
         System.out.println("                                           Admins' Profiles                                                    ");
@@ -888,10 +877,10 @@ public class testRun {
             System.out.printf("%-10s%-20s%-15s%-30s%-15s\n", adminArray.get(i).getAdminID(), adminArray.get(i).getName(), adminArray.get(i).getIC(), adminArray.get(i).getEmail(), adminArray.get(i).getPhoneNo());
         }
         System.out.println("---------------------------------------------------------------------------------------------------------------");
-        adminProfileMenu(adminArray, loggedInAdmin);
+        adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
     }
 
-    private static void menu(ArrayList<Admin> adminArray) throws InterruptedException {
+    private static void menu(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList) throws InterruptedException {
         boolean optionVld = true;
         int loginOrForgot;
         Scanner sc = new Scanner(System.in);
@@ -906,10 +895,10 @@ public class testRun {
 
                 switch (loginOrForgot) {
                     case 1:
-                        adminLogin(adminArray);
+                        adminLogin(adminArray, bookingArrList);
                         break;
                     case 2:
-                        forgotPassword(adminArray);
+                        forgotPassword(adminArray, bookingArrList);
                         break;
                     case 3:
                         //TO be put  main menu 
@@ -927,7 +916,7 @@ public class testRun {
         } while (!optionVld);
     }
 
-    public static void adminLogin(ArrayList<Admin> adminArray) throws InterruptedException {
+    public static void adminLogin(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList) throws InterruptedException {
         int loggedInAdmin = 0;
         String adminInputAdminID;
         String adminInputPassword;
@@ -952,10 +941,10 @@ public class testRun {
             }
             if (loginSuccess) {
                 System.out.println("Login Successfully");
-                adminMenu(adminArray, loggedInAdmin);
+                adminMenu(adminArray, bookingArrList, loggedInAdmin);
             } else if (loginSuccess == false && loginCount >= 3) {
                 System.out.println("Wrong Credentials.Auto exit");
-                menu(adminArray);
+                menu(adminArray, bookingArrList);
                 System.exit(0);
             } else {
                 System.out.println("Wrong Credentials, Please Try Again.");
@@ -964,7 +953,7 @@ public class testRun {
         } while (!loginSuccess);
     }
 
-    public static void adminMenu(ArrayList<Admin> adminArray, int loggedInAdmin) throws InterruptedException {
+    public static void adminMenu(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList, int loggedInAdmin) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
         int selection;
         boolean optionVld = true;
@@ -989,10 +978,10 @@ public class testRun {
                 scanner.nextLine();
                 switch (selection) {
                     case 1:
-                        adminProfileMenu(adminArray, loggedInAdmin);
+                        adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
                         break;
                     case 2:
-                        System.out.println("Event Management");
+                        bookingManagement(bookingArrList);
                         break;
                     case 3:
                         System.out.println("Analytics");
@@ -1000,7 +989,7 @@ public class testRun {
 
                     case 4:
                         System.out.println("You Are Signed Out.");
-                        menu(adminArray);
+                        menu(adminArray, bookingArrList);
                         break;
                     case 5:
                         System.exit(0);
@@ -1018,7 +1007,7 @@ public class testRun {
 
     }
 
-    public static void adminProfileMenu(ArrayList<Admin> adminArray, int loggedInAdmin) throws InterruptedException {
+    public static void adminProfileMenu(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList, int loggedInAdmin) throws InterruptedException {
 
         Scanner scanner = new Scanner(System.in);
         int selection;
@@ -1038,19 +1027,19 @@ public class testRun {
                 scanner.nextLine();
                 switch (selection) {
                     case 1:
-                        viewProfile(adminArray, loggedInAdmin);
+                        viewProfile(adminArray, bookingArrList, loggedInAdmin);
                         break;
                     case 2:
-                        updateAdminMenu(adminArray, loggedInAdmin);
+                        updateAdminMenu(adminArray, bookingArrList, loggedInAdmin);
                         break;
                     case 3:
-                        adminRegister(adminArray, loggedInAdmin);
+                        adminRegister(adminArray, bookingArrList, loggedInAdmin);
                         break;
                     case 4:
-                        printAdminList(adminArray, loggedInAdmin);
+                        printAdminList(adminArray, bookingArrList, loggedInAdmin);
                         break;
                     case 5:
-                        adminMenu(adminArray, loggedInAdmin);
+                        adminMenu(adminArray, bookingArrList, loggedInAdmin);
                     default:
                         optionVld = false;
                         System.out.println("Please Enter the Valid Option.");
@@ -1064,7 +1053,7 @@ public class testRun {
 
     }
 
-    public static void viewProfile(ArrayList<Admin> adminArray, int loggedInAdmin) throws InterruptedException {
+    public static void viewProfile(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList, int loggedInAdmin) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
         char selection;
         char selectionUpper;
@@ -1075,10 +1064,10 @@ public class testRun {
         System.out.printf("%-10s%-25s%-15s%-25s%-15s\n", adminArray.get(loggedInAdmin).getAdminID(), adminArray.get(loggedInAdmin).getName(), adminArray.get(loggedInAdmin).getIC(), adminArray.get(loggedInAdmin).getEmail(), adminArray.get(loggedInAdmin).getPhoneNo());
         System.out.println("----------------------------------------------------------------------------------------------------------");
 
-        adminProfileMenu(adminArray, loggedInAdmin);
+        adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
     }
 
-    public static void updateAdminMenu(ArrayList<Admin> adminArray, int loggedInAdmin) throws InterruptedException {
+    public static void updateAdminMenu(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList, int loggedInAdmin) throws InterruptedException {
 
         Scanner scanner = new Scanner(System.in);
         int selection;
@@ -1096,13 +1085,13 @@ public class testRun {
                 scanner.nextLine();
                 switch (selection) {
                     case 1:
-                        updatePhoneNo(adminArray, loggedInAdmin);
+                        updatePhoneNo(adminArray, bookingArrList, loggedInAdmin);
                         break;
                     case 2:
-                        updateEmail(adminArray, loggedInAdmin);
+                        updateEmail(adminArray, bookingArrList, loggedInAdmin);
                         break;
                     case 3:
-                        adminProfileMenu(adminArray, loggedInAdmin);
+                        adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
                         break;
                     default:
                         optionVld = false;
@@ -1116,7 +1105,7 @@ public class testRun {
         } while (!optionVld);
     }
 
-    public static void updateEmail(ArrayList<Admin> adminArray, int loggedInAdmin) throws InterruptedException {
+    public static void updateEmail(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList, int loggedInAdmin) throws InterruptedException {
         System.out.println("Your original email :" + adminArray.get(loggedInAdmin).getEmail());
         System.out.print("Enter new email:");
         Scanner sc = new Scanner(System.in);
@@ -1129,11 +1118,11 @@ public class testRun {
         }
         adminArray.get(loggedInAdmin).setEmail(newEmail);
         System.out.println("Update Email Successfully.");
-        updateAdminMenu(adminArray, loggedInAdmin);
+        updateAdminMenu(adminArray, bookingArrList, loggedInAdmin);
 
     }
 
-    public static void updatePhoneNo(ArrayList<Admin> adminArray, int loggedInAdmin) throws InterruptedException {
+    public static void updatePhoneNo(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList, int loggedInAdmin) throws InterruptedException {
         System.out.println("\nYour original phone number :" + adminArray.get(loggedInAdmin).getPhoneNo());
         System.out.print("Enter new phone number:");
         Scanner sc = new Scanner(System.in);
@@ -1146,11 +1135,11 @@ public class testRun {
         }
         adminArray.get(loggedInAdmin).setPhoneNo(newPhoneNo);
         System.out.println("Update Phone Number Successfully.");
-        updateAdminMenu(adminArray, loggedInAdmin);
+        updateAdminMenu(adminArray, bookingArrList, loggedInAdmin);
 
     }
 
-    public static void adminRegister(ArrayList<Admin> adminArray, int loggedInAdmin) throws InterruptedException {
+    public static void adminRegister(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList, int loggedInAdmin) throws InterruptedException {
         boolean icValid = false, emailValid = false, passwordValid = false, phoneNoValid = false, confirmPwVld = false;
         String adminName, adminIC, adminEmail, adminPassword, adminPhoneNo, adminPwConfirm;
         Scanner scanner = new Scanner(System.in);
@@ -1160,7 +1149,7 @@ public class testRun {
             System.out.println("You are not admin manager.");
             System.out.println("You dont have this priviledge.");
             System.out.println("---------------------------------");
-            adminProfileMenu(adminArray, loggedInAdmin);
+            adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
         }
         System.out.println("\n----------------------");
         System.out.println("New Admin Registration");
@@ -1229,7 +1218,7 @@ public class testRun {
                 confirmPwVld = true;
             } else if (confirmCount >= 3) {
                 System.out.println("The Password Does Not Match with Previous Input,failed to sign up new admin\n");
-                adminProfileMenu(adminArray, loggedInAdmin);
+                adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
                 System.out.println();
             } else {
                 System.out.println("The Password Does Not Match with Previous Input\n");
@@ -1241,11 +1230,11 @@ public class testRun {
         System.out.println("\n----------------------------------");
         System.out.println("Register a new admin successfully!");
         System.out.println("----------------------------------");
-        adminProfileMenu(adminArray, loggedInAdmin);
+        adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
 
     }
 
-    public static void forgotPassword(ArrayList<Admin> adminArray) throws InterruptedException {
+    public static void forgotPassword(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList) throws InterruptedException {
         boolean adminIDValid, icValid, passwordValid, confirmPwVld, adminFound;
         String adminID, adminIC, adminPassword, adminPwConfirm;
         Scanner scanner = new Scanner(System.in);
@@ -1262,7 +1251,7 @@ public class testRun {
                     adminIDValid = true;
                 } else if (tryIDCount >= 3) {
                     System.out.println("You keyed in invalid admin ID 3 times, auto back\n");
-                    menu(adminArray);
+                    menu(adminArray, bookingArrList);
                 } else {
                     System.out.println("Admin ID must start with capital A and followed by 1 integer eg:A1\n");
                 }
@@ -1278,7 +1267,7 @@ public class testRun {
                     icValid = true;
                 } else if (tryICCount >= 3) {
                     System.out.println("You keyed in invalid IC 3 times, auto back\n");
-                    menu(adminArray);
+                    menu(adminArray, bookingArrList);
                 } else {
                     System.out.println("Please Enter A Valid IC.");
                 }
@@ -1319,11 +1308,11 @@ public class testRun {
                             System.out.println("\n---------------------------------------");
                             System.out.println("Your password is changed successfully!");
                             System.out.println("---------------------------------------\n");
-                            menu(adminArray);
+                            menu(adminArray, bookingArrList);
 
                         } else if (confirmCount >= 3) {
                             System.out.println("The Password Does Not Match with Previous Input three times,fail to change your password. Auto back\n");
-                            menu(adminArray);
+                            menu(adminArray, bookingArrList);
                             System.out.println();
                         } else {
                             System.out.println("The Password Does Not Match with Previous Input\n");
