@@ -17,9 +17,10 @@ public class Event {
     private LocalTime eventTime;
     private venueType eventVenue;
     private decorationType decoration;
-    private double price;
+    private int promoterNum;
+    private double fees;
     private ArrayList<Product> eventProducts;
-    private ArrayList<Participant> participantsArr;
+    private ArrayList<Participant> participantArr;
     private int eventAttendance;
     private static double totalRevenue = 0;
     private static int eventCount = 0;
@@ -29,8 +30,7 @@ public class Event {
     };
     
     public Event(String eventName, LocalDate eventDate, LocalTime eventTime,
-            venueType eventVenue, decorationType decoration, ArrayList<Product> eventProducts,
-            ArrayList<Participant> participantsArr) {
+            venueType eventVenue, decorationType decoration, int promoterNum, ArrayList<Product> eventProducts) {
         
         eventID = "E" + nextEvent++;
         this.eventName = eventName;
@@ -38,11 +38,12 @@ public class Event {
         this.eventTime = eventTime;
         this.eventVenue = eventVenue;
         this.decoration = decoration;
+        this.promoterNum = promoterNum;
         this.eventProducts = eventProducts;
-        this.participantsArr = participantsArr;
+        participantArr = new ArrayList<>();
         eventAttendance = 0;
-        price = (double) decoration.price;
-        totalRevenue += price;
+        fees = (double) decoration.price;
+        totalRevenue += fees;
         eventCount++;
 
     }
@@ -69,8 +70,8 @@ public class Event {
         return decoration;
     }
 
-    public double getPrice() {
-        return price;
+    public double getFees() {
+        return fees;
     }
 
     public static double getTotalRevenue() {
@@ -93,8 +94,8 @@ public class Event {
         return eventProducts;
     }
 
-    public ArrayList<Participant> getParticipantsArr() {
-        return participantsArr;
+    public ArrayList<Participant> getParticipantArr() {
+        return participantArr;
     }
 
     public int getEventAttendance() {

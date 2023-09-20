@@ -10,7 +10,6 @@ public class Booking {
     private int bookingNum;
     private Organizer organizer;
     private Event event;
-    private static ArrayList<Event> eventList = new ArrayList<>();
     private Payment paymentMethod;
     private static int nextBookingNum = 100;
     
@@ -20,7 +19,7 @@ public class Booking {
         this.organizer = organizer;
         this.event = event;
         this.paymentMethod = paymentMethod;
-        eventList.add(event);
+
     }
 
     public void setOrganizer(Organizer organizer) {
@@ -31,9 +30,7 @@ public class Booking {
         this.event = event;
     }
 
-    public static ArrayList<Event> getEventList() {
-        return eventList;
-    }
+
 
     public int getBookingNum() {
         return bookingNum;

@@ -1,0 +1,24 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package assignment;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+
+public class PhoneEvent extends Event{
+    private int techTalkSession;
+    private int demoStation;
+    private static double phonePromoterRate = 120;
+    
+    public PhoneEvent(){}
+    public PhoneEvent(int techTalkSession, int demoStation, String eventName, LocalDate eventDate, LocalTime eventTime,
+            venueType eventVenue, decorationType decoration, int promoterNum, ArrayList<Product> eventProducts){
+        super(eventName, eventDate, eventTime, eventVenue, decoration, promoterNum, eventProducts);
+        this.techTalkSession = techTalkSession;
+        this.demoStation = demoStation;
+    }
+    
+}
