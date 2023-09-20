@@ -5,5 +5,12 @@
 package assignment;
 
 public enum venueType {
-    Pavilion, Midvalley, Genting;
+    Pavilion(500), 
+    Midvalley(350), 
+    Genting(600);
+        final int price;
+    
+    venueType(int price){
+        this.price = price;
+    }
 }

@@ -32,7 +32,7 @@ public class Organizer extends Person {
     }
 
     
-    public String getExhibitorID() {
+    public String getOrganizerID() {
         return organizerID;
     }
 
@@ -40,7 +40,7 @@ public class Organizer extends Person {
         return companyName;
     }
 
-    public static int getExhibitorCount() {
+    public static int getOrganizerCount() {
         return organizerCount;
     }
 

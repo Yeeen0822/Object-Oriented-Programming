@@ -189,7 +189,7 @@ public class testRun {
                 while (vldIntInput(1, 2, eventOption) == false) {
                     System.out.print("\nInvalid Input!\n"
                             + "Enter again: ");
-                    eventOption = s1.nextInt();
+                    eventOption = s1.nextInt(); // 1 = phone Event, 2 = car event
                 }
                 s1.nextLine();
 
@@ -310,11 +310,39 @@ public class testRun {
                 }
                 s1.nextLine();
 
-                //Invoke the event constructor
-                Event event = new Event(eventName, eventDate, eventTime, venueType, decorationType, promoterNum, productArrList);
+                Event event;
+                //phoneEvent = 1 , carEvent = 2
+                //phoneEvent prompts and create phoneEvent
+                if (eventOption == 1) {
+                    //techTalkSession
+                    System.out.print("Enter the number of tech talk sessions: ");
+                    int techTalkSession = s1.nextInt();
+                    s1.nextLine();
 
+                    //demoStation
+                    System.out.print("Enter the number of demo stations: ");
+                    int demoStation = s1.nextInt();
+                    s1.nextLine();
+
+                    //create PhoneEvent object
+                    event = new PhoneEvent(techTalkSession, demoStation, eventName, eventDate, eventTime, venueType, decorationType, promoterNum, productArrList);
+                } //carEvent prompts and create carEvent
+                else {
+                    //carEventTheme
+                    System.out.print("Enter the car event theme: ");
+                    String carEventTheme = s1.nextLine();
+
+                    //numTestDriveLocation
+                    System.out.print("Enter the number of test drive locations: ");
+                    int numTestDriveLocation = s1.nextInt();
+                    s1.nextLine();
+                    //create CarEvent object
+                    event = new CarEvent(carEventTheme, numTestDriveLocation,  eventName, eventDate, eventTime, venueType, decorationType, promoterNum, productArrList);
+                }
+
+                //--------------------------Invoke the event constructor--------------------------------
                 //Make Payment
-                System.out.print("\nTotal: " + event.getFees()
+                System.out.print("\nTotal: " + event.calcFees()
                         + "\nPayment Options:\n"
                         + "1. Card\n"
                         + "2. Cash\n"
@@ -357,7 +385,7 @@ public class testRun {
                         cardCVV = s1.nextLine();
                     }
                     //Create Payment Object
-                    Card payment = new Card(cardNum, cardHolder, cardExp, cardCVV, event.getFees());
+                    Card payment = new Card(cardNum, cardHolder, cardExp, cardCVV, event.calcFees());
 
                     //confirm payment
                     System.out.print("\nPayment Received? (Y/N): ");
@@ -377,7 +405,7 @@ public class testRun {
                         //payment not paid, need to deduct event price from totalrevenue cuz event price 
                         //will get added  to totalRevenue automatically when event object is created
                         payment.pendingPayment();
-                        Event.deductTotalRevenue(event.getFees());
+                        Event.deductTotalRevenue(event.calcFees());
 
                     }
 
@@ -393,7 +421,7 @@ public class testRun {
                     double amountTendered = s1.nextDouble();
 
                     //validate amount tendered (only accept >= event.getPrice() or 0) 0 means not yet paid
-                    while ((amountTendered < event.getFees() && amountTendered > 0) || amountTendered < 0) {
+                    while ((amountTendered < event.calcFees() && amountTendered > 0) || amountTendered < 0) {
                         s1.nextLine();
                         System.out.print("\nInvalid input!\n"
                                 + "Enter amount tendered: ");
@@ -402,7 +430,7 @@ public class testRun {
                     }
                     s1.nextLine();
                     //create cash object
-                    Cash payment = new Cash(amountTendered, event.getFees());
+                    Cash payment = new Cash(amountTendered, event.calcFees());
 
                     //if amount tendered >= event.getPrice(), make the paid = true, if 0 = paid = false
                     if (amountTendered == 0) {
@@ -410,7 +438,7 @@ public class testRun {
                         //payment not paid, need to deduct event price from totalrevenue cuz event price 
                         //will get added  to totalRevenue automatically when event object is created
 
-                        Event.deductTotalRevenue(event.getFees());
+                        Event.deductTotalRevenue(event.calcFees());
                         System.out.println("Payment Not Received.");
 
                     } else {
@@ -534,6 +562,7 @@ public class testRun {
                                 }
                                 // 4: update event products
                                 case 4: {
+                                    
 
                                     break;
                                 }
@@ -544,6 +573,7 @@ public class testRun {
                                 }
 
                             }
+                            // to go back previous page
                             if (updateChoice == 5) {
                                 status = false;
                             }
@@ -597,7 +627,7 @@ public class testRun {
 
                         //Make Payment
                         System.out.print(
-                                "\nTotal: RM" + bookingArrList.get(j).getEvent().getFees()
+                                "\nTotal: RM" + bookingArrList.get(j).getEvent().calcFees()
                                 + "\nPayment Options:\n"
                                 + "1. Card\n"
                                 + "2. Cash\n"
@@ -648,14 +678,14 @@ public class testRun {
 
                             }
                             //Create Payment Object
-                            Card payment = new Card(cardNum, cardHolder, cardExp, cardCVV, bookingArrList.get(j).getEvent().getFees());
+                            Card payment = new Card(cardNum, cardHolder, cardExp, cardCVV, bookingArrList.get(j).getEvent().calcFees());
 
                             //Update payment status, if paid, payment object's attribute "paid" will be true
                             if (paymentCheck == 'Y') {
 
                                 payment.makePayment();
                                 //since the booking is paid, need to add the event price to totalRevenue
-                                Event.addTotalRevenue(bookingArrList.get(j).getEvent().getFees());
+                                Event.addTotalRevenue(bookingArrList.get(j).getEvent().calcFees());
 
                             } else if (paymentCheck == 'N') {
                                 payment.pendingPayment();
@@ -669,7 +699,7 @@ public class testRun {
                             double amountTendered = s1.nextDouble();
 
                             //validate amount tendered (only accept >= event.getPrice() or 0) 0 means not yet paid
-                            while ((amountTendered < bookingArrList.get(j).getEvent().getFees() && amountTendered > 0) || amountTendered < 0) {
+                            while ((amountTendered < bookingArrList.get(j).getEvent().calcFees() && amountTendered > 0) || amountTendered < 0) {
                                 s1.nextLine();
                                 System.out.print("\nInvalid input!\n"
                                         + "Enter amount tendered: ");
@@ -685,12 +715,12 @@ public class testRun {
 
                             } else {
                                 //create a new cash object and assign to booking's payment
-                                Cash cash = new Cash(amountTendered, bookingArrList.get(j).getEvent().getFees());
+                                Cash cash = new Cash(amountTendered, bookingArrList.get(j).getEvent().calcFees());
                                 cash.makePayment();
                                 System.out.println("Change Amount: " + cash.getChangeAmount());
                                 bookingArrList.get(j).setPaymentMethod(cash);
                                 //since the booking is paid, need to add the event price to totalRevenue
-                                Event.addTotalRevenue(bookingArrList.get(j).getEvent().getFees());
+                                Event.addTotalRevenue(bookingArrList.get(j).getEvent().calcFees());
 
                             }
 
@@ -731,14 +761,14 @@ public class testRun {
 
                         //display the amount to refund
                         if (bookingArrList.get(j).getPaymentMethod().getPaymentStatus().equals("Paid") == true) {
-                            System.out.println("Amount to refund: " + bookingArrList.get(j).getEvent().getFees() * 0.5);
+                            System.out.println("Amount to refund: " + bookingArrList.get(j).getEvent().calcFees() * 0.5);
                         }
 
                         //make payment status = cancelled
                         bookingArrList.get(j).getPaymentMethod().cancelPayment();
 
                         //deduct totalRevenue with 50% of event price and refund the other 50% 
-                        Event.deductTotalRevenue(bookingArrList.get(j).getEvent().getFees() * 0.5);
+                        Event.deductTotalRevenue(bookingArrList.get(j).getEvent().calcFees() * 0.5);
 
                         validBookingID = true;
 
@@ -754,6 +784,7 @@ public class testRun {
             }
             //------------------View all Event---------------------
             case 7: {
+                
 
                 break;
             }
@@ -839,8 +870,7 @@ public class testRun {
         System.out.println("");
 
     }
-    
-    
+
     public static void printAdminList(ArrayList<Admin> adminArray, int loggedInAdmin) throws InterruptedException {
 
         if (loggedInAdmin != 0) {
@@ -850,7 +880,7 @@ public class testRun {
             System.out.println("---------------------------------");
             adminProfileMenu(adminArray, loggedInAdmin);
         }
-        
+
         System.out.println("                                           Admins' Profiles                                                    ");
         System.out.println("---------------------------------------------------------------------------------------------------------------");
         System.out.printf("%-10s%-20s%-15s%-30s%-15s\n", "Admin ID", "Name", "IC", "Email", "Phone Number");
@@ -858,7 +888,7 @@ public class testRun {
             System.out.printf("%-10s%-20s%-15s%-30s%-15s\n", adminArray.get(i).getAdminID(), adminArray.get(i).getName(), adminArray.get(i).getIC(), adminArray.get(i).getEmail(), adminArray.get(i).getPhoneNo());
         }
         System.out.println("---------------------------------------------------------------------------------------------------------------");
-        adminProfileMenu(adminArray,loggedInAdmin);
+        adminProfileMenu(adminArray, loggedInAdmin);
     }
 
     private static void menu(ArrayList<Admin> adminArray) throws InterruptedException {

@@ -24,4 +24,10 @@ public class CarEvent extends Event {
         this.carEventTheme = carEventTheme;
         this.numTestDriveLocation = numTestDriveLocation;
     }
+    
+    @Override
+    public double calcFees(){
+        return super.calcFees() +(super.getPromoterNum() * carPromoterRate);
+
+    }
 }

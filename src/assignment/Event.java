@@ -18,7 +18,6 @@ public class Event {
     private venueType eventVenue;
     private decorationType decoration;
     private int promoterNum;
-    private double fees;
     private ArrayList<Product> eventProducts;
     private ArrayList<Participant> participantArr;
     private int eventAttendance;
@@ -42,8 +41,6 @@ public class Event {
         this.eventProducts = eventProducts;
         participantArr = new ArrayList<>();
         eventAttendance = 0;
-        fees = (double) decoration.price;
-        totalRevenue += fees;
         eventCount++;
 
     }
@@ -68,10 +65,6 @@ public class Event {
 
     public decorationType getDecoration() {
         return decoration;
-    }
-
-    public double getFees() {
-        return fees;
     }
 
     public static double getTotalRevenue() {
@@ -121,5 +114,16 @@ public class Event {
     public void setEventProducts(ArrayList<Product> eventProducts) {
         this.eventProducts = eventProducts;
     }
+    
+    public double calcFees(){
+       return decoration.price + eventVenue.price;
+    }
+
+    public int getPromoterNum() {
+        return promoterNum;
+    }
+    
+    
+
 
 }
