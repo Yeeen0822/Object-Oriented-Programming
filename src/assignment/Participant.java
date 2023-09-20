@@ -5,32 +5,17 @@
 package assignment;
 
 public class Participant extends Person{
-    private Event eventParticipate;
-    private Product interestedProduct;
     
     public Participant(){};
     
-    
-    public Participant(Event eventParticipate, Product interestedProduct){
-        this.eventParticipate = eventParticipate;
-        this.interestedProduct = interestedProduct;
-    };
-
-    public Event getEventParticipate() {
-        return eventParticipate;
+    public Participant(String name,String IC,String email,String phoneNo){
+        super(name,IC,email,phoneNo);
     }
-
-    public void setEventParticipate(Event eventParticipate) {
-        this.eventParticipate = eventParticipate;
-    }
-
-    public Product getInterestedProduct() {
-        return interestedProduct;
-    }
-
-    public void setInterestedProduct(Product interestedProduct) {
-        this.interestedProduct = interestedProduct;
+       
+    @Override
+    public String toString(){
+        return super.toString();
     }
     
-    
+  
 }
