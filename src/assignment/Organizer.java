@@ -10,21 +10,21 @@ import java.util.regex.Pattern;
 
 public class Organizer extends Person {
     
-    private static int nextExhibitor = 100;
-    private String exhibitorID;
+    private static int nextOrganizer = 100;
+    private String organizerID;
     private String companyName;
     private String IC;
-    private static int exhibitorCount;
-    private ArrayList<Product> products;
+    private static int organizerCount;
+
 
     public Organizer() {
     }
 
-    public Organizer(String companyName, String IC, ArrayList<Product> products, String name, String email, String phoneNo) {
+    public Organizer(String companyName, String IC, String name, String email, String phoneNo) {
         super(name,IC, email, phoneNo);
-        exhibitorID = "EX" + nextExhibitor++;
+        organizerID = "C" + nextOrganizer++;
         this.companyName = companyName;
-        this.products = products;
+
     }
 
     public void setCompanyName(String companyName) {
@@ -33,7 +33,7 @@ public class Organizer extends Person {
 
     
     public String getExhibitorID() {
-        return exhibitorID;
+        return organizerID;
     }
 
     public String getCompanyName() {
@@ -41,13 +41,10 @@ public class Organizer extends Person {
     }
 
     public static int getExhibitorCount() {
-        return exhibitorCount;
+        return organizerCount;
     }
 
-    public ArrayList<Product> getProducts() {
-        return products;
-    }
-    
+
 
     public static boolean vldIC(String IC) {
         // Regular expression for a Malaysian IC

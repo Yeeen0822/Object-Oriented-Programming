@@ -8,23 +8,23 @@ import java.util.ArrayList;
 
 public class Booking {
     private int bookingNum;
-    private Organizer exhibitor;
+    private Organizer organizer;
     private Event event;
     private static ArrayList<Event> eventList = new ArrayList<>();
     private Payment paymentMethod;
     private static int nextBookingNum = 100;
     
     public Booking(){}
-    public Booking(Organizer exhibitor, Event event, Payment paymentMethod){
+    public Booking(Organizer organizer, Event event, Payment paymentMethod){
         bookingNum = nextBookingNum++;
-        this.exhibitor = exhibitor;
+        this.organizer = organizer;
         this.event = event;
         this.paymentMethod = paymentMethod;
         eventList.add(event);
     }
 
-    public void setExhibitor(Organizer exhibitor) {
-        this.exhibitor = exhibitor;
+    public void setOrganizer(Organizer organizer) {
+        this.organizer = organizer;
     }
 
     public void setEvent(Event event) {
@@ -39,8 +39,8 @@ public class Booking {
         return bookingNum;
     }
 
-    public Organizer getExhibitor() {
-        return exhibitor;
+    public Organizer getOrganizer() {
+        return organizer;
     }
 
     public Event getEvent() {
@@ -58,6 +58,6 @@ public class Booking {
     
     @Override
     public String toString(){
-        return String.format("%-15s", bookingNum);
+        return String.format("%-15s %-15s %-15s %-15s %-15s", bookingNum, getOrganizer().getName(),getOrganizer().getName(), getEvent().getEventName(), getPaymentMethod().getPaymentStatus());
     }
 }
