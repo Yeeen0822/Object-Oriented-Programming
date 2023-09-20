@@ -337,7 +337,7 @@ public class testRun {
                     int numTestDriveLocation = s1.nextInt();
                     s1.nextLine();
                     //create CarEvent object
-                    event = new CarEvent(carEventTheme, numTestDriveLocation,  eventName, eventDate, eventTime, venueType, decorationType, promoterNum, productArrList);
+                    event = new CarEvent(carEventTheme, numTestDriveLocation, eventName, eventDate, eventTime, venueType, decorationType, promoterNum, productArrList);
                 }
 
                 //--------------------------Invoke the event constructor--------------------------------
@@ -473,14 +473,14 @@ public class testRun {
                 for (int j = 0; j < bookingArrList.size(); j++) {
                     if (bookingID == bookingArrList.get(j).getBookingNum()) {
                         validBookingID = true;
-                        boolean status = true;
-                        boolean isValidInput = false;
+                        boolean stayInUpdateEventBooking = true;
+                        boolean isValidInput = false; //to check the format of certain input like date and time
                         do {
                             System.out.print("\nPlease Choose an Option\n"
                                     + "1. Update Event Name\n"
                                     + "2. Update Event Date\n"
                                     + "3. Update Event Time\n"
-                                    + "4. Search Event Products\n"
+                                    + "4. Update Event Products\n"
                                     + "5. Back\n"
                                     + "Enter your choice: "
                             );
@@ -562,8 +562,7 @@ public class testRun {
                                 }
                                 // 4: update event products
                                 case 4: {
-                                    
-
+                                    updateEventProduct(bookingArrList, j);
                                     break;
                                 }
                                 // 5: back
@@ -575,10 +574,10 @@ public class testRun {
                             }
                             // to go back previous page
                             if (updateChoice == 5) {
-                                status = false;
+                                stayInUpdateEventBooking = false;
                             }
 
-                        } while (status);
+                        } while (stayInUpdateEventBooking);
 
                     }
 
@@ -784,7 +783,6 @@ public class testRun {
             }
             //------------------View all Event---------------------
             case 7: {
-                
 
                 break;
             }
@@ -868,6 +866,91 @@ public class testRun {
 
         }
         System.out.println("");
+
+    }
+
+    public static void viewEventProduct(ArrayList<Booking> bookingArrList) {
+
+        for (int i = 0; i < bookingArrList.size(); i++) {
+            System.out.println("The products for " + bookingArrList.get(i).getEvent().getEventName() + "event\n========================");
+
+            for (int j = 0; j < bookingArrList.get(i).getEvent().getEventProducts().size(); j++) {
+                System.out.println("Product No." + (j + 1));
+                System.out.println(bookingArrList.get(i).getEvent().getEventProducts().get(j));
+            }
+
+        }
+    }
+
+    public static void updateEventProduct(ArrayList<Booking> bookingArrList, int index) {
+        Scanner s1 = new Scanner(System.in);
+        viewEventProduct(bookingArrList);
+        System.out.print("Enter product number (999 to exit): ");
+        int productNum = s1.nextInt();
+        //999 to go back to previous screen
+
+        while (productNum < 1 || productNum > bookingArrList.get(index).getEvent().getEventProducts().size() || productNum != 999) {
+            s1.nextLine();
+            System.out.println("Invalid product number!");
+            System.out.print("Enter product number: ");
+            productNum = s1.nextInt();
+
+            s1.nextLine();
+            System.out.println("Select Which to update:"
+                    + "\n1. Product Name"
+                    + "\n2. Product Desc"
+                    + "\n3. Product Price"
+                    + "\n4. Back");
+            System.out.print("Enter your choice (1-4): ");
+            int updateChoice = s1.nextInt();
+            while (vldIntInput(1, 4, updateChoice) == false) {
+                System.out.println("Invalid input!");
+                System.out.print("Enter your choice (1-4): ");
+                updateChoice = s1.nextInt();
+            }
+            switch (updateChoice) {
+                case 1: {
+                    updateProductName(bookingArrList, index, productNum);
+                    break;
+                }
+                case 2: {
+                    updateProductDesc(bookingArrList, index, productNum);
+                    break;
+                }
+                case 3: {
+                    updateProductPrice(bookingArrList, index, productNum);
+                    break;
+                }
+                default: {
+
+                }
+            }
+
+        }
+
+    }
+
+    public static void updateProductName(ArrayList<Booking> bookingArrList, int index, int productNum) {
+        Scanner s1 = new Scanner(System.in);
+        System.out.print("Enter product Name: ");
+        String productName = s1.nextLine();
+        bookingArrList.get(index).getEvent().getEventProducts().get(productNum - 1).setProductName(productName);
+
+    }
+
+    public static void updateProductDesc(ArrayList<Booking> bookingArrList, int index, int productNum) {
+        Scanner s1 = new Scanner(System.in);
+        System.out.print("Enter product Description: ");
+        String productDesc = s1.nextLine();
+        bookingArrList.get(index).getEvent().getEventProducts().get(productNum - 1).setProductDesc(productDesc);
+
+    }
+
+    public static void updateProductPrice(ArrayList<Booking> bookingArrList, int index, int productNum) {
+        Scanner s1 = new Scanner(System.in);
+        System.out.print("Enter product Price: ");
+        double productPrice = s1.nextDouble();
+        bookingArrList.get(index).getEvent().getEventProducts().get(productNum - 1).setProductPrice(productPrice);
 
     }
 
