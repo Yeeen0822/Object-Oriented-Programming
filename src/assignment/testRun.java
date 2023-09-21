@@ -167,68 +167,69 @@ public class testRun {
         System.out.println("\nSelect which event booking to update");
         System.out.print("Enter Booking ID (999 to exit): ");
         int bookingNum = s1.nextInt();
-        if (bookingNum == 999) {
-            bookingManagement(bookingArrList);
-        }
+
         boolean validBookingID = false;
 
-        for (int j = 0; j < bookingArrList.size(); j++) {
-            if (bookingNum == bookingArrList.get(j).getBookingNum()) {
-                validBookingID = true;
-                int updateChoice;
-                boolean stayOnUpdateEventBooking = true;
+        if (bookingNum != 999) {
+            for (int j = 0; j < bookingArrList.size(); j++) {
 
-                //always stay on updateEventBooking for the entered bookingNum
-                while (stayOnUpdateEventBooking) {
-                    System.out.println("\n-------------------------"
-                            + "\nBooking Number: " + bookingNum
-                            + "\n-------------------------");
-                    System.out.print("Please Choose an Option\n"
-                            + "1. Update Event Name\n"
-                            + "2. Update Event Date\n"
-                            + "3. Update Event Time\n"
-                            + "4. Update Event Products\n"
-                            + "5. Back\n"
-                            + "Enter your choice: "
-                    );
-                    updateChoice = s1.nextInt();
+                if (bookingNum == bookingArrList.get(j).getBookingNum()) {
+                    validBookingID = true;
+                    int updateChoice;
+                    boolean stayOnUpdateEventBooking = true;
 
-                    while (vldIntInput(1, 5, updateChoice) == false) {
-                        s1.nextLine();
-                        System.out.print("\nInvalid choice!\n"
-                                + "Enter a valid choice: ");
+                    //always stay on updateEventBooking for the entered bookingNum
+                    while (stayOnUpdateEventBooking) {
+                        System.out.println("\n-------------------------"
+                                + "\nBooking Number: " + bookingNum
+                                + "\n-------------------------");
+                        System.out.print("Please Choose an Option\n"
+                                + "1. Update Event Name\n"
+                                + "2. Update Event Date\n"
+                                + "3. Update Event Time\n"
+                                + "4. Update Event Products\n"
+                                + "5. Back\n"
+                                + "Enter your choice: "
+                        );
                         updateChoice = s1.nextInt();
-                    }
-                    s1.nextLine();
-                    switch (updateChoice) {
-                        // 1: update event name
-                        case 1: {
 
-                            updateEventName(bookingArrList, j);
+                        while (vldIntInput(1, 5, updateChoice) == false) {
+                            s1.nextLine();
+                            System.out.print("\nInvalid choice!\n"
+                                    + "Enter a valid choice: ");
+                            updateChoice = s1.nextInt();
+                        }
+                        s1.nextLine();
+                        switch (updateChoice) {
+                            // 1: update event name
+                            case 1: {
 
-                            break;
-                        }
-                        // 2: update event date
-                        case 2: {
+                                updateEventName(bookingArrList, j);
 
-                            updateEventDate(bookingArrList, j);
+                                break;
+                            }
+                            // 2: update event date
+                            case 2: {
 
-                            break;
-                        }
-                        // 3: update event time
-                        case 3: {
-                            updateEventTime(bookingArrList, j);
-                            break;
-                        }
-                        // 4: update event products
-                        case 4: {
-                            updateEventProduct(bookingArrList, j);
-                            break;
-                        }
-                        // 5: back
-                        default: {
-                            stayOnUpdateEventBooking = false;
-//                            bookingManagement(bookingArrList);
+                                updateEventDate(bookingArrList, j);
+
+                                break;
+                            }
+                            // 3: update event time
+                            case 3: {
+                                updateEventTime(bookingArrList, j);
+                                break;
+                            }
+                            // 4: update event products
+                            case 4: {
+                                updateEventProduct(bookingArrList, j);
+                                break;
+                            }
+                            // 5: back
+                            default: {
+                                //stayOnUpdateEventBooking = false;
+
+                            }
 
                         }
 
@@ -237,11 +238,12 @@ public class testRun {
                 }
 
             }
+            if (validBookingID == false) {
+                System.out.println("Invalid booking ID or the booking has been paid!");
+            }
 
         }
-        if (validBookingID == false) {
-            System.out.println("Invalid booking ID or the booking has been paid!");
-        }
+
         //go back to previous page
         bookingManagement(bookingArrList);
     }
