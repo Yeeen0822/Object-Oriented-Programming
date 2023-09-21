@@ -1,16 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package assignment;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- *
- * @author Jason
- */
 public class Card extends Payment {
 
     private String cardNum;
@@ -59,5 +52,22 @@ public class Card extends Payment {
         // Check if the card cvv matches the pattern
         return matcher.matches(); // True for valid, false for invalid
     }
+    @Override
+    public String toString() {
+        System.out.println("+------------------------------+\n");
+        System.out.println("\tRECEIPT\n");
+        System.out.println("+------------------------------+\n");
+        return  "DATE: " + getPaymentDate() + "\n" +
+                "BOOKING ID: " + "\n" +
+                "CARD NUMBER:" + cardNum+ "\n"+
+                "--------------------------------\n" +
+                "TOTAL AMOUNT    : RM " + String.format("%.2f", getPaymentAmount()) + "\n" +
+                "--------------------------------\n" +
+                "\tBOOKING SUCCESSFUL\n" +
+                "--------------------------------";
+    }
+    
+        
+ 
 
 }
