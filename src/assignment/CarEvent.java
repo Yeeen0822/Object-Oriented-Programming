@@ -30,4 +30,13 @@ public class CarEvent extends Event {
         return super.calcFees() +(super.getPromoterNum() * carPromoterRate);
 
     }
+    
+    @Override
+    public String toString(){
+        return super.toString()
+                + "\nCar Event Theme: " + carEventTheme
+                + "\nNumber Of Test Drive Locations: " + numTestDriveLocation
+                + "\nProducts of Event: "
+                + super.viewAllProducts(super.getEventProducts());
+    }
 }

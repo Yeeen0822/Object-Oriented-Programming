@@ -41,7 +41,7 @@ public class Product {
     
     @Override
     public String toString(){
-        return "Product Name: " + productName +
+        return "\nProduct Name: " + productName +
                 "\nProduct Description: " + productDesc +
                 "\nProduct Price: " + productPrice; 
         

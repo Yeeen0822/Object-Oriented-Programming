@@ -30,4 +30,13 @@ public class PhoneEvent extends Event {
 
     }
 
+    @Override
+    public String toString() {
+        return super.toString()
+                + "\nNumber Of Tech Talk Sessions: " + techTalkSession
+                + "\nNumber Of Demo Stations: " + demoStation
+                + "\nProducts of Event: "
+                + super.viewAllProducts(super.getEventProducts());
+    }
+
 }

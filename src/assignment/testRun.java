@@ -142,12 +142,14 @@ public class testRun {
             }
             //------------------View all Event---------------------
             case 7: {
+                viewEvent(bookingArrList);
 
                 break;
             }
 
             //---------------------Search Event---------------------
             case 8: {
+                searchEvent(bookingArrList);
 
                 break;
             }
@@ -227,7 +229,7 @@ public class testRun {
                             }
                             // 5: back
                             default: {
-                                //stayOnUpdateEventBooking = false;
+                                stayOnUpdateEventBooking = false;
 
                             }
 
@@ -545,10 +547,7 @@ public class testRun {
             //if amount tendered >= event.getPrice(), make the paid = true, if 0 = paid = false
             if (amountTendered == 0) {
                 payment.pendingPayment();
-                //payment not paid, need to deduct event price from totalrevenue cuz event price 
-                //will get added  to totalRevenue automatically when event object is created
 
-                Event.deductTotalRevenue(event.calcFees());
                 System.out.println("Payment Not Received.");
 
             } else {
@@ -613,6 +612,55 @@ public class testRun {
             }
 
         }
+    }
+
+    public static void viewEvent(ArrayList<Booking> bookingArrList) {
+
+        if (bookingArrList.size() == 0) {
+            System.out.println("There is no event!");
+        } else {
+            System.out.println("================EVENT LIST=====================");
+            for (int j = 0; j < bookingArrList.size(); j++) {
+
+                System.out.println("\nEvent No: " + (j + 1));
+                System.out.println(bookingArrList.get(j).getEvent());
+
+            }
+            System.out.println("\n===============================================");
+        }
+
+    }
+
+    public static void searchEvent(ArrayList<Booking> bookingArrList) {
+        String eventName;
+        boolean inputEventName = false;
+        Scanner sc = new Scanner(System.in);
+
+        do {
+            System.out.print("Enter Event Name (Enter 999 to exit):");
+            eventName = sc.nextLine();
+
+            if (eventName.equals("999")) {
+                break;
+            } else {
+
+                for (int i = 0; i < bookingArrList.size(); i++) {
+                    if (eventName.equals(bookingArrList.get(i).getEvent().getEventName())) {
+                        inputEventName = true;
+                        System.out.println(bookingArrList.get(i).getEvent());
+                        System.out.println("\n===============================================");
+
+                        break;
+                    }
+                }
+                if (!inputEventName) {
+                    System.out.println("Event Not Found!");
+                }
+
+            }
+
+        } while (!inputEventName);
+        bookingManagement(bookingArrList);
     }
 
     public static void payUnpaidBooking(ArrayList<Booking> bookingArrList) {
@@ -858,7 +906,9 @@ public class testRun {
         //make a while loop to keep asking which to update until '4' is entered
         boolean stayUpdating = true;
         while (stayUpdating) {
-            viewEventProduct(bookingArrList, index);
+            //view all products using a static method from event
+            System.out.println(Event.viewAllProducts(bookingArrList.get(index).getEvent().getEventProducts()));
+
             System.out.print("Enter product number (999 to exit): ");
             productNum = s1.nextInt();
             //999 to go back to previous screen
@@ -999,18 +1049,6 @@ public class testRun {
             }
 
         }
-    }
-
-    public static void viewEventProduct(ArrayList<Booking> bookingArrList, int index) {
-
-        for (int j = 0; j < bookingArrList.get(index).getEvent().getEventProducts().size(); j++) {
-            System.out.println("\n-------------------------"
-                    + "\nProduct No: " + (j + 1)
-                    + "\n-------------------------");
-            System.out.println(bookingArrList.get(index).getEvent().getEventProducts().get(j));
-        }
-        System.out.println("");
-
     }
 
     public static void updateProductName(ArrayList<Booking> bookingArrList, int index, int productNum) {

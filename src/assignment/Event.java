@@ -25,12 +25,14 @@ public class Event {
     private static int eventCount = 0;
 
     public Event() {
-        
-    };
+
+    }
+
+    ;
     
     public Event(String eventName, LocalDate eventDate, LocalTime eventTime,
             venueType eventVenue, decorationType decoration, int promoterNum, ArrayList<Product> eventProducts) {
-        
+
         eventID = "E" + nextEvent++;
         this.eventName = eventName;
         this.eventDate = eventDate;
@@ -114,16 +116,42 @@ public class Event {
     public void setEventProducts(ArrayList<Product> eventProducts) {
         this.eventProducts = eventProducts;
     }
-    
-    public double calcFees(){
-       return decoration.price + eventVenue.price;
+
+    public double calcFees() {
+        return decoration.price + eventVenue.price;
     }
 
     public int getPromoterNum() {
         return promoterNum;
     }
-    
-    
 
+    @Override
+    public String toString() {
+        return "==============================================="
+                + "\n\nEvent ID: " + eventID
+                + "\nEvent Name: " + eventName
+                + "\nEvent Date: " + eventDate
+                + "\nEvent Time: " + eventTime
+                + "\nEvent Event Venue: " + eventVenue
+                + "\nEvent Event Decoration: " + decoration
+                + "\nNumber of promoters: " + promoterNum
+                + "\nNumber of participants: " + participantArr.size();
+
+    }
+
+    public static String viewAllProducts(ArrayList<Product> eventProducts) {
+        String outputAllProducts = "";
+        String output;
+        for (int i = 0; i < eventProducts.size(); i++) {
+            output = "\n\n-------------------------"
+                    + "\nProduct No: " + (i + 1)
+                    + "\n-------------------------"
+                    + eventProducts.get(i).toString();
+
+            outputAllProducts = outputAllProducts.concat(output);
+
+        }
+        return outputAllProducts;
+    }
 
 }
