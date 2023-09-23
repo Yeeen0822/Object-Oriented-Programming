@@ -1137,7 +1137,7 @@ public class testRun {
                 //add to registrationArrList
                 registrationArrList.add(registration);
                 System.out.println("Registered successfully!");
-                System.out.println(payment);
+
             } else {
                 System.out.println("Failed to register!");
             }
