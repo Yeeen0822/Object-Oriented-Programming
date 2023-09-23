@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package assignment;
 
 import java.time.Duration;
@@ -25,6 +21,7 @@ public class testRun {
 
         //Create an array list for booking
         ArrayList<Booking> bookingArrList = new ArrayList<>();
+        ArrayList<Registration> registrationArrList = new ArrayList<>();
         Scanner s1 = new Scanner(System.in);
         boolean exit = false;
         boolean optionVld;
@@ -36,13 +33,15 @@ public class testRun {
                 //Main screen, select option
                 switch (mainMenu()) {
                     case 1: {
-                        menu(adminArray, bookingArrList);
+                        //admin screen
+                        menu(adminArray, bookingArrList, registrationArrList);
                         break;
                     }
-                    //attendee screen
+                    //participant screen
 
                     case 2: {
-                        System.out.println("Coming Soon");
+                        participantMenu(bookingArrList, registrationArrList);
+
                         break;
                     }
                     case 3: {
@@ -76,6 +75,7 @@ public class testRun {
     public static void bookingManagement(ArrayList<Booking> bookingArrList) {
 
         Scanner s1 = new Scanner(System.in);
+
         System.out.print("\nPlease Choose an Option\n"
                 + "1. Create Event Booking\n"
                 + "2. Update Event Booking\n"
@@ -241,7 +241,7 @@ public class testRun {
 
             }
             if (validBookingID == false) {
-                System.out.println("Invalid booking ID or the booking has been paid!");
+                System.out.println("Invalid booking ID!");
             }
 
         }
@@ -361,7 +361,7 @@ public class testRun {
         }
 
         //-eventVenue
-        venueType[] venues = venueType.values();
+        VenueType[] venues = VenueType.values();
         System.out.println("\nVenue List:");
         for (int j = 0; j < venues.length; j++) {
             System.out.println((j + 1) + ". " + venues[j]);
@@ -375,10 +375,10 @@ public class testRun {
             eventVenueNum = s1.nextInt();
         }
         s1.nextLine();
-        venueType venueType = venues[eventVenueNum - 1];
+        VenueType venueType = venues[eventVenueNum - 1];
 
         //-decoration
-        decorationType[] decoration = decorationType.values();
+        DecorationType[] decoration = DecorationType.values();
         System.out.println("\nDecoration List:");
         for (int k = 0; k < decoration.length; k++) {
             System.out.println((k + 1) + ". " + decoration[k]);
@@ -392,7 +392,7 @@ public class testRun {
             eventDecorationNum = s1.nextInt();
         }
         s1.nextLine();
-        decorationType decorationType = decoration[eventDecorationNum - 1];
+        DecorationType decorationType = decoration[eventDecorationNum - 1];
 
         //-num of promoter
         System.out.print("\nEnter number of promoters: ");
@@ -414,7 +414,7 @@ public class testRun {
             System.out.print("Enter Product Description: ");
             String prodDesc = s1.nextLine();
             //prod price
-            System.out.print("Enter Product Price: ");
+            System.out.print("Enter Product Price: RM");
             double prodPrice = s1.nextDouble();
 
             Product product = new Product(prodName, prodDesc, prodPrice);
@@ -453,115 +453,12 @@ public class testRun {
         }
 
         //--------------------------Invoke the event constructor--------------------------------
-        //Make Payment
-        System.out.print("\nTotal: " + event.calcFees()
-                + "\nPayment Options:\n"
-                + "1. Card\n"
-                + "2. Cash\n"
-                + "Select a Payment Option (1-2): ");
-        int paymentNum = s1.nextInt();
-        while (vldIntInput(1, 2, paymentNum) == false) {
-            System.out.print("\nInvalid Input!\n"
-                    + "Enter again: ");
-            paymentNum = s1.nextInt();
-        }
-        s1.nextLine();
-
-        //paymentAmount = event object's price
-        //Create Card object if paymentNum = 1, 2 for cash
-        if (paymentNum == 1) {
-
-            //cardNum
-            System.out.print("\nEnter Card Number: ");
-            String cardNum = s1.nextLine();
-
-            //cardHolder
-            System.out.print("Enter Card Holder Name: ");
-            String cardHolder = s1.nextLine();
-
-            //cardExp
-            System.out.print("Enter Card Expiry Date: ");
-            String cardExp = s1.nextLine();
-            while (Card.vldCardExp(cardExp) == false) {
-                System.out.print("Invalid Card Expiry Date!\n"
-                        + "Enter Card Expiry Date: ");
-                cardExp = s1.nextLine();
-            }
-
-            //cardCVV
-            System.out.print("Enter Card CVV: ");
-            String cardCVV = s1.nextLine();
-            while (Card.vldCardCvv(cardCVV) == false) {
-                System.out.print("Invalid Card CVV!\n"
-                        + "Enter Card CVV: ");
-                cardCVV = s1.nextLine();
-            }
-            //Create Payment Object
-            Card payment = new Card(cardNum, cardHolder, cardExp, cardCVV, event.calcFees());
-
-            //confirm payment
-            System.out.print("\nPayment Received? (Y/N): ");
-            char paymentCheck = s1.nextLine().charAt(0);
-            while (paymentCheck != 'Y' && paymentCheck != 'N') {
-                System.out.println("\nInvalid choice!\n"
-                        + "Enter a valid choice: ");
-                paymentCheck = s1.nextLine().charAt(0);
-
-            }
-
-            //Update payment status, if paid, payment object's attribute "paid" will be true
-            if (paymentCheck == 'Y') {
-                payment.makePayment();
-
-            } else if (paymentCheck == 'N') {
-                //payment not paid, need to deduct event price from totalrevenue cuz event price 
-                //will get added  to totalRevenue automatically when event object is created
-                payment.pendingPayment();
-                Event.deductTotalRevenue(event.calcFees());
-
-            }
-
-            //Create the booking for Card payment
-            Booking booking = new Booking(organizer, event, payment);
-            //Add the Booking to booking array list
-            bookingArrList.add(booking);
-
-        } else {
-
-            //amount tendered
-            System.out.print("\nEnter amount tendered: ");
-            double amountTendered = s1.nextDouble();
-
-            //validate amount tendered (only accept >= event.getPrice() or 0) 0 means not yet paid
-            while ((amountTendered < event.calcFees() && amountTendered > 0) || amountTendered < 0) {
-                s1.nextLine();
-                System.out.print("\nInvalid input!\n"
-                        + "Enter amount tendered: ");
-                amountTendered = s1.nextDouble();
-
-            }
-            s1.nextLine();
-            //create cash object
-            Cash payment = new Cash(amountTendered, event.calcFees());
-
-            //if amount tendered >= event.getPrice(), make the paid = true, if 0 = paid = false
-            if (amountTendered == 0) {
-                payment.pendingPayment();
-
-                System.out.println("Payment Not Received.");
-
-            } else {
-                payment.makePayment();
-                //Display changeAmount                                                  
-                System.out.println("Change Amount: " + payment.getChangeAmount());
-            }
-
-            //create the booking for cash payment
-            Booking booking = new Booking(organizer, event, payment);
-            //Add the Booking to booking array list
-            bookingArrList.add(booking);
-
-        }
+        // PAYMENTHERE
+        Payment payment = payment(event.calcFees());
+        Booking booking = new Booking(organizer, event, payment);
+        System.out.println("Booking Number: " + booking.getBookingNum());
+        //Add the Booking to booking array list
+        bookingArrList.add(booking);
         //go back to previous page
         bookingManagement(bookingArrList);
 
@@ -628,6 +525,7 @@ public class testRun {
             }
             System.out.println("\n===============================================");
         }
+        bookingManagement(bookingArrList);
 
     }
 
@@ -663,6 +561,117 @@ public class testRun {
         bookingManagement(bookingArrList);
     }
 
+    public static Payment payment(double amountToPay) {
+        Scanner s1 = new Scanner(System.in);
+
+        //Make Payment
+        System.out.print("\nTotal: RM" + String.format("%.2f", amountToPay)
+                + "\nPayment Options:\n"
+                + "1. Card\n"
+                + "2. Cash\n"
+                + "Select a Payment Option (1-2): ");
+        int paymentNum = s1.nextInt();
+        while (vldIntInput(1, 2, paymentNum) == false) {
+            System.out.print("\nInvalid Input!\n"
+                    + "Enter again: ");
+            paymentNum = s1.nextInt();
+        }
+        s1.nextLine();
+
+        //paymentAmount = event object's price
+        //Create Card object if paymentNum = 1, 2 for cash
+        if (paymentNum == 1) {
+
+            //cardNum
+            System.out.print("\nEnter Card Number: ");
+            String cardNum = s1.nextLine();
+
+            //cardHolder
+            System.out.print("Enter Card Holder Name: ");
+            String cardHolder = s1.nextLine();
+
+            //cardExp
+            System.out.print("Enter Card Expiry Date: ");
+            String cardExp = s1.nextLine();
+            while (Card.vldCardExp(cardExp) == false) {
+                System.out.print("Invalid Card Expiry Date!\n"
+                        + "Enter Card Expiry Date eg(12/30): ");
+                cardExp = s1.nextLine();
+            }
+
+            //cardCVV
+            System.out.print("Enter Card CVV: ");
+            String cardCVV = s1.nextLine();
+            while (Card.vldCardCvv(cardCVV) == false) {
+                System.out.print("Invalid Card CVV!\n"
+                        + "Enter Card CVV: ");
+                cardCVV = s1.nextLine();
+            }
+            //Create Payment Object
+            Card payment = new Card(cardNum, cardHolder, cardExp, cardCVV, amountToPay);
+
+            //confirm payment
+            System.out.print("\nPayment Received? (Y/N): ");
+            char paymentCheck = s1.nextLine().charAt(0);
+            while (paymentCheck != 'Y' && paymentCheck != 'N') {
+                System.out.println("\nInvalid choice!\n"
+                        + "Enter a valid choice: ");
+                paymentCheck = s1.nextLine().charAt(0);
+
+            }
+
+            //Update payment status, if paid, payment object's attribute "paid" will be true
+            if (paymentCheck == 'Y') {
+                payment.makePayment();
+
+                //revenue ++
+                Event.addTotalRevenue(amountToPay);
+                System.out.println(payment);
+
+            } else if (paymentCheck == 'N') {
+
+                payment.pendingPayment();
+
+            }
+            return payment;
+
+        } else {
+
+            //amount tendered
+            System.out.print("\nEnter amount tendered: RM");
+            double amountTendered = s1.nextDouble();
+
+            //validate amount tendered (only accept >= event.getPrice() or 0) 0 means not yet paid
+            while ((amountTendered < amountToPay && amountTendered > 0) || amountTendered < 0) {
+                s1.nextLine();
+                System.out.print("\nInvalid input!\n"
+                        + "Enter amount tendered: RM");
+                amountTendered = s1.nextDouble();
+
+            }
+            s1.nextLine();
+            //create cash object
+            Cash payment = new Cash(amountTendered, amountToPay);
+
+            //if amount tendered >= event.getPrice(), make the paid = true, if 0 = paid = false
+            if (amountTendered == 0) {
+                payment.pendingPayment();
+
+                System.out.println("Payment Not Received.");
+
+            } else {
+                payment.makePayment();
+                //Display changeAmount                                                  
+                System.out.println("Change Amount: RM" + String.format("%.2f", payment.getChangeAmount()));
+                Event.addTotalRevenue(amountToPay);
+
+                System.out.println(payment);
+            }
+            return payment;
+
+        }
+    }
+
     public static void payUnpaidBooking(ArrayList<Booking> bookingArrList) {
         Scanner s1 = new Scanner(System.in);
 
@@ -671,122 +680,27 @@ public class testRun {
         System.out.print("Enter Booking ID (999 to exit): ");
         int bookingNum = s1.nextInt();
         if (bookingNum == 999) {
-            bookingManagement(bookingArrList);
-        }
+            //do nothing and go back to bookingManagement
+        } else {
 
-        boolean validBookingID = false;
-        //-------------------------------DO PAYMENT FOR UNPAID BOOKING HERE-----------------------------------------
-        for (int j = 0; j < bookingArrList.size(); j++) {
-            if (bookingNum == bookingArrList.get(j).getBookingNum() && bookingArrList.get(j).getPaymentMethod().getPaymentStatus() == "Pending") {
+            boolean validBookingID = false;
+            //-------------------------------DO PAYMENT FOR UNPAID BOOKING HERE-----------------------------------------
+            for (int j = 0; j < bookingArrList.size(); j++) {
+                if (bookingNum == bookingArrList.get(j).getBookingNum() && bookingArrList.get(j).getPaymentMethod().getPaymentStatus() == "Pending") {
 
-                //Make Payment
-                System.out.print(
-                        "\nTotal: RM" + bookingArrList.get(j).getEvent().calcFees()
-                        + "\nPayment Options:\n"
-                        + "1. Card\n"
-                        + "2. Cash\n"
-                        + "Select a Payment Option (1-2): ");
-                int paymentNum = s1.nextInt();
-                while (vldIntInput(1, 2, paymentNum) == false) {
-                    System.out.print("\nInvalid Input!\n"
-                            + "Enter again: ");
-                    paymentNum = s1.nextInt();
-                }
-                s1.nextLine();
+                    Payment payment = payment(bookingArrList.get(j).getEvent().calcFees());
 
-                if (paymentNum == 1) {
-
-                    //cardNum
-                    System.out.print("\nEnter Card Number: ");
-                    String cardNum = s1.nextLine();
-
-                    //cardHolder
-                    System.out.print("Enter Card Holder Name: ");
-                    String cardHolder = s1.nextLine();
-
-                    //cardExp
-                    System.out.print("Enter Card Expiry Date: ");
-                    String cardExp = s1.nextLine();
-                    while (Card.vldCardExp(cardExp) == false) {
-                        System.out.print("Invalid Card Expiry Date!\n"
-                                + "Enter Card Expiry Date: ");
-                        cardExp = s1.nextLine();
-                    }
-
-                    //cardCVV
-                    System.out.print("Enter Card CVV: ");
-                    String cardCVV = s1.nextLine();
-                    while (Card.vldCardCvv(cardCVV) == false) {
-                        System.out.print("Invalid Card CVV!\n"
-                                + "Enter Card CVV: ");
-                        cardCVV = s1.nextLine();
-                    }
-
-                    //confirm payment
-                    System.out.print("\nPayment Received? (Y/N): ");
-                    char paymentCheck = s1.nextLine().charAt(0);
-                    while (paymentCheck != 'Y' && paymentCheck != 'N') {
-                        System.out.println("\nInvalid choice!\n"
-                                + "Enter a valid choice: ");
-                        paymentCheck = s1.nextLine().charAt(0);
-
-                    }
-                    //Create Payment Object
-                    Card payment = new Card(cardNum, cardHolder, cardExp, cardCVV, bookingArrList.get(j).getEvent().calcFees());
-
-                    //Update payment status, if paid, payment object's attribute "paid" will be true
-                    if (paymentCheck == 'Y') {
-
-                        payment.makePayment();
-                        //since the booking is paid, need to add the event price to totalRevenue
-                        Event.addTotalRevenue(bookingArrList.get(j).getEvent().calcFees());
-
-                    } else if (paymentCheck == 'N') {
-                        payment.pendingPayment();
-                    }
-                    bookingArrList.get(j).setPaymentMethod(payment);
-
-                } else {
-
-                    //amount tendered
-                    System.out.print("\nEnter amount tendered: ");
-                    double amountTendered = s1.nextDouble();
-
-                    //validate amount tendered (only accept >= event.getPrice() or 0) 0 means not yet paid
-                    while ((amountTendered < bookingArrList.get(j).getEvent().calcFees() && amountTendered > 0) || amountTendered < 0) {
-                        s1.nextLine();
-                        System.out.print("\nInvalid input!\n"
-                                + "Enter amount tendered: ");
-                        amountTendered = s1.nextDouble();
-
-                    }
-                    s1.nextLine();
-
-                    //if amount tendered >= event.getPrice(), make the paid, if 0 = pending
-                    if (amountTendered == 0) {
-                        bookingArrList.get(j).getPaymentMethod().pendingPayment();
-                        System.out.println("Payment Not Received.");
-
-                    } else {
-                        //create a new cash object and assign to booking's payment
-                        Cash cash = new Cash(amountTendered, bookingArrList.get(j).getEvent().calcFees());
-                        cash.makePayment();
-                        System.out.println("Change Amount: " + cash.getChangeAmount());
-                        bookingArrList.get(j).setPaymentMethod(cash);
-                        //since the booking is paid, need to add the event price to totalRevenue
-                        Event.addTotalRevenue(bookingArrList.get(j).getEvent().calcFees());
-
-                    }
+                    validBookingID = true;
 
                 }
-                validBookingID = true;
 
+            }
+            if (validBookingID == false) {
+                System.out.println("Invalid booking ID or the booking has been paid!");
             }
 
         }
-        if (validBookingID == false) {
-            System.out.println("Invalid booking ID or the booking has been paid!");
-        }
+
         //go back to previous page
         bookingManagement(bookingArrList);
 
@@ -806,7 +720,7 @@ public class testRun {
 
                 //display the amount to refund
                 if (bookingArrList.get(j).getPaymentMethod().getPaymentStatus().equals("Paid") == true) {
-                    System.out.println("Amount to refund: " + bookingArrList.get(j).getEvent().calcFees() * 0.5);
+                    System.out.println("Amount to refund: RM" + String.format("%.2f", bookingArrList.get(j).getEvent().calcFees() * 0.5));
                 }
 
                 //make payment status = cancelled
@@ -821,7 +735,7 @@ public class testRun {
 
         }
         if (validBookingID == false) {
-            System.out.println("Invalid booking ID or the booking has been paid!");
+            System.out.println("Invalid booking ID!");
         }
         bookingManagement(bookingArrList);
 
@@ -1071,11 +985,168 @@ public class testRun {
 
     public static void updateProductPrice(ArrayList<Booking> bookingArrList, int index, int productNum) {
         Scanner s1 = new Scanner(System.in);
-        System.out.print("Enter product Price: ");
+        System.out.print("Enter product Price: RM");
         double productPrice = s1.nextDouble();
         bookingArrList.get(index).getEvent().getEventProducts().get(productNum - 1).setProductPrice(productPrice);
         System.out.println("Updated Successfully!");
 
+    }
+
+    public static void participantMenu(ArrayList<Booking> bookingArrList, ArrayList<Registration> registrationArrList) {
+        Scanner s1 = new Scanner(System.in);
+        boolean optionVld = true;
+
+        int participantChoice;
+        boolean stayInThisMenu = true;
+
+        do {
+            System.out.println("\n-----Welcome to to participant Menu-----");
+            System.out.println("1.Register For An Event");
+            System.out.println("2.Back");
+            System.out.print("Enter your choice: ");
+            try {
+                participantChoice = s1.nextInt();
+
+                switch (participantChoice) {
+                    case 1:
+                        //Register for an event
+                        registerEvent(bookingArrList, registrationArrList);
+
+                        break;
+                    case 2:
+                        //do nothing to go back to previous menu
+
+                        System.out.println("");
+                        break;
+                    default:
+                        optionVld = false;
+                        System.out.println("Please Enter the Valid Option.");
+
+                }
+            } catch (InputMismatchException inputMismatchException) {
+                optionVld = false;
+                System.out.println("Please Enter Only Integer.");
+                s1.nextLine();
+            }
+        } while (!optionVld);
+
+    }
+
+    public static void registerEvent(ArrayList<Booking> bookingArrList, ArrayList<Registration> registrationArrList) {
+        Scanner s1 = new Scanner(System.in);
+
+        //check if there is any paid event
+        boolean paidEventAvailable = false;
+        for (int i = 0; i < bookingArrList.size(); i++) {
+            //if there is at least an event, break the loop
+            if (paidEventAvailable) {
+                break;
+            } else {
+                if (bookingArrList.get(i).getPaymentMethod().getPaymentStatus().equals("Paid")) {
+                    paidEventAvailable = true;
+
+                }
+
+            }
+
+        }
+        if (paidEventAvailable) {
+
+            //display available events to register
+            //name
+            System.out.print("Enter Name: ");
+            String name = s1.nextLine();
+
+            //ic
+            System.out.print("Enter IC: ");
+            String ic = s1.nextLine();
+            while (Organizer.vldIC(ic) == false) {
+                System.out.print("Invalid IC!\n"
+                        + "Enter IC: ");
+                ic = s1.nextLine();
+            }
+
+            //-phoneNo
+            System.out.print("Enter Phone Number: ");
+            String phoneNo = s1.nextLine();
+            while (Person.vldPhoneNumber(phoneNo) == false) {
+                System.out.print("Invalid Phone Number!\n"
+                        + "Enter Phone Number: ");
+                phoneNo = s1.nextLine();
+            }
+
+            //-Email
+            System.out.print("Enter Email: ");
+            String email = s1.nextLine();
+            while (Person.vldEmail(email) == false) {
+                System.out.print("Invalid address!\n"
+                        + "Enter Email: ");
+                email = s1.nextLine();
+            }
+            //create participant
+            Participant participant = new Participant(name, ic, email, phoneNo);
+
+            Event.viewPaidEvents(bookingArrList);
+
+            boolean validEventid = false;
+            int eventIndex = 0;
+
+            do {
+                //prompt for event id
+                System.out.print("Enter Event ID: ");
+                String eventID = s1.nextLine();
+
+                for (int j = 0; j < bookingArrList.size(); j++) {
+                    if (bookingArrList.get(j).getEvent().getEventID().equals(eventID) == true) {
+                        validEventid = true;
+                        eventIndex = j;
+                    }
+                }
+                if (!validEventid) {
+                    System.out.println("Invalid Event ID!");
+                }
+            } while (!validEventid);
+            Event event = bookingArrList.get(eventIndex).getEvent();
+
+            //choose seats
+            SeatType[] seats = SeatType.values();
+            System.out.println("\nSeat Type:");
+            for (int j = 0; j < seats.length; j++) {
+                System.out.println((j + 1) + ". " + seats[j]);
+            }
+
+            System.out.print("Enter Seat Type (1-" + seats.length + "): ");
+            int seatNum = s1.nextInt();
+            while (vldIntInput(1, seats.length, seatNum) == false) {
+                System.out.print("\nInvalid Input!\n"
+                        + "Enter again: ");
+                seatNum = s1.nextInt();
+            }
+            s1.nextLine();
+            SeatType seatType = seats[seatNum - 1];
+
+            //pay
+            //create payment object
+            Payment payment = payment(seatType.price); //revenue++;
+
+            if (payment.getPaymentStatus().equals("Paid")) {
+                //make registration
+                Registration registration = new Registration(event, participant, payment, seatType);
+                //add to participantArrList of the event
+                bookingArrList.get(eventIndex).getEvent().addParticipant(participant);
+                //add to registrationArrList
+                registrationArrList.add(registration);
+                System.out.println("Registered successfully!");
+                System.out.println(payment);
+            } else {
+                System.out.println("Failed to register!");
+            }
+
+        } else {
+            System.out.println("No event is available for registration!");
+        }
+
+        participantMenu(bookingArrList, registrationArrList);
     }
 
     public static void printAdminList(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList, int loggedInAdmin) throws InterruptedException {
@@ -1098,7 +1169,7 @@ public class testRun {
         adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
     }
 
-    private static void menu(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList) throws InterruptedException {
+    private static void menu(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList, ArrayList<Registration> registrationArrList) throws InterruptedException {
         boolean optionVld = true;
         int loginOrForgot;
         Scanner sc = new Scanner(System.in);
@@ -1113,13 +1184,12 @@ public class testRun {
 
                 switch (loginOrForgot) {
                     case 1:
-                        adminLogin(adminArray, bookingArrList);
+                        adminLogin(adminArray, bookingArrList, registrationArrList);
                         break;
                     case 2:
-                        forgotPassword(adminArray, bookingArrList);
+                        forgotPassword(adminArray, bookingArrList, registrationArrList);
                         break;
                     case 3:
-                        //do nothing to go back to previous menu
                         System.out.println("");
                         break;
                     default:
@@ -1135,7 +1205,7 @@ public class testRun {
         } while (!optionVld);
     }
 
-    public static void adminLogin(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList) throws InterruptedException {
+    public static void adminLogin(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList, ArrayList<Registration> registrationArrList) throws InterruptedException {
         int loggedInAdmin = 0;
         String adminInputAdminID;
         String adminInputPassword;
@@ -1160,10 +1230,10 @@ public class testRun {
             }
             if (loginSuccess) {
                 System.out.println("Login Successfully");
-                adminMenu(adminArray, bookingArrList, loggedInAdmin);
+                adminMenu(adminArray, bookingArrList, registrationArrList, loggedInAdmin);
             } else if (loginSuccess == false && loginCount >= 3) {
                 System.out.println("Wrong Credentials.Auto exit");
-                menu(adminArray, bookingArrList);
+                menu(adminArray, bookingArrList, registrationArrList);
                 System.exit(0);
             } else {
                 System.out.println("Wrong Credentials, Please Try Again.");
@@ -1172,7 +1242,7 @@ public class testRun {
         } while (!loginSuccess);
     }
 
-    public static void adminMenu(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList, int loggedInAdmin) throws InterruptedException {
+    public static void adminMenu(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList, ArrayList<Registration> registrationArrList, int loggedInAdmin) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
         int selection;
         boolean optionVld = true;
@@ -1190,7 +1260,7 @@ public class testRun {
 
                 System.out.println("[1] Admin Profile Management");
                 System.out.println("[2] Event Management");
-                System.out.println("[3] Analytics");
+                System.out.println("[3] Analytics and Reports");
                 System.out.println("[4] Sign Out");
                 System.out.println("[5]Exit");
 
@@ -1206,13 +1276,16 @@ public class testRun {
                             bookingManagement(bookingArrList);
                             break;
                         case 3:
-                            System.out.println("Analytics");
+
+                            analyticsReport(bookingArrList, registrationArrList);
+
                             break;
 
                         case 4:
                             System.out.println("You Are Signed Out.");
+
+                            menu(adminArray, bookingArrList, registrationArrList);
                             staySignedIn = false;
-                            menu(adminArray, bookingArrList);
                             break;
                         case 5:
                             System.exit(0);
@@ -1229,6 +1302,187 @@ public class testRun {
             } while (!optionVld);
 
         }
+
+    }
+
+    public static void analyticsReport(ArrayList<Booking> bookingArrList, ArrayList<Registration> registrationArrList) throws InterruptedException {
+        Scanner scanner = new Scanner(System.in);
+        int selection;
+        boolean optionVld = true;
+        boolean stayThisScreen = true;
+
+        while (stayThisScreen) {
+            do {
+                System.out.println("\n+-----------------------------+");
+                System.out.println("|    Analytics and Reports    |");
+                System.out.println("+---------------------------+");
+                System.out.println("[1] Booking Statistics");
+                System.out.println("[2] Event Registration Report");
+                System.out.println("[3] Revenue");
+                System.out.println("[4] Location-based Analytic");
+                System.out.println("[5] Cancellation Analytic");
+                System.out.println("[6] Payment Analytic");
+                System.out.println("[7] Back");
+
+                System.out.print("Selection: ");
+                try {
+                    selection = scanner.nextInt();
+                    scanner.nextLine();
+                    switch (selection) {
+                        case 1:
+                            //booking statistic
+                            bookingStatistic(bookingArrList);
+
+                            break;
+                        case 2:
+                            //Event Registration Report
+                            eventRegReport(bookingArrList, registrationArrList);
+
+                            break;
+                        case 3:
+                            //Revenue
+                            revenue();
+
+                            break;
+
+                        case 4:
+                            //Location-Based Analytic
+                            locationAnalytic(bookingArrList);
+
+                            break;
+                        case 5:
+                            //cancellation Analytic
+                            cancelAnalytic(bookingArrList);
+
+                            break;
+                        case 6:
+                            paymentAnalytic(bookingArrList);
+                            break;
+                        case 7:
+
+                            stayThisScreen = false;
+
+                            break;
+                        default:
+                            optionVld = false;
+                            System.out.println("Please Enter A Valid Option.");
+                    }
+                } catch (InputMismatchException inputMismatchException) {
+                    optionVld = false;
+                    System.out.println("Please Enter Only Integer.");
+                    scanner.nextLine();
+                }
+            } while (!optionVld);
+
+        }
+
+    }
+
+    public static void bookingStatistic(ArrayList<Booking> bookingArrList) {
+        System.out.println("\n=========================================");
+        System.out.println("             BOOKING STATISTIC           ");
+        System.out.println("=========================================");
+        int phoneCount = 0, carCount = 0;
+
+        for (int i = 0; i < bookingArrList.size(); i++) {
+            if (bookingArrList.get(i).getEvent() instanceof CarEvent) {
+                carCount++;
+            } else {
+                phoneCount++;
+            }
+
+        }
+
+        if (bookingArrList.size() > 0) {
+            System.out.println("Number of Phone Events: " + phoneCount);
+            System.out.println("Number of Car Events: " + carCount);
+            System.out.println("\nPercentage of Phone Events: " + (phoneCount / bookingArrList.size()) * 100 + "%");
+            System.out.println("Percentage of Car Events: " + (carCount / bookingArrList.size()) * 100 + "%");
+
+        } else {
+            System.out.println("\nThere is no event!\n");
+        }
+
+    }
+
+    public static void eventRegReport(ArrayList<Booking> bookingArrList, ArrayList<Registration> registrationArrList) {
+        System.out.println("\n=========================================");
+        System.out.println("            TOTAL REGISTRATIONS        ");
+        System.out.println("=========================================");
+        System.out.println("Total Registrations: " + registrationArrList.size());
+        System.out.printf("%-10s %-15s %-25s\n", "Event ID", "Event Name", "Number of Registrations");
+        for (int i = 0; i < bookingArrList.size(); i++) {
+            System.out.printf("%-10s %-15s %-25s\n", bookingArrList.get(i).getEvent().getEventID(),
+                    bookingArrList.get(i).getEvent().getEventName(), bookingArrList.get(i).getEvent().getParticipantArr().size());
+
+        }
+        if (registrationArrList.size() == 0) {
+            System.out.println("\nThere is no Registration!");
+        }
+        System.out.println("");
+
+    }
+
+    public static void revenue() {
+        System.out.println("\n=========================================");
+        System.out.println("              TOTAL REVENUE        ");
+        System.out.println("=========================================");
+        System.out.println("\nREVENUE: RM" + String.format("%.2f", Event.getTotalRevenue()) + "\n");
+    }
+
+    public static void locationAnalytic(ArrayList<Booking> bookingArrList) {
+
+        int genting = 0, pavilion = 0, midvalley = 0;
+        System.out.println("\n=========================================");
+        System.out.println("         Location-based Analytic        ");
+        System.out.println("=========================================");
+
+        for (int i = 0; i < bookingArrList.size(); i++) {
+            if (bookingArrList.get(i).getEvent().getEventVenue() == VenueType.Genting) {
+                genting++;
+            } else if (bookingArrList.get(i).getEvent().getEventVenue() == VenueType.Pavilion) {
+                pavilion++;
+            } else {
+                midvalley++;
+            }
+        }
+        System.out.println("Number of events at Genting: " + genting);
+        System.out.println("Number of events at Pavilion: " + pavilion);
+        System.out.println("Number of events at Midvalley: " + midvalley + "\n");
+    }
+
+    public static void cancelAnalytic(ArrayList<Booking> bookingArrList) {
+        int cancelCount = 0;
+        System.out.println("\n=========================================");
+        System.out.println("          Cancellation Analytic        ");
+        System.out.println("=========================================");
+
+        for (int i = 0; i < bookingArrList.size(); i++) {
+            if (bookingArrList.get(i).getPaymentMethod().getPaymentStatus().equals("Cancelled")) {
+                cancelCount++;
+
+            }
+        }
+        System.out.println("\nNumber of Cancelled Bookings: " + cancelCount + "\n");
+
+    }
+
+    public static void paymentAnalytic(ArrayList<Booking> bookingArrList) {
+        int cardCount = 0, cashCount = 0;
+        System.out.println("\n=========================================");
+        System.out.println("             Payment Analytic        ");
+        System.out.println("=========================================");
+
+        for (int i = 0; i < bookingArrList.size(); i++) {
+            if (bookingArrList.get(i).getPaymentMethod() instanceof Card) {
+                cardCount++;
+
+            } else {
+                cashCount++;
+            }
+        }
+        System.out.println("\nNumber of Bookings Paid with Card: " + cardCount);
+        System.out.println("Number of Bookings Paid with Cash: " + cashCount + "\n");
 
     }
 
@@ -1264,7 +1518,9 @@ public class testRun {
                         printAdminList(adminArray, bookingArrList, loggedInAdmin);
                         break;
                     case 5:
-                        adminMenu(adminArray, bookingArrList, loggedInAdmin);
+                        //do nothing to go back
+
+                        break;
                     default:
                         optionVld = false;
                         System.out.println("Please Enter the Valid Option.");
@@ -1459,7 +1715,7 @@ public class testRun {
 
     }
 
-    public static void forgotPassword(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList) throws InterruptedException {
+    public static void forgotPassword(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList, ArrayList<Registration> registrationArrList) throws InterruptedException {
         boolean adminIDValid, icValid, passwordValid, confirmPwVld, adminFound;
         String adminID, adminIC, adminPassword, adminPwConfirm;
         Scanner scanner = new Scanner(System.in);
@@ -1476,7 +1732,7 @@ public class testRun {
                     adminIDValid = true;
                 } else if (tryIDCount >= 3) {
                     System.out.println("You keyed in invalid admin ID 3 times, auto back\n");
-                    menu(adminArray, bookingArrList);
+                    menu(adminArray, bookingArrList, registrationArrList);
                 } else {
                     System.out.println("Admin ID must start with capital A and followed by 1 integer eg:A1\n");
                 }
@@ -1492,7 +1748,7 @@ public class testRun {
                     icValid = true;
                 } else if (tryICCount >= 3) {
                     System.out.println("You keyed in invalid IC 3 times, auto back\n");
-                    menu(adminArray, bookingArrList);
+                    menu(adminArray, bookingArrList, registrationArrList);
                 } else {
                     System.out.println("Please Enter A Valid IC.");
                 }
@@ -1533,11 +1789,11 @@ public class testRun {
                             System.out.println("\n---------------------------------------");
                             System.out.println("Your password is changed successfully!");
                             System.out.println("---------------------------------------\n");
-                            menu(adminArray, bookingArrList);
+                            menu(adminArray, bookingArrList, registrationArrList);
 
                         } else if (confirmCount >= 3) {
                             System.out.println("The Password Does Not Match with Previous Input three times,fail to change your password. Auto back\n");
-                            menu(adminArray, bookingArrList);
+                            menu(adminArray, bookingArrList, registrationArrList);
                             System.out.println();
                         } else {
                             System.out.println("The Password Does Not Match with Previous Input\n");

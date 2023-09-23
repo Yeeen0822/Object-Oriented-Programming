@@ -1,4 +1,3 @@
-
 package assignment;
 
 import java.util.regex.Matcher;
@@ -36,9 +35,8 @@ public class Card extends Payment {
         // Check if the cardExp matches the pattern
         return matcher.matches(); // True for valid, false for invalid
     }
-    
-    //validate cardCVV
 
+    //validate cardCVV
     public static boolean vldCardCvv(String cardCVV) {
         // Regular expression for a card CVV
         String cardCVVRegex = "^\\d{3,4}$";
@@ -52,22 +50,15 @@ public class Card extends Payment {
         // Check if the card cvv matches the pattern
         return matcher.matches(); // True for valid, false for invalid
     }
+
     @Override
     public String toString() {
-        System.out.println("+------------------------------+\n");
-        System.out.println("\tRECEIPT\n");
-        System.out.println("+------------------------------+\n");
-        return  "DATE: " + getPaymentDate() + "\n" +
-                "BOOKING ID: " + "\n" +
-                "CARD NUMBER:" + cardNum+ "\n"+
-                "--------------------------------\n" +
-                "TOTAL AMOUNT    : RM " + String.format("%.2f", getPaymentAmount()) + "\n" +
-                "--------------------------------\n" +
-                "\tBOOKING SUCCESSFUL\n" +
-                "--------------------------------";
+        return super.toString() 
+                + "PAYMENT METHOD: CARD\n"
+                + "CARD HOLDER NAME: " + cardHolder
+                + "\n--------------------------------\n"
+                + "\tPAYMENT SUCCESSFUL\n"
+                + "--------------------------------";
     }
-    
-        
- 
 
 }
