@@ -15,14 +15,12 @@ public class Event {
     private String eventName;
     private LocalDate eventDate;
     private LocalTime eventTime;
-    private venueType eventVenue;
-    private decorationType decoration;
+    private VenueType eventVenue;
+    private DecorationType decoration;
     private int promoterNum;
     private ArrayList<Product> eventProducts;
     private ArrayList<Participant> participantArr;
-    private int eventAttendance;
     private static double totalRevenue = 0;
-    private static int eventCount = 0;
 
     public Event() {
 
@@ -31,7 +29,7 @@ public class Event {
     ;
     
     public Event(String eventName, LocalDate eventDate, LocalTime eventTime,
-            venueType eventVenue, decorationType decoration, int promoterNum, ArrayList<Product> eventProducts) {
+            VenueType eventVenue, DecorationType decoration, int promoterNum, ArrayList<Product> eventProducts) {
 
         eventID = "E" + nextEvent++;
         this.eventName = eventName;
@@ -42,8 +40,6 @@ public class Event {
         this.promoterNum = promoterNum;
         this.eventProducts = eventProducts;
         participantArr = new ArrayList<>();
-        eventAttendance = 0;
-        eventCount++;
 
     }
 
@@ -61,11 +57,11 @@ public class Event {
         return eventTime;
     }
 
-    public venueType getEventVenue() {
+    public VenueType getEventVenue() {
         return eventVenue;
     }
 
-    public decorationType getDecoration() {
+    public DecorationType getDecoration() {
         return decoration;
     }
 
@@ -77,12 +73,12 @@ public class Event {
         totalRevenue = totalRevenue - amount;
     }
 
-    public static void addTotalRevenue(double amount) {
-        totalRevenue = totalRevenue + amount;
+    public String getEventID() {
+        return eventID;
     }
 
-    public static int getEventCount() {
-        return eventCount;
+    public static void addTotalRevenue(double amount) {
+        totalRevenue = totalRevenue + amount;
     }
 
     public ArrayList<Product> getEventProducts() {
@@ -91,10 +87,6 @@ public class Event {
 
     public ArrayList<Participant> getParticipantArr() {
         return participantArr;
-    }
-
-    public int getEventAttendance() {
-        return eventAttendance;
     }
 
     public void setEventName(String eventName) {
@@ -109,7 +101,7 @@ public class Event {
         this.eventTime = eventTime;
     }
 
-    public void setEventVenue(venueType eventVenue) {
+    public void setEventVenue(VenueType eventVenue) {
         this.eventVenue = eventVenue;
     }
 
@@ -118,11 +110,15 @@ public class Event {
     }
 
     public double calcFees() {
-        return decoration.price + eventVenue.price;
+        return decoration.price + eventVenue.price + (eventProducts.size() * 100);
     }
 
     public int getPromoterNum() {
         return promoterNum;
+    }
+
+    public void addParticipant(Participant participant) {
+        participantArr.add(participant);
     }
 
     @Override
@@ -152,6 +148,23 @@ public class Event {
 
         }
         return outputAllProducts;
+    }
+
+    public static void viewPaidEvents(ArrayList<Booking> bookingArrList) {
+
+        boolean noPaidEvent = true;
+        System.out.printf("\n%-10s %-15s %-15s %-15s %-15s\n", "Event ID", "Event Name", "Event Date", "Event Time", "Event Venue");
+        for (int j = 0; j < bookingArrList.size(); j++) {
+            if (bookingArrList.get(j).getPaymentMethod().getPaymentStatus().equals("Paid") == true) {
+                noPaidEvent = false;
+                System.out.printf("%-10s %-15s %-15s %-15s %-15s\n", bookingArrList.get(j).getEvent().eventID, bookingArrList.get(j).getEvent().eventName, bookingArrList.get(j).getEvent().eventDate, bookingArrList.get(j).getEvent().eventTime, bookingArrList.get(j).getEvent().eventVenue);
+
+            }
+
+        }
+        if (noPaidEvent) {
+            System.out.println("\nThere is no event available for registration!");
+        }
     }
 
 }

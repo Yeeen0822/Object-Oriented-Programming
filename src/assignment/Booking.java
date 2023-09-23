@@ -57,4 +57,6 @@ public class Booking {
     public String toString(){
         return String.format("%-15s %-15s %-15s %-15s %-15s", bookingNum, getOrganizer().getName(),getOrganizer().getName(), getEvent().getEventName(), getPaymentMethod().getPaymentStatus());
     }
+    
+    
 }

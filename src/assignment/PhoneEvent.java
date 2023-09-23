@@ -18,7 +18,7 @@ public class PhoneEvent extends Event {
     }
 
     public PhoneEvent(int techTalkSession, int demoStation, String eventName, LocalDate eventDate, LocalTime eventTime,
-            venueType eventVenue, decorationType decoration, int promoterNum, ArrayList<Product> eventProducts) {
+            VenueType eventVenue, DecorationType decoration, int promoterNum, ArrayList<Product> eventProducts) {
         super(eventName, eventDate, eventTime, eventVenue, decoration, promoterNum, eventProducts);
         this.techTalkSession = techTalkSession;
         this.demoStation = demoStation;
@@ -26,7 +26,7 @@ public class PhoneEvent extends Event {
 
     @Override
     public double calcFees() {
-        return super.calcFees() + (super.getPromoterNum() * phonePromoterRate);
+        return super.calcFees() + (super.getPromoterNum() * phonePromoterRate) + (techTalkSession * 50 ) + (demoStation *75);
 
     }
 
