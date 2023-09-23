@@ -1,20 +1,18 @@
+
 package assignment;
 
-public class Product {
 
+public class Product {
     private String productName;
     private String productDesc;
     private double productPrice;
-
-    public Product() {
-    }
-
-    ;
-    public Product(String productName, String productDesc, double productPrice) {
+    
+    public Product(){};
+    public Product(String productName, String productDesc, double productPrice){
         this.productName = productName;
         this.productDesc = productDesc;
         this.productPrice = productPrice;
-
+        
     }
 
     public String getProductName() {
@@ -40,12 +38,12 @@ public class Product {
     public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
     }
-
+    
     @Override
-    public String toString() {
-        return "\nProduct Name: " + productName
-                + "\nProduct Description: " + productDesc
-                + "\nProduct Price: RM" + String.format("%.2f", productPrice);
-
+    public String toString(){
+        return "\nProduct Name: " + productName +
+                "\nProduct Description: " + productDesc +
+                "\nProduct Price: " + productPrice; 
+        
     }
 }

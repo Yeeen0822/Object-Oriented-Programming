@@ -19,21 +19,20 @@ public class CarEvent extends Event {
     }
 
     public CarEvent(String carEventTheme, int numTestDriveLocation, String eventName, LocalDate eventDate, LocalTime eventTime,
-            VenueType eventVenue, DecorationType decoration, int promoterNum, ArrayList<Product> eventProducts) {
+            venueType eventVenue, decorationType decoration, int promoterNum, ArrayList<Product> eventProducts) {
         super(eventName, eventDate, eventTime, eventVenue, decoration, promoterNum, eventProducts);
         this.carEventTheme = carEventTheme;
         this.numTestDriveLocation = numTestDriveLocation;
     }
-
+    
     @Override
-    public double calcFees() {
-        //formula to calcFees = DecorationPrice + EventVenuePrice + (Num of products*100) + (Promoter Number * promoterRate) + (numTestDriveLocation * 50)
-        return super.calcFees() + (super.getPromoterNum() * carPromoterRate) + (numTestDriveLocation * 50);
+    public double calcFees(){
+        return super.calcFees() +(super.getPromoterNum() * carPromoterRate);
 
     }
-
+    
     @Override
-    public String toString() {
+    public String toString(){
         return super.toString()
                 + "\nCar Event Theme: " + carEventTheme
                 + "\nNumber Of Test Drive Locations: " + numTestDriveLocation

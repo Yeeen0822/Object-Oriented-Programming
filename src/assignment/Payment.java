@@ -7,18 +7,15 @@ package assignment;
 import java.time.LocalDate;
 
 public class Payment {
-
     private LocalDate paymentDate;
     private double paymentAmount;
     private String paymentStatus;
-
-    public Payment() {
-    }
-
-    public Payment(double paymentAmount) {
+    
+    public Payment(){}
+    public Payment(double paymentAmount){
         paymentDate = LocalDate.now();
-        this.paymentAmount = paymentAmount;
-
+        this.paymentAmount = paymentAmount; 
+        
     }
 
     public LocalDate getPaymentDate() {
@@ -28,32 +25,19 @@ public class Payment {
     public double getPaymentAmount() {
         return paymentAmount;
     }
-
-    public void makePayment() {
+    public void makePayment(){
         paymentStatus = "Paid";
     }
-
-    public void pendingPayment() {
+    public void pendingPayment(){
         paymentStatus = "Pending";
     }
-
-    public void cancelPayment() {
+    public void cancelPayment(){
         paymentStatus = "Cancelled";
     }
 
     public String getPaymentStatus() {
         return paymentStatus;
     }
-
-    @Override   
-    public String toString() {
-        System.out.println("+------------------------------+\n");
-        System.out.println("\tRECEIPT\n");
-        System.out.println("+------------------------------+\n");
-        return "DATE: " + getPaymentDate() + "\n"
-                + "TOTAL AMOUNT    : RM " + String.format("%.2f", getPaymentAmount()) + "\n";
-
-    }
-
-
+    
+    
 }

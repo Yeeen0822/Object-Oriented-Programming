@@ -14,20 +14,16 @@ public class Registration {
     private Event event;
     private Participant participant;
     private Payment payment;
-    private SeatType seatType;
-
+    
     public Registration(){
         
     }
     
-    public Registration(Event event,Participant participant,Payment payment, SeatType seatType){
+    public Registration(Event event,Participant participant){
         this.participant = participant;
         this.event = event;
-        this.seatType = seatType;
-        this.payment = payment;
         regNum = nextRegNum++;
     }
-
     
     
 }
