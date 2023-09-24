@@ -36,8 +36,8 @@ public class testRun {
                             //admin screen
                             menu(adminArray, bookingArrList, registrationArrList);
                             break;
-                        //participant screen
                         case 2:
+                            //participant screen
                             participantMenu(bookingArrList, registrationArrList);
                             break;
                         case 3:
@@ -75,30 +75,38 @@ public class testRun {
     public static void bookingManagement(ArrayList<Booking> bookingArrList) {
 
         Scanner s1 = new Scanner(System.in);
+        int eventChoice;
 
-        System.out.print("\nPlease Choose an Option\n"
-                + "1. Create Event Booking\n"
-                + "2. Update Event Booking\n"
-                + "3. View Event Booking\n"
-                + "4. Search Event Booking\n"
-                + "5. Pay Unpaid Booking\n"
-                + "6. Cancel Event Booking\n"
-                + "7. View Event\n"
-                + "8. Search Event\n"
-                + "9. Back\n"
-                + "Enter your choice: "
-        );
-        int EventChoice = s1.nextInt();
+        do {
+            try {
+                System.out.print("\nPlease Choose an Option\n"
+                        + "1. Create Event Booking\n"
+                        + "2. Update Event Booking\n"
+                        + "3. View Event Booking\n"
+                        + "4. Search Event Booking\n"
+                        + "5. Pay Unpaid Booking\n"
+                        + "6. Cancel Event Booking\n"
+                        + "7. View Event\n"
+                        + "8. Search Event\n"
+                        + "9. Back\n"
+                        + "Enter your choice: ");
 
-        while (EventChoice < 1 || EventChoice > 9) {
-            System.out.print("\nInvalid choice!\n"
-                    + "Enter a valid choice: ");
-            EventChoice = s1.nextInt();
-        }
-        s1.nextLine();
+                eventChoice = s1.nextInt();
+                s1.nextLine(); // Consume the newline character left in the input buffer
+
+                if (eventChoice < 1 || eventChoice > 9) {
+                    System.out.println("\nPlease Enter the Valid Option.");
+                }
+            } catch (InputMismatchException e) {
+                // Handle the exception (non-integer input)
+                System.out.println("\nPlease Enter Only Integer!");
+                s1.nextLine(); // Consume the invalid input
+                eventChoice = -1; // Set an invalid value to loop again
+            }
+        } while (eventChoice < 1 || eventChoice > 9);
 
         //switch to event screen
-        switch (EventChoice) {
+        switch (eventChoice) {
             //-----------------------------Create Event Booking-----------------------------------
             case 1: {
                 createEventBooking(bookingArrList);
@@ -513,7 +521,7 @@ public class testRun {
     public static void viewEvent(ArrayList<Booking> bookingArrList) {
 
         if (bookingArrList.size() == 0) {
-            System.out.println("There is no event!");
+            System.out.println("\nThere is no event!");
         } else {
             System.out.println("================EVENT LIST=====================");
             for (int j = 0; j < bookingArrList.size(); j++) {
@@ -923,13 +931,19 @@ public class testRun {
     }
 
     public static void viewBookings(ArrayList<Booking> bookingArrList) {
+        if (bookingArrList.size() == 0) {
+            System.out.println("\nThere is no booking!");
 
-        System.out.printf("\n%-15s %-15s %-15s %-15s %-15s\n", "Booking Number", "Organizer Name", "Company Name", "Event Name", "Payment Status");
-        for (int j = 0; j < bookingArrList.size(); j++) {
-            System.out.println(bookingArrList.get(j));
+        } else {
+            System.out.printf("\n%-15s %-15s %-15s %-15s %-15s\n", "Booking Number", "Organizer Name", "Company Name", "Event Name", "Payment Status");
+            for (int j = 0; j < bookingArrList.size(); j++) {
+                System.out.println(bookingArrList.get(j));
+
+            }
+            System.out.println("");
 
         }
-        System.out.println("");
+
         bookingManagement(bookingArrList);
 
     }
