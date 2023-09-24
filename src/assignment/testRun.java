@@ -192,73 +192,74 @@ public class testRun {
         Scanner s1 = new Scanner(System.in);
 
         if (bookingArrList.size() == 0) {
-            System.out.println("\nThere is no booking yet!");
+            System.out.println("\nThere is no booking!");
         } else {
 
-            System.out.println("\nSelect which event booking to update");
-            System.out.print("Enter Booking ID (999 to exit): ");
-            int bookingNum = s1.nextInt();
+            boolean validInput = false;
+            do {
+                System.out.println("\nSelect which event booking to update");
+                System.out.print("Enter Booking Number (999 to exit): ");
+                int bookingNum = s1.nextInt();
+                if (bookingNum != 999) {
+                    for (int j = 0; j < bookingArrList.size(); j++) {
 
-            boolean validBookingID = false;
+                        if (bookingNum == bookingArrList.get(j).getBookingNum()) {
+                            validInput = true;
+                            int updateChoice;
+                            boolean stayOnUpdateEventBooking = true;
 
-            if (bookingNum != 999) {
-                for (int j = 0; j < bookingArrList.size(); j++) {
-
-                    if (bookingNum == bookingArrList.get(j).getBookingNum()) {
-                        validBookingID = true;
-                        int updateChoice;
-                        boolean stayOnUpdateEventBooking = true;
-
-                        //always stay on updateEventBooking for the entered bookingNum
-                        while (stayOnUpdateEventBooking) {
-                            System.out.println("\n-------------------------"
-                                    + "\nBooking Number: " + bookingNum
-                                    + "\n-------------------------");
-                            System.out.print("Please Choose an Option\n"
-                                    + "1. Update Event Name\n"
-                                    + "2. Update Event Date\n"
-                                    + "3. Update Event Time\n"
-                                    + "4. Update Event Products\n"
-                                    + "5. Back\n"
-                                    + "Enter your choice: "
-                            );
-                            updateChoice = s1.nextInt();
-
-                            while (updateChoice < 1 || updateChoice > 5) {
-                                s1.nextLine();
-                                System.out.print("\nInvalid choice!\n"
-                                        + "Enter a valid choice: ");
+                            //always stay on updateEventBooking for the entered bookingNum
+                            while (stayOnUpdateEventBooking) {
+                                System.out.println("\n-------------------------"
+                                        + "\nBooking Number: " + bookingNum
+                                        + "\n-------------------------");
+                                System.out.print("Please Choose an Option\n"
+                                        + "1. Update Event Name\n"
+                                        + "2. Update Event Date\n"
+                                        + "3. Update Event Time\n"
+                                        + "4. Update Event Products\n"
+                                        + "5. Back\n"
+                                        + "Enter your choice: "
+                                );
                                 updateChoice = s1.nextInt();
-                            }
-                            s1.nextLine();
-                            switch (updateChoice) {
-                                // 1: update event name
-                                case 1: {
 
-                                    updateEventName(bookingArrList, j);
+                                while (updateChoice < 1 || updateChoice > 5) {
+                                    s1.nextLine();
+                                    System.out.print("\nInvalid choice!\n"
+                                            + "Enter a valid choice: ");
+                                    updateChoice = s1.nextInt();
+                                }
+                                s1.nextLine();
+                                switch (updateChoice) {
+                                    // 1: update event name
+                                    case 1: {
 
-                                    break;
-                                }
-                                // 2: update event date
-                                case 2: {
+                                        updateEventName(bookingArrList, j);
 
-                                    updateEventDate(bookingArrList, j);
+                                        break;
+                                    }
+                                    // 2: update event date
+                                    case 2: {
 
-                                    break;
-                                }
-                                // 3: update event time
-                                case 3: {
-                                    updateEventTime(bookingArrList, j);
-                                    break;
-                                }
-                                // 4: update event products
-                                case 4: {
-                                    updateEventProduct(bookingArrList, j);
-                                    break;
-                                }
-                                // 5: back
-                                default: {
-                                    stayOnUpdateEventBooking = false;
+                                        updateEventDate(bookingArrList, j);
+
+                                        break;
+                                    }
+                                    // 3: update event time
+                                    case 3: {
+                                        updateEventTime(bookingArrList, j);
+                                        break;
+                                    }
+                                    // 4: update event products
+                                    case 4: {
+                                        updateEventProduct(bookingArrList, j);
+                                        break;
+                                    }
+                                    // 5: back
+                                    default: {
+                                        stayOnUpdateEventBooking = false;
+
+                                    }
 
                                 }
 
@@ -267,13 +268,15 @@ public class testRun {
                         }
 
                     }
+                    if (validInput == false) {
+                        System.out.println("Invalid booking Number!");
+                    }
 
-                }
-                if (validBookingID == false) {
-                    System.out.println("Invalid booking ID!");
+                } else {
+                    break;
                 }
 
-            }
+            } while (!validInput);
 
         }
 
@@ -426,18 +429,18 @@ public class testRun {
         DecorationType decorationType = decoration[eventDecorationNum - 1];
 
         //-num of promoter
-        System.out.print("\nEnter number of promoters: ");
+        System.out.print("\nEnter Number of Promoters: ");
         int promoterNum = s1.nextInt();
         s1.nextLine();
 
         //-ArrayList<Product> products
         ArrayList<Product> productArrList = new ArrayList<>();
-        System.out.print("Enter the number of products: ");
+        System.out.print("Enter The Number of Products: ");
         int productNum = s1.nextInt();
 
         for (int j = 0; j < productNum; j++) {
             s1.nextLine();
-            System.out.println("Enter product details for product " + (j + 1) + ":");
+            System.out.println("Enter Product Details For Product " + (j + 1) + ":");
             //prod name
             System.out.print("Enter Product Name: ");
             String prodName = s1.nextLine();
@@ -458,12 +461,12 @@ public class testRun {
         //phoneEvent prompts and create phoneEvent
         if (eventOption == 1) {
             //techTalkSession
-            System.out.print("Enter the number of tech talk sessions: ");
+            System.out.print("Enter The Number of Tech Talk Sessions: ");
             int techTalkSession = s1.nextInt();
             s1.nextLine();
 
             //demoStation
-            System.out.print("Enter the number of demo stations: ");
+            System.out.print("Enter The Number of Demo Stations: ");
             int demoStation = s1.nextInt();
             s1.nextLine();
 
@@ -472,11 +475,11 @@ public class testRun {
         } //carEvent prompts and create carEvent
         else {
             //carEventTheme
-            System.out.print("Enter the car event theme: ");
+            System.out.print("Enter The Car Event Theme: ");
             String carEventTheme = s1.nextLine();
 
             //numTestDriveLocation
-            System.out.print("Enter the number of test drive locations: ");
+            System.out.print("Enter The Number of Test Drive Locations: ");
             int numTestDriveLocation = s1.nextInt();
             s1.nextLine();
             //create CarEvent object
@@ -556,7 +559,7 @@ public class testRun {
             } else {
                 viewUnpaidBooking(bookingArrList);
                 System.out.println("\n\nSelect which booking to pay");
-                System.out.print("Enter Booking ID (999 to exit): ");
+                System.out.print("Enter Booking Number (999 to exit): ");
                 int bookingNum = s1.nextInt();
                 if (bookingNum == 999) {
                     //do nothing and go back to bookingManagement
@@ -578,7 +581,7 @@ public class testRun {
 
                     }
                     if (validBookingID == false) {
-                        System.out.println("Invalid booking ID or the booking has been paid!");
+                        System.out.println("Invalid booking number or the booking has been paid!");
                     }
 
                 }
@@ -628,30 +631,37 @@ public class testRun {
         boolean inputEventName = false;
         Scanner sc = new Scanner(System.in);
 
-        do {
-            System.out.print("Enter Event Name (Enter 999 to exit):");
-            eventName = sc.nextLine();
+        if (bookingArrList.size() == 0) {
+            System.out.println("\nThere is no event!");
 
-            if (eventName.equals("999")) {
-                break;
-            } else {
+        } else {
+            do {
+                System.out.print("Enter Event Name (Enter 999 to exit):");
+                eventName = sc.nextLine();
 
-                for (int i = 0; i < bookingArrList.size(); i++) {
-                    if (eventName.equals(bookingArrList.get(i).getEvent().getEventName())) {
-                        inputEventName = true;
-                        System.out.println(bookingArrList.get(i).getEvent());
-                        System.out.println("\n===============================================");
+                if (eventName.equals("999")) {
+                    break;
+                } else {
 
-                        break;
+                    for (int i = 0; i < bookingArrList.size(); i++) {
+                        if (eventName.equals(bookingArrList.get(i).getEvent().getEventName())) {
+                            inputEventName = true;
+                            System.out.println(bookingArrList.get(i).getEvent());
+                            System.out.println("\n===============================================");
+
+                            break;
+                        }
                     }
-                }
-                if (!inputEventName) {
-                    System.out.println("Event Not Found!");
+                    if (!inputEventName) {
+                        System.out.println("Event Not Found!");
+                    }
+
                 }
 
-            }
+            } while (!inputEventName);
 
-        } while (!inputEventName);
+        }
+
         bookingManagement(bookingArrList);
     }
 
@@ -768,35 +778,66 @@ public class testRun {
     public static void cancelBooking(ArrayList<Booking> bookingArrList) {
         Scanner s1 = new Scanner(System.in);
 
-        viewCancelledBookings(bookingArrList);
+        if (bookingArrList.size() == 0) {
+            System.out.println("\nThere is no booking!");
+        } else {
 
-        System.out.println("\n\nSelect which booking to cancel");
-        System.out.print("Enter Booking ID: ");
-        int bookingID = s1.nextInt();
-        boolean validBookingID = false;
-        for (int j = 0; j < bookingArrList.size(); j++) {
-            if (bookingID == bookingArrList.get(j).getBookingNum() && bookingArrList.get(j).getPaymentMethod().getPaymentStatus().equals("Cancelled") == false) {
-
-                //display the amount to refund
-                if (bookingArrList.get(j).getPaymentMethod().getPaymentStatus().equals("Paid") == true) {
-                    System.out.println("Amount to refund: RM " + String.format("%.2f", bookingArrList.get(j).getEvent().calcFees() * 0.5));
-                    System.out.println("Refund will be proceeded in 3 working days");
+            //only proceed if there is a paid or pending 
+            int pendingPaidCount = 0;
+            for (int j = 0; j < bookingArrList.size(); j++) {
+                if (bookingArrList.get(j).getPaymentMethod().getPaymentStatus().equals("Cancelled") == false) {
+                    pendingPaidCount++;
+                    break;
                 }
 
-                //make payment status = cancelled
-                bookingArrList.get(j).getPaymentMethod().cancelPayment();
+            }
+            if (pendingPaidCount == 0) {
+                System.out.println("\nThere is no booking available to cancel!");
 
-                //deduct totalRevenue with 50% of event price and refund the other 50% 
-                Event.deductTotalRevenue(bookingArrList.get(j).getEvent().calcFees() * 0.5);
+            } else {
+                boolean validBookingID = false;
+                int bookingID;
+                viewPaidPendingBookings(bookingArrList);
 
-                validBookingID = true;
+                do {
+                    System.out.println("\nSelect which booking to cancel");
+                    System.out.print("Enter Booking Number (Enter 999 to exit): ");
+                    bookingID = s1.nextInt();
+
+                    if (bookingID != 999) {
+                        for (int j = 0; j < bookingArrList.size(); j++) {
+                            if (bookingID == bookingArrList.get(j).getBookingNum() && bookingArrList.get(j).getPaymentMethod().getPaymentStatus().equals("Cancelled") == false) {
+
+                                //display the amount to refund
+                                if (bookingArrList.get(j).getPaymentMethod().getPaymentStatus().equals("Paid") == true) {
+                                    System.out.println("Amount to refund: RM " + String.format("%.2f", bookingArrList.get(j).getEvent().calcFees() * 0.5));
+                                    System.out.println("Refund will be proceeded in 3 working days.");
+                                    //deduct totalRevenue with 50% of event price and refund the other 50% 
+                                    Event.deductTotalRevenue(bookingArrList.get(j).getEvent().calcFees() * 0.5);
+                                }
+
+                                //make payment status = cancelled
+                                bookingArrList.get(j).getPaymentMethod().cancelPayment();
+
+                                validBookingID = true;
+
+                            }
+
+                        }
+                        if (validBookingID == false) {
+                            System.out.println("Invalid booking number!");
+                        }
+
+                    } else {
+                        break;
+                    }
+
+                } while (!validBookingID);
 
             }
 
         }
-        if (validBookingID == false) {
-            System.out.println("Invalid booking ID!");
-        }
+
         bookingManagement(bookingArrList);
 
     }
@@ -984,7 +1025,7 @@ public class testRun {
 
     }
 
-    public static void viewCancelledBookings(ArrayList<Booking> bookingArrList) {
+    public static void viewPaidPendingBookings(ArrayList<Booking> bookingArrList) {
         //show all bookings except bookings that have Cancelled paymentStatus
         System.out.printf("\n%-15s %-15s %-15s %-15s %-15s\n", "Booking Number", "Organizer Name", "Company Name", "Event Name", "Payment Status");
 
