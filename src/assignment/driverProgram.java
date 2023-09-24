@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class testRun {
+public class driverProgram {
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -1440,6 +1440,7 @@ public class testRun {
                         case 7:
 
                             stayThisScreen = false;
+                            optionVld = true;
 
                             break;
                         default:
