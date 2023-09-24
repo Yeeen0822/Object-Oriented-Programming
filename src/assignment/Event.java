@@ -4,8 +4,10 @@
  */
 package assignment;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Event {
@@ -123,10 +125,11 @@ public class Event {
 
     @Override
     public String toString() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         return "==============================================="
                 + "\n\nEvent ID: " + eventID
                 + "\nEvent Name: " + eventName
-                + "\nEvent Date: " + eventDate
+                + "\nEvent Date: " + eventDate.format(dateFormatter)
                 + "\nEvent Time: " + eventTime
                 + "\nEvent Event Venue: " + eventVenue
                 + "\nEvent Event Decoration: " + decoration
@@ -151,13 +154,14 @@ public class Event {
     }
 
     public static void viewPaidEvents(ArrayList<Booking> bookingArrList) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         boolean noPaidEvent = true;
         System.out.printf("\n%-10s %-15s %-15s %-15s %-15s\n", "Event ID", "Event Name", "Event Date", "Event Time", "Event Venue");
         for (int j = 0; j < bookingArrList.size(); j++) {
             if (bookingArrList.get(j).getPaymentMethod().getPaymentStatus().equals("Paid") == true) {
                 noPaidEvent = false;
-                System.out.printf("%-10s %-15s %-15s %-15s %-15s\n", bookingArrList.get(j).getEvent().eventID, bookingArrList.get(j).getEvent().eventName, bookingArrList.get(j).getEvent().eventDate, bookingArrList.get(j).getEvent().eventTime, bookingArrList.get(j).getEvent().eventVenue);
+                System.out.printf("%-10s %-15s %-15s %-15s %-15s\n", bookingArrList.get(j).getEvent().eventID, bookingArrList.get(j).getEvent().eventName, bookingArrList.get(j).getEvent().eventDate.format(dateFormatter), bookingArrList.get(j).getEvent().eventTime, bookingArrList.get(j).getEvent().eventVenue);
 
             }
 

@@ -26,8 +26,8 @@ public class Cash extends Payment {
     public String toString() {
         return super.toString()
                 + "PAYMENT METHOD: CASH\n"
-                + "AMOUNT TENDERED: RM" + String.format("%.2f", amountTendered) + "\n"
-                + "CHANGE AMOUNT: RM" + String.format("%.2f", changeAmount) + "\n"
+                + "AMOUNT TENDERED: RM " + String.format("%.2f", amountTendered) + "\n"
+                + "CHANGE AMOUNT: RM " + String.format("%.2f", changeAmount) + "\n"
                 + "--------------------------------\n"
                 + "\tPAYMENT SUCCESSFUL\n"
                 + "--------------------------------";

@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -90,7 +91,7 @@ public class testRun {
         );
         int EventChoice = s1.nextInt();
 
-        while (vldIntInput(1, 9, EventChoice) == false) {
+        while (EventChoice < 1 || EventChoice > 9) {
             System.out.print("\nInvalid choice!\n"
                     + "Enter a valid choice: ");
             EventChoice = s1.nextInt();
@@ -195,7 +196,7 @@ public class testRun {
                         );
                         updateChoice = s1.nextInt();
 
-                        while (vldIntInput(1, 5, updateChoice) == false) {
+                        while (updateChoice < 1 || updateChoice > 5) {
                             s1.nextLine();
                             System.out.print("\nInvalid choice!\n"
                                     + "Enter a valid choice: ");
@@ -298,7 +299,7 @@ public class testRun {
                 + "2.Car Event");
         System.out.print("Enter an option (1-2): ");
         int eventOption = s1.nextInt();
-        while (vldIntInput(1, 2, eventOption) == false) {
+        while (eventOption < 1 || eventOption > 2) {
             System.out.print("\nInvalid Input!\n"
                     + "Enter again: ");
             eventOption = s1.nextInt(); // 1 = phone Event, 2 = car event
@@ -369,7 +370,7 @@ public class testRun {
 
         System.out.print("Enter Event Venue (1-" + venues.length + "): ");
         int eventVenueNum = s1.nextInt();
-        while (vldIntInput(1, venues.length, eventVenueNum) == false) {
+        while (eventVenueNum < 1 || eventVenueNum > venues.length) {
             System.out.print("\nInvalid Input!\n"
                     + "Enter again: ");
             eventVenueNum = s1.nextInt();
@@ -386,7 +387,7 @@ public class testRun {
 
         System.out.print("Enter Event Decoration (1-" + decoration.length + "): ");
         int eventDecorationNum = s1.nextInt();
-        while (vldIntInput(1, decoration.length, eventDecorationNum) == false) {
+        while (eventDecorationNum < 1 || eventDecorationNum > decoration.length) {
             System.out.print("\nInvalid Input!\n"
                     + "Enter again: ");
             eventDecorationNum = s1.nextInt();
@@ -571,7 +572,7 @@ public class testRun {
                 + "2. Cash\n"
                 + "Select a Payment Option (1-2): ");
         int paymentNum = s1.nextInt();
-        while (vldIntInput(1, 2, paymentNum) == false) {
+        while (paymentNum < 1 || paymentNum > 2) {
             System.out.print("\nInvalid Input!\n"
                     + "Enter again: ");
             paymentNum = s1.nextInt();
@@ -591,11 +592,11 @@ public class testRun {
             String cardHolder = s1.nextLine();
 
             //cardExp
-            System.out.print("Enter Card Expiry Date: ");
+            System.out.print("Enter Card Expiry Date eg.(12/30): ");
             String cardExp = s1.nextLine();
             while (Card.vldCardExp(cardExp) == false) {
                 System.out.print("Invalid Card Expiry Date!\n"
-                        + "Enter Card Expiry Date eg(12/30): ");
+                        + "Enter Card Expiry Date eg.(12/30): ");
                 cardExp = s1.nextLine();
             }
 
@@ -638,14 +639,14 @@ public class testRun {
         } else {
 
             //amount tendered
-            System.out.print("\nEnter amount tendered: RM");
+            System.out.print("\nEnter amount tendered: RM ");
             double amountTendered = s1.nextDouble();
 
             //validate amount tendered (only accept >= event.getPrice() or 0) 0 means not yet paid
             while ((amountTendered < amountToPay && amountTendered > 0) || amountTendered < 0) {
                 s1.nextLine();
                 System.out.print("\nInvalid input!\n"
-                        + "Enter amount tendered: RM");
+                        + "Enter amount tendered: RM ");
                 amountTendered = s1.nextDouble();
 
             }
@@ -661,8 +662,7 @@ public class testRun {
 
             } else {
                 payment.makePayment();
-                //Display changeAmount                                                  
-                System.out.println("Change Amount: RM" + String.format("%.2f", payment.getChangeAmount()));
+
                 Event.addTotalRevenue(amountToPay);
 
                 System.out.println(payment);
@@ -720,7 +720,7 @@ public class testRun {
 
                 //display the amount to refund
                 if (bookingArrList.get(j).getPaymentMethod().getPaymentStatus().equals("Paid") == true) {
-                    System.out.println("Amount to refund: RM" + String.format("%.2f", bookingArrList.get(j).getEvent().calcFees() * 0.5));
+                    System.out.println("Amount to refund: RM " + String.format("%.2f", bookingArrList.get(j).getEvent().calcFees() * 0.5));
                 }
 
                 //make payment status = cancelled
@@ -850,7 +850,7 @@ public class testRun {
                         + "\n4. Back");
                 System.out.print("Enter your choice (1-4): ");
                 int updateChoice = s1.nextInt();
-                while (vldIntInput(1, 4, updateChoice) == false) {
+                while (updateChoice < 1 || updateChoice > 4) {
                     s1.nextLine();
                     System.out.println("Invalid input!");
                     System.out.print("Enter your choice (1-4): ");
@@ -913,7 +913,7 @@ public class testRun {
         int adminChoice = s1.nextInt();
 
         //validate admin input
-        while (vldIntInput(1, 4, adminChoice) == false) {
+        while (adminChoice < 1 || adminChoice > 4) {
             s1.nextLine();
             System.out.print("\nInvalid choice!\n"
                     + "Enter a valid choice: ");
@@ -922,22 +922,6 @@ public class testRun {
         s1.nextLine();
         return adminChoice;
 
-    }
-
-    public static boolean vldIntInput(int min, int max, int input) {
-        if (input > max || input < min) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public static void printAdminList(Admin[] adminArray) {
-        System.out.printf("%-10s %-20s %-15s %-20s %-15s\n", "Admin ID", "Name", "IC", "Phone Number", "Email");
-
-        for (Admin adminprint : adminArray) {
-            System.out.println(adminprint);
-        }
     }
 
     public static void viewBookings(ArrayList<Booking> bookingArrList) {
@@ -985,7 +969,7 @@ public class testRun {
 
     public static void updateProductPrice(ArrayList<Booking> bookingArrList, int index, int productNum) {
         Scanner s1 = new Scanner(System.in);
-        System.out.print("Enter product Price: RM");
+        System.out.print("Enter product Price: RM ");
         double productPrice = s1.nextDouble();
         bookingArrList.get(index).getEvent().getEventProducts().get(productNum - 1).setProductPrice(productPrice);
         System.out.println("Updated Successfully!");
@@ -1117,7 +1101,7 @@ public class testRun {
 
             System.out.print("Enter Seat Type (1-" + seats.length + "): ");
             int seatNum = s1.nextInt();
-            while (vldIntInput(1, seats.length, seatNum) == false) {
+            while (seatNum < 1 || seatNum > seats.length) {
                 System.out.print("\nInvalid Input!\n"
                         + "Enter again: ");
                 seatNum = s1.nextInt();
@@ -1156,16 +1140,19 @@ public class testRun {
             System.out.println("You are not admin manager.");
             System.out.println("You dont have this priviledge.");
             System.out.println("---------------------------------");
-            adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
+
+        } else {
+
+            System.out.println("                                           Admins' Profiles                                                    ");
+            System.out.println("---------------------------------------------------------------------------------------------------------------");
+            System.out.printf("%-10s%-20s%-15s%-30s%-15s\n", "Admin ID", "Name", "IC", "Email", "Phone Number");
+            for (int i = 0; i < adminArray.size(); i++) {
+                System.out.printf("%-10s%-20s%-15s%-30s%-15s\n", adminArray.get(i).getAdminID(), adminArray.get(i).getName(), adminArray.get(i).getIC(), adminArray.get(i).getEmail(), adminArray.get(i).getPhoneNo());
+            }
+            System.out.println("---------------------------------------------------------------------------------------------------------------");
+
         }
 
-        System.out.println("                                           Admins' Profiles                                                    ");
-        System.out.println("---------------------------------------------------------------------------------------------------------------");
-        System.out.printf("%-10s%-20s%-15s%-30s%-15s\n", "Admin ID", "Name", "IC", "Email", "Phone Number");
-        for (int i = 0; i < adminArray.size(); i++) {
-            System.out.printf("%-10s%-20s%-15s%-30s%-15s\n", adminArray.get(i).getAdminID(), adminArray.get(i).getName(), adminArray.get(i).getIC(), adminArray.get(i).getEmail(), adminArray.get(i).getPhoneNo());
-        }
-        System.out.println("---------------------------------------------------------------------------------------------------------------");
         adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
     }
 
@@ -1418,8 +1405,23 @@ public class testRun {
         }
         if (registrationArrList.size() == 0) {
             System.out.println("\nThere is no Registration!");
+        } else {
+            Collections.sort(registrationArrList);
+            listRegistration(registrationArrList);
+
         }
         System.out.println("");
+
+    }
+
+    public static void listRegistration(ArrayList<Registration> registrationArrList) {
+        System.out.println("\n=========================================");
+        System.out.println("            REGISTRATION LIST        ");
+        System.out.println("=========================================\n");
+        System.out.printf("%-20s %-15s %-20s %-15s %-15s %-10s\n", "Name", "IC", "Email", "Phone No", "Event Name", "Seat Type");
+        for (int i = 0; i < registrationArrList.size(); i++) {
+            System.out.println(registrationArrList.get(i));
+        }
 
     }
 
@@ -1427,7 +1429,7 @@ public class testRun {
         System.out.println("\n=========================================");
         System.out.println("              TOTAL REVENUE        ");
         System.out.println("=========================================");
-        System.out.println("\nREVENUE: RM" + String.format("%.2f", Event.getTotalRevenue()) + "\n");
+        System.out.println("\nREVENUE: RM " + String.format("%.2f", Event.getTotalRevenue()) + "\n");
     }
 
     public static void locationAnalytic(ArrayList<Booking> bookingArrList) {
@@ -1499,7 +1501,6 @@ public class testRun {
             System.out.println("[3] Register new admin's profile (Manager priviledge)");
             System.out.println("[4] View all admins' profiles (Manager priviledge)");
             System.out.println("[5] Back");
-
             System.out.print("Selection: ");
             try {
                 selection = scanner.nextInt();
@@ -1518,7 +1519,7 @@ public class testRun {
                         printAdminList(adminArray, bookingArrList, loggedInAdmin);
                         break;
                     case 5:
-                        //do nothing to go back
+                        optionVld = true;
 
                         break;
                     default:
@@ -1594,7 +1595,7 @@ public class testRun {
 
         while (Person.vldEmail(newEmail) == false) {
             System.out.print("Invalid Email!");
-            System.out.print("Please enter a valid Email:");
+            System.out.print("\nPlease enter a valid Email:");
             newEmail = sc.nextLine();
         }
         adminArray.get(loggedInAdmin).setEmail(newEmail);
@@ -1610,8 +1611,8 @@ public class testRun {
         String newPhoneNo = sc.nextLine();
 
         while (Person.vldPhoneNumber(newPhoneNo) == false) {
-            System.out.print("Invalid! Phone Number must be starting with \"01\" followed by 8 digits");
-            System.out.print("Please enter a valid phone number");
+            System.out.print("Invalid! Phone Number must be starting with \"01\" followed by 8 digits.");
+            System.out.print("\nPlease enter a valid phone number: ");
             newPhoneNo = sc.nextLine();
         }
         adminArray.get(loggedInAdmin).setPhoneNo(newPhoneNo);
@@ -1630,89 +1631,84 @@ public class testRun {
             System.out.println("You are not admin manager.");
             System.out.println("You dont have this priviledge.");
             System.out.println("---------------------------------");
-            adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
+        } else {
+            System.out.println("\n----------------------");
+            System.out.println("New Admin Registration");
+            System.out.println("----------------------\n");
+            System.out.print("Enter new admin's name: ");
+            adminName = scanner.nextLine();
+
+            do {
+                System.out.print("Enter new admin's IC (eg:030922101245) : ");
+                adminIC = scanner.nextLine();
+                if (Person.vldIC(adminIC)) {
+                    icValid = true;
+                } else {
+                    System.out.println("Please Enter A Valid IC.");
+                }
+            } while (!icValid);
+
+            do {
+                System.out.print("Enter new admin's Email: ");
+                adminEmail = scanner.next();
+                scanner.nextLine();
+                if (Person.vldEmail(adminEmail)) {
+                    emailValid = true;
+                } else {
+                    System.out.println("Please Enter A Valid Email.");
+                }
+            } while (!emailValid);
+
+            do {
+                System.out.print("Enter new admin's phone number eg:0123456789: ");
+                adminPhoneNo = scanner.nextLine();
+
+                if (Person.vldPhoneNumber(adminPhoneNo)) {
+                    phoneNoValid = true;
+                } else {
+                    System.out.println("Phone Number must be starting with \"01\" followed by 8 digits ");
+                }
+            } while (!phoneNoValid);
+
+            System.out.println("\n--------------------------");
+            System.out.println("Assigned Admin ID :A" + Admin.getAdminCount());
+            System.out.println("--------------------------\n");
+
+            do {
+                System.out.print("Enter new admin's password: ");
+                adminPassword = scanner.nextLine();
+
+                if (Admin.vldPassword(adminPassword)) {
+                    passwordValid = true;
+                } else {
+                    System.out.println("Password Must Include Alphabet, Number and At Least 6 Characters.");
+                }
+            } while (!passwordValid);
+
+            int confirmCount = 0;
+            do {
+                System.out.print("Confirm Password: ");
+                adminPwConfirm = scanner.nextLine();
+                confirmCount++;
+                if (adminPwConfirm.equals(adminPassword)) {
+                    confirmPwVld = true;
+                } else if (confirmCount >= 3) {
+                    System.out.println("The password does not match with previous input,failed to sign up new admin\n");
+                    adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
+                    System.out.println();
+                } else {
+                    System.out.println("The password does not match with previous input.");
+                }
+            } while (!confirmPwVld);
+
+            Admin newAdmin = new Admin(adminName, adminIC, adminEmail, adminPhoneNo, adminPassword);
+            adminArray.add(newAdmin);
+            System.out.println("\n----------------------------------");
+            System.out.println("Register a new admin successfully!");
+            System.out.println("----------------------------------");
+
         }
-        System.out.println("\n----------------------");
-        System.out.println("New Admin Registration");
-        System.out.println("----------------------\n");
-        System.out.print("Enter new admin's name: ");
-        adminName = scanner.nextLine();
-
-        do {
-            System.out.print("Enter new admin's IC (eg:030922101245) : ");
-            adminIC = scanner.nextLine();
-            if (Person.vldIC(adminIC)) {
-                icValid = true;
-            } else {
-                System.out.println("Please Enter A Valid IC.");
-                System.out.println();
-            }
-        } while (!icValid);
-
-        do {
-            System.out.print("Enter new admin's Email: ");
-            adminEmail = scanner.next();
-            scanner.nextLine();
-            if (Person.vldEmail(adminEmail)) {
-                emailValid = true;
-            } else {
-                System.out.println("Please Enter A Valid Email.");
-                System.out.println();
-            }
-        } while (!emailValid);
-
-        do {
-            System.out.print("Enter new admin's phone number eg:0123456789: ");
-            adminPhoneNo = scanner.nextLine();
-
-            if (Person.vldPhoneNumber(adminPhoneNo)) {
-                phoneNoValid = true;
-            } else {
-                System.out.println("Phone Number must be starting with \"01\" followed by 8 digits ");
-                System.out.println();
-            }
-        } while (!phoneNoValid);
-
-        System.out.println("\n--------------------------");
-        System.out.println("Assigned Admin ID :A" + Admin.getAdminCount());
-        System.out.println("--------------------------\n");
-
-        do {
-            System.out.print("Enter new admin's password: ");
-            adminPassword = scanner.nextLine();
-
-            if (Admin.vldPassword(adminPassword)) {
-                passwordValid = true;
-            } else {
-                System.out.println("Password Must Include Alphabet, Number and At Least 6 Characters.");
-                System.out.println();
-            }
-        } while (!passwordValid);
-
-        int confirmCount = 0;
-        do {
-            System.out.print("Confirm Password: ");
-            adminPwConfirm = scanner.next();
-            scanner.nextLine();
-            confirmCount++;
-            if (adminPwConfirm.equals(adminPassword)) {
-                confirmPwVld = true;
-            } else if (confirmCount >= 3) {
-                System.out.println("The Password Does Not Match with Previous Input,failed to sign up new admin\n");
-                adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
-                System.out.println();
-            } else {
-                System.out.println("The Password Does Not Match with Previous Input\n");
-            }
-        } while (!confirmPwVld);
-
-        Admin newAdmin = new Admin(adminName, adminIC, adminEmail, adminPhoneNo, adminPassword);
-        adminArray.add(newAdmin);
-        System.out.println("\n----------------------------------");
-        System.out.println("Register a new admin successfully!");
-        System.out.println("----------------------------------");
         adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
-
     }
 
     public static void forgotPassword(ArrayList<Admin> adminArray, ArrayList<Booking> bookingArrList, ArrayList<Registration> registrationArrList) throws InterruptedException {

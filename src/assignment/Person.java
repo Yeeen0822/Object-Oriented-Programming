@@ -1,4 +1,3 @@
-
 package assignment;
 
 import java.util.regex.Pattern;
@@ -14,8 +13,7 @@ public abstract class Person {
     public Person() {
     }
 
-    
-   public Person(String name,String IC,String email, String phoneNo) {
+    public Person(String name, String IC, String email, String phoneNo) {
         this.name = name;
         this.IC = IC;
         this.email = email;
@@ -25,8 +23,8 @@ public abstract class Person {
     public String getName() {
         return name;
     }
-    
-    public String getIC(){
+
+    public String getIC() {
         return IC;
     }
 
@@ -46,13 +44,13 @@ public abstract class Person {
         this.phoneNo = phoneNo;
     }
 
-    public static boolean vldIC(String IC){
+    public static boolean vldIC(String IC) {
         String ICRegex = "^[0-9]{12}$";
         Pattern pattern = Pattern.compile(ICRegex);
         Matcher matcher = pattern.matcher(IC);
         return matcher.matches();
     }
-            
+
     public static boolean vldEmail(String email) {
         // Regular expression for a valid email address
         String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
@@ -81,20 +79,30 @@ public abstract class Person {
         // Check if the phone number matches the pattern
         return matcher.matches(); // True for valid, false for invalid
     }
-    
+
     @Override
-    public String toString(){
-        return String.format("%-20s%-15s%-20s%-15s",name,IC,email,phoneNo);
+    public String toString() {
+        return String.format("%-20s %-15s %-20s %-15s", name, IC, email, phoneNo);
     }
-    
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Person person = (Person) o;
-        if (name != null ? !name.equals(person.name) : person.name != null) return false;
-        if (IC != null ? !IC.equals(person.IC) : person.IC != null) return false;
-        if (email != null ? !email.equals(person.email) : person.email != null) return false;
-        return phoneNo != null ? phoneNo.equals(person.phoneNo) : person.phoneNo == null;  
+        if (name != null ? !name.equals(person.name) : person.name != null) {
+            return false;
+        }
+        if (IC != null ? !IC.equals(person.IC) : person.IC != null) {
+            return false;
+        }
+        if (email != null ? !email.equals(person.email) : person.email != null) {
+            return false;
+        }
+        return phoneNo != null ? phoneNo.equals(person.phoneNo) : person.phoneNo == null;
     }
 }

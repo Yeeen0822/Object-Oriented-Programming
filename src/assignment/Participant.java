@@ -4,18 +4,22 @@
  */
 package assignment;
 
-public class Participant extends Person{
-    
-    public Participant(){};
-    
-    public Participant(String name,String IC,String email,String phoneNo){
-        super(name,IC,email,phoneNo);
+public class Participant extends Person {
+
+    public Participant() {
     }
-       
+
+    ;
+    
+    public Participant(String name, String IC, String email, String phoneNo) {
+        super(name, IC, email, phoneNo);
+
+    }
+
+
     @Override
-    public String toString(){
+    public String toString() {
         return super.toString();
     }
-    
-  
+
 }
