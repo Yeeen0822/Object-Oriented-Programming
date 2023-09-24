@@ -26,7 +26,8 @@ public class PhoneEvent extends Event {
 
     @Override
     public double calcFees() {
-        return super.calcFees() + (super.getPromoterNum() * phonePromoterRate) + (techTalkSession * 50 ) + (demoStation *75);
+        //formula to calcFees = DecorationPrice + EventVenuePrice + (Num of products*100) + (Promoter Number * promoterRate) + (techtalk * 50) + (demo *75)
+        return super.calcFees() + (super.getPromoterNum() * phonePromoterRate) + (techTalkSession * 50) + (demoStation * 75);
 
     }
 
