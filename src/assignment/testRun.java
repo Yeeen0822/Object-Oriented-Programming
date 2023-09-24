@@ -1296,7 +1296,7 @@ public class testRun {
                 System.out.println("[2] Event Management");
                 System.out.println("[3] Analytics and Reports");
                 System.out.println("[4] Sign Out");
-                System.out.println("[5]Exit");
+                System.out.println("[5] Exit");
 
                 System.out.print("Selection: ");
                 try {
