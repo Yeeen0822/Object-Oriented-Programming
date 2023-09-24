@@ -792,6 +792,11 @@ public class driverProgram {
             //cardNum
             System.out.print("\nEnter Card Number: ");
             String cardNum = s1.nextLine();
+            while(Card.vldCardNum(cardNum)==false){
+                System.out.print("Invalid Card Number!\n"
+                        + "Enter Card Number: ");
+                cardNum = s1.nextLine();
+            }
 
             //cardHolder
             System.out.print("Enter Card Holder Name: ");

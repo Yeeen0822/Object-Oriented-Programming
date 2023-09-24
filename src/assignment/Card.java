@@ -20,6 +20,21 @@ public class Card extends Payment {
         this.cardExp = cardExp;
         this.cardCVV = cardCVV;
     }
+    
+    public static boolean vldCardNum(String cardNum) {
+        //Regular expression for credit card number validation
+        String regex = "^[0-9]{16}$";
+
+
+        // Create a Pattern object
+        Pattern pattern = Pattern.compile(regex);
+
+        // Create a Matcher object
+        Matcher matcher = pattern.matcher(cardNum);
+
+        // Return true if the card number matches the regex pattern
+        return matcher.matches();
+    }
 
     //validate cardEXP
     public static boolean vldCardExp(String cardExp) {
@@ -35,6 +50,8 @@ public class Card extends Payment {
         // Check if the cardExp matches the pattern
         return matcher.matches(); // True for valid, false for invalid
     }
+    
+    
 
     //validate cardCVV
     public static boolean vldCardCvv(String cardCVV) {
