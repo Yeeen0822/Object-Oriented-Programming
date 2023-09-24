@@ -780,6 +780,7 @@ public class testRun {
                 //display the amount to refund
                 if (bookingArrList.get(j).getPaymentMethod().getPaymentStatus().equals("Paid") == true) {
                     System.out.println("Amount to refund: RM " + String.format("%.2f", bookingArrList.get(j).getEvent().calcFees() * 0.5));
+                    System.out.println("Refund will be proceeded in 3 working days");
                 }
 
                 //make payment status = cancelled
@@ -1224,6 +1225,7 @@ public class testRun {
                         forgotPassword(adminArray, bookingArrList, registrationArrList);
                         break;
                     case 3:
+                        //HEEEE
                         System.out.println("");
                         break;
                     default:
@@ -1317,9 +1319,10 @@ public class testRun {
 
                         case 4:
                             System.out.println("You Are Signed Out.");
-
-                            menu(adminArray, bookingArrList, registrationArrList);
                             staySignedIn = false;
+                            optionVld = true;
+                            menu(adminArray, bookingArrList, registrationArrList);
+
                             break;
                         case 5:
                             System.exit(0);
