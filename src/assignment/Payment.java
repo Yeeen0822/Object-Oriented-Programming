@@ -5,6 +5,7 @@
 package assignment;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Payment {
 
@@ -45,15 +46,15 @@ public class Payment {
         return paymentStatus;
     }
 
-    @Override   
+    @Override
     public String toString() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         System.out.println("+------------------------------+\n");
         System.out.println("\tRECEIPT\n");
         System.out.println("+------------------------------+\n");
-        return "DATE: " + getPaymentDate() + "\n"
+        return "DATE: " + getPaymentDate().format(dateFormatter) + "\n"
                 + "TOTAL AMOUNT    : RM " + String.format("%.2f", getPaymentAmount()) + "\n";
 
     }
-
 
 }

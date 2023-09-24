@@ -568,7 +568,7 @@ public class testRun {
                         if (bookingNum == bookingArrList.get(j).getBookingNum() && bookingArrList.get(j).getPaymentMethod().getPaymentStatus() == "Pending") {
 
                             Payment payment = payment(bookingArrList.get(j).getEvent().calcFees());
-                            if(payment.getPaymentStatus().equals("Paid")){
+                            if (payment.getPaymentStatus().equals("Paid")) {
                                 bookingArrList.get(j).setPaymentMethod(payment);
                             }
 
@@ -607,12 +607,13 @@ public class testRun {
         if (bookingArrList.size() == 0) {
             System.out.println("\nThere is no event!");
         } else {
-            
+
             //print paid events! do not print unpaid and cancelled bookings
             System.out.println("================EVENT LIST=====================");
             for (int j = 0; j < bookingArrList.size(); j++) {
 
                 System.out.println("\nEvent No: " + (j + 1));
+                System.out.println("Status: " + bookingArrList.get(j).getPaymentMethod().getPaymentStatus());
                 System.out.println(bookingArrList.get(j).getEvent());
 
             }
@@ -1429,8 +1430,8 @@ public class testRun {
         if (bookingArrList.size() > 0) {
             System.out.println("Number of Phone Events: " + phoneCount);
             System.out.println("Number of Car Events: " + carCount);
-            System.out.println("\nPercentage of Phone Events: " + (phoneCount / bookingArrList.size()) * 100 + "%");
-            System.out.println("Percentage of Car Events: " + (carCount / bookingArrList.size()) * 100 + "%");
+            System.out.println("\nPercentage of Phone Events: " + String.format("%.2f", (((double) phoneCount / bookingArrList.size()) * 100)) + "%");
+            System.out.println("Percentage of Car Events: " + String.format("%.2f", (((double) carCount / bookingArrList.size()) * 100)) + "%");
 
         } else {
             System.out.println("\nThere is no event!\n");
