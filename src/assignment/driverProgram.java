@@ -326,18 +326,27 @@ public class driverProgram {
         //Invoke organizer Constructor 
         Organizer organizer = new Organizer(companyName, organizerIC, organizerName, organizerEmail, phoneNo);
 
-        //------------------Create Event--------------------------
-        System.out.println("\nEvent Type:\n"
-                + "1.Phone Event\n"
-                + "2.Car Event");
-        System.out.print("Enter an option (1-2): ");
-        int eventOption = s1.nextInt();
-        while (eventOption < 1 || eventOption > 2) {
-            System.out.print("\nInvalid Input!\n"
-                    + "Enter again: ");
-            eventOption = s1.nextInt(); // 1 = phone Event, 2 = car event
-        }
-        s1.nextLine();
+        //initialize to invalid option
+        int eventOption = -1;
+        do {
+            try {
+                System.out.println("\nEvent Type:\n"
+                        + "1. Phone Event\n"
+                        + "2. Car Event");
+                System.out.print("Enter an option (1-2): ");
+
+                eventOption = s1.nextInt();
+                s1.nextLine(); // Consume the newline character left in the input buffer
+
+                if (eventOption < 1 || eventOption > 2) {
+                    System.out.println("\nInvalid Input! Please enter 1 or 2.");
+                }
+            } catch (InputMismatchException e) {
+                // Handle the exception (non-integer input)
+                System.out.println("\nInvalid Input! Please enter a valid integer (1 or 2).");
+                s1.nextLine(); // Consume the invalid input
+            }
+        } while (eventOption < 1 || eventOption > 2);
 
         System.out.println("\nEnter Details About the Event");
 
@@ -396,50 +405,102 @@ public class driverProgram {
 
         //-eventVenue
         VenueType[] venues = VenueType.values();
-        System.out.println("\nVenue List:");
-        for (int j = 0; j < venues.length; j++) {
-            System.out.println((j + 1) + ". " + venues[j]);
-        }
+        int eventVenueNum = -1; // Initialize to an invalid value
+        VenueType venueType = null; // Initialize to null
 
-        System.out.print("Enter Event Venue (1-" + venues.length + "): ");
-        int eventVenueNum = s1.nextInt();
-        while (eventVenueNum < 1 || eventVenueNum > venues.length) {
-            System.out.print("\nInvalid Input!\n"
-                    + "Enter again: ");
-            eventVenueNum = s1.nextInt();
-        }
-        s1.nextLine();
-        VenueType venueType = venues[eventVenueNum - 1];
+        do {
+            try {
+                System.out.println("\nVenue List:");
+                for (int j = 0; j < venues.length; j++) {
+                    System.out.println((j + 1) + ". " + venues[j]);
+                }
+
+                System.out.print("Enter Event Venue (1-" + venues.length + "): ");
+
+                eventVenueNum = s1.nextInt();
+                s1.nextLine(); // Consume the newline character left in the input buffer
+
+                if (eventVenueNum >= 1 && eventVenueNum <= venues.length) {
+                    venueType = venues[eventVenueNum - 1];
+                } else {
+                    System.out.println("\nInvalid Input! Please enter a valid venue number (1-" + venues.length + ").");
+                }
+            } catch (InputMismatchException e) {
+                // Handle the exception (non-integer input)
+                System.out.println("\nInvalid Input! Please enter a valid integer (1-" + venues.length + ").");
+                s1.nextLine(); // Consume the invalid input
+            }
+        } while (eventVenueNum < 1 || eventVenueNum > venues.length);
 
         //-decoration
         DecorationType[] decoration = DecorationType.values();
-        System.out.println("\nDecoration List:");
-        for (int k = 0; k < decoration.length; k++) {
-            System.out.println((k + 1) + ". " + decoration[k]);
-        }
+        int eventDecorationNum = -1; // Initialize to an invalid value
+        DecorationType decorationType = null; // Initialize to null
 
-        System.out.print("Enter Event Decoration (1-" + decoration.length + "): ");
-        int eventDecorationNum = s1.nextInt();
-        while (eventDecorationNum < 1 || eventDecorationNum > decoration.length) {
-            System.out.print("\nInvalid Input!\n"
-                    + "Enter again: ");
-            eventDecorationNum = s1.nextInt();
-        }
-        s1.nextLine();
-        DecorationType decorationType = decoration[eventDecorationNum - 1];
+        do {
+            try {
+                System.out.println("\nDecoration List:");
+                for (int k = 0; k < decoration.length; k++) {
+                    System.out.println((k + 1) + ". " + decoration[k]);
+                }
+
+                System.out.print("Enter Event Decoration (1-" + decoration.length + "): ");
+
+                eventDecorationNum = s1.nextInt();
+                s1.nextLine(); // Consume the newline character left in the input buffer
+
+                if (eventDecorationNum >= 1 && eventDecorationNum <= decoration.length) {
+                    decorationType = decoration[eventDecorationNum - 1];
+                } else {
+                    System.out.println("\nInvalid Input! Please enter a valid decoration number (1-" + decoration.length + ").");
+                }
+            } catch (InputMismatchException e) {
+                // Handle the exception (non-integer input)
+                System.out.println("\nInvalid Input! Please enter a valid integer (1-" + decoration.length + ").");
+                s1.nextLine(); // Consume the invalid input
+            }
+        } while (eventDecorationNum < 1 || eventDecorationNum > decoration.length);
 
         //-num of promoter
-        System.out.print("\nEnter Number of Promoters: ");
-        int promoterNum = s1.nextInt();
-        s1.nextLine();
+        int promoterNum = -1; // Initialize to an invalid value
+        do {
+            try {
+                System.out.print("\nEnter Number of Promoters: ");
+                promoterNum = s1.nextInt();
+                s1.nextLine(); // Consume the newline character left in the input buffer
+
+                if (promoterNum < 0) {
+                    System.out.println("\nInvalid Input! Please enter a non-negative integer.");
+                }
+            } catch (InputMismatchException e) {
+                // Handle the exception (non-integer input)
+                System.out.println("\nInvalid Input! Please enter a valid integer.");
+                s1.nextLine(); // Consume the invalid input
+            }
+        } while (promoterNum < 0);
 
         //-ArrayList<Product> products
         ArrayList<Product> productArrList = new ArrayList<>();
-        System.out.print("Enter The Number of Products: ");
-        int productNum = s1.nextInt();
+
+        int productNum = -1;
+        do {
+            try {
+                System.out.print("Enter The Number of Products: ");
+                productNum = s1.nextInt();
+                s1.nextLine(); // Consume the newline character left in the input buffer
+
+                if (productNum < 0) {
+                    System.out.println("\nInvalid Input! Please enter a non-negative integer.");
+                }
+            } catch (InputMismatchException e) {
+                // Handle the exception (non-integer input)
+                System.out.println("\nInvalid Input! Please enter a valid integer.");
+                s1.nextLine(); // Consume the invalid input
+            }
+        } while (productNum < 0);
 
         for (int j = 0; j < productNum; j++) {
-            s1.nextLine();
+
             System.out.println("Enter Product Details For Product " + (j + 1) + ":");
             //prod name
             System.out.print("Enter Product Name: ");
@@ -453,22 +514,50 @@ public class driverProgram {
 
             Product product = new Product(prodName, prodDesc, prodPrice);
             productArrList.add(product);
+            s1.nextLine();
         }
-        s1.nextLine();
+        
 
         Event event;
         //phoneEvent = 1 , carEvent = 2
         //phoneEvent prompts and create phoneEvent
         if (eventOption == 1) {
             //techTalkSession
-            System.out.print("Enter The Number of Tech Talk Sessions: ");
-            int techTalkSession = s1.nextInt();
-            s1.nextLine();
+            int techTalkSession = -1; // Initialize to an invalid value
+            do {
+                try {
+                    System.out.print("Enter The Number of Tech Talk Sessions: ");
+                    techTalkSession = s1.nextInt();
+                    s1.nextLine(); // Consume the newline character left in the input buffer
+
+                    if (techTalkSession < 0) {
+                        System.out.println("\nInvalid Input! Please enter a non-negative integer.");
+                    }
+                } catch (InputMismatchException e) {
+                    // Handle the exception (non-integer input)
+                    System.out.println("\nInvalid Input! Please enter a valid integer.");
+                    s1.nextLine(); // Consume the invalid input
+                }
+            } while (techTalkSession < 0);
 
             //demoStation
-            System.out.print("Enter The Number of Demo Stations: ");
-            int demoStation = s1.nextInt();
-            s1.nextLine();
+            int demoStation = -1; // Initialize to an invalid value
+
+            do {
+                try {
+                    System.out.print("Enter The Number of Demo Stations: ");
+                    demoStation = s1.nextInt();
+                    s1.nextLine(); // Consume the newline character left in the input buffer
+
+                    if (demoStation < 0) {
+                        System.out.println("\nInvalid Input! Please enter a non-negative integer.");
+                    }
+                } catch (InputMismatchException e) {
+                    // Handle the exception (non-integer input)
+                    System.out.println("\nInvalid Input! Please enter a valid integer.");
+                    s1.nextLine(); // Consume the invalid input
+                }
+            } while (demoStation < 0);
 
             //create PhoneEvent object
             event = new PhoneEvent(techTalkSession, demoStation, eventName, eventDate, eventTime, venueType, decorationType, promoterNum, productArrList);
@@ -479,9 +568,23 @@ public class driverProgram {
             String carEventTheme = s1.nextLine();
 
             //numTestDriveLocation
-            System.out.print("Enter The Number of Test Drive Locations: ");
-            int numTestDriveLocation = s1.nextInt();
-            s1.nextLine();
+            int numTestDriveLocation = -1; // Initialize to an invalid value
+
+            do {
+                try {
+                    System.out.print("Enter The Number of Test Drive Locations: ");
+                    numTestDriveLocation = s1.nextInt();
+                    s1.nextLine(); // Consume the newline character left in the input buffer
+
+                    if (numTestDriveLocation < 0) {
+                        System.out.println("\nInvalid Input! Please enter a non-negative integer.");
+                    }
+                } catch (InputMismatchException e) {
+                    // Handle the exception (non-integer input)
+                    System.out.println("\nInvalid Input! Please enter a valid integer.");
+                    s1.nextLine(); // Consume the invalid input
+                }
+            } while (numTestDriveLocation < 0);
             //create CarEvent object
             event = new CarEvent(carEventTheme, numTestDriveLocation, eventName, eventDate, eventTime, venueType, decorationType, promoterNum, productArrList);
         }
