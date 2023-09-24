@@ -607,6 +607,8 @@ public class testRun {
         if (bookingArrList.size() == 0) {
             System.out.println("\nThere is no event!");
         } else {
+            
+            //print paid events! do not print unpaid and cancelled bookings
             System.out.println("================EVENT LIST=====================");
             for (int j = 0; j < bookingArrList.size(); j++) {
 
