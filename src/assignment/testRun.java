@@ -25,36 +25,35 @@ public class testRun {
         ArrayList<Registration> registrationArrList = new ArrayList<>();
         Scanner s1 = new Scanner(System.in);
         boolean exit = false;
-        boolean optionVld;
-
+        boolean optionVld = true;
         while (!exit) {
-            optionVld = true;
             do {
 
-                //Main screen, select option
-                switch (mainMenu()) {
-                    case 1: {
-                        //admin screen
-                        menu(adminArray, bookingArrList, registrationArrList);
-                        break;
-                    }
-                    //participant screen
+                try {
 
-                    case 2: {
-                        participantMenu(bookingArrList, registrationArrList);
+                    switch (mainMenu()) {
+                        case 1:
+                            //admin screen
+                            menu(adminArray, bookingArrList, registrationArrList);
+                            break;
+                        //participant screen
+                        case 2:
+                            participantMenu(bookingArrList, registrationArrList);
+                            break;
+                        case 3:
+                            //exit
+                            optionVld = true;
+                            break;
+                        default:
+                            optionVld = false;
+                            System.out.println("Please Enter the Valid Option.\n");
+                    }
+                } catch (InputMismatchException inputMismatchException) {
+                    optionVld = false;
+                    exit = true;
+                    System.out.println("Please Enter Only Integer!\n");
 
-                        break;
-                    }
-                    case 3: {
-                        exit = true;
-                        break;
-                    }
-                    default: {
-                        optionVld = false;
-                        System.out.println("Please Enter the Valid Option.");
-                    }
                 }
-
             } while (!optionVld);
 
         }
@@ -75,7 +74,6 @@ public class testRun {
 
     public static void bookingManagement(ArrayList<Booking> bookingArrList) {
 
-        
         Scanner s1 = new Scanner(System.in);
 
         System.out.print("\nPlease Choose an Option\n"
@@ -164,7 +162,6 @@ public class testRun {
 
     }
 
-    //need to update loop
     public static void updateEventBooking(ArrayList<Booking> bookingArrList) {
         Scanner s1 = new Scanner(System.in);
 
