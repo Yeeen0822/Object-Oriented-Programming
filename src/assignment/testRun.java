@@ -75,6 +75,7 @@ public class testRun {
 
     public static void bookingManagement(ArrayList<Booking> bookingArrList) {
 
+        
         Scanner s1 = new Scanner(System.in);
 
         System.out.print("\nPlease Choose an Option\n"
@@ -823,7 +824,7 @@ public class testRun {
             //view all products using a static method from event
             System.out.println(Event.viewAllProducts(bookingArrList.get(index).getEvent().getEventProducts()));
 
-            System.out.print("Enter product number (999 to exit): ");
+            System.out.print("\nEnter product number (999 to exit): ");
             productNum = s1.nextInt();
             //999 to go back to previous screen
 
@@ -1009,7 +1010,7 @@ public class testRun {
                 }
             } catch (InputMismatchException inputMismatchException) {
                 optionVld = false;
-                System.out.println("Please Enter Only Integer.");
+                System.out.println("Please Enter Only Integer!");
                 s1.nextLine();
             }
         } while (!optionVld);
@@ -1186,7 +1187,7 @@ public class testRun {
                 }
             } catch (InputMismatchException inputMismatchException) {
                 optionVld = false;
-                System.out.println("Please Enter Only Integer.");
+                System.out.println("Please Enter Only Integer!");
                 sc.nextLine();
             }
         } while (!optionVld);
@@ -1283,7 +1284,7 @@ public class testRun {
                     }
                 } catch (InputMismatchException inputMismatchException) {
                     optionVld = false;
-                    System.out.println("Please Enter Only Integer.");
+                    System.out.println("Please Enter Only Integer!");
                     scanner.nextLine();
                 }
             } while (!optionVld);
@@ -1356,7 +1357,7 @@ public class testRun {
                     }
                 } catch (InputMismatchException inputMismatchException) {
                     optionVld = false;
-                    System.out.println("Please Enter Only Integer.");
+                    System.out.println("Please Enter Only Integer!");
                     scanner.nextLine();
                 }
             } while (!optionVld);
@@ -1528,7 +1529,7 @@ public class testRun {
                 }
             } catch (InputMismatchException inputMismatchException) {
                 optionVld = false;
-                System.out.println("Please Enter Only Integer.\n");
+                System.out.println("Please Enter Only Integer!");
                 scanner.nextLine();
             }
         } while (!optionVld);
@@ -1581,7 +1582,7 @@ public class testRun {
                 }
             } catch (InputMismatchException inputMismatchException) {
                 optionVld = false;
-                System.out.println("Please Enter Only Integer.\n");
+                System.out.println("Please Enter Only Integer!");
                 scanner.nextLine();
             }
         } while (!optionVld);
@@ -1694,8 +1695,7 @@ public class testRun {
                     confirmPwVld = true;
                 } else if (confirmCount >= 3) {
                     System.out.println("The password does not match with previous input,failed to sign up new admin\n");
-                    adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
-                    System.out.println();
+                    break;
                 } else {
                     System.out.println("The password does not match with previous input.");
                 }
