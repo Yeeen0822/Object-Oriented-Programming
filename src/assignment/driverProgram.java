@@ -1409,7 +1409,7 @@ public class driverProgram {
                         forgotPassword(adminArray, bookingArrList, registrationArrList);
                         break;
                     case 3:
-                        //HEEEE
+                        optionVld = true;
                         System.out.println("");
                         break;
                     default:
@@ -1809,6 +1809,7 @@ public class driverProgram {
                         break;
                     case 3:
                         adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
+                        optionVld = true;
                         break;
                     default:
                         optionVld = false;
