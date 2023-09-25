@@ -43,6 +43,7 @@ public class driverProgram {
                         case 3:
                             //exit
                             optionVld = true;
+                            exit = true;
                             break;
                         default:
                             optionVld = false;
@@ -50,7 +51,7 @@ public class driverProgram {
                     }
                 } catch (InputMismatchException inputMismatchException) {
                     optionVld = false;
-                    exit = true;
+
                     System.out.println("Please Enter Only Integer!\n");
 
                 }

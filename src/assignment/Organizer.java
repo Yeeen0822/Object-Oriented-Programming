@@ -14,7 +14,7 @@ public class Organizer extends Person {
     private String organizerID;
     private String companyName;
     private String IC;
-    private static int organizerCount;
+    private static int organizerCount = 0;
 
 
     public Organizer() {
@@ -24,6 +24,7 @@ public class Organizer extends Person {
         super(name,IC, email, phoneNo);
         organizerID = "C" + nextOrganizer++;
         this.companyName = companyName;
+        Organizer.organizerCount++;
 
     }
 
