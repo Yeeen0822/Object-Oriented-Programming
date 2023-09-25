@@ -1944,11 +1944,13 @@ public class driverProgram {
                 }
             } while (!confirmPwVld);
 
-            Admin newAdmin = new Admin(adminName, adminIC, adminEmail, adminPhoneNo, adminPassword);
-            adminArray.add(newAdmin);
-            System.out.println("\n----------------------------------");
-            System.out.println("Register a new admin successfully!");
-            System.out.println("----------------------------------");
+            if (confirmPwVld == true) {
+                Admin newAdmin = new Admin(adminName, adminIC, adminEmail, adminPhoneNo, adminPassword);
+                adminArray.add(newAdmin);
+                System.out.println("\n----------------------------------");
+                System.out.println("Register a new admin successfully!");
+                System.out.println("----------------------------------");
+            }
 
         }
         adminProfileMenu(adminArray, bookingArrList, loggedInAdmin);
