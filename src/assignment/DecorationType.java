@@ -12,9 +12,9 @@ public enum DecorationType {
     Luxury(9888),
     Ordinary(5888);
 
-    final int price;
+    final double price;
 
-    DecorationType(int price) {
+    DecorationType(double price) {
         this.price = price;
     }
 
