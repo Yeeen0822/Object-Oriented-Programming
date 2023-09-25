@@ -175,7 +175,7 @@ public class driverProgram {
             System.out.println("\nThere is no booking!");
 
         } else {
-            System.out.printf("\n%-15s %-15s %-15s %-15s %-15s\n", "Booking Number", "Organizer Name", "Company Name", "Event Name", "Payment Status");
+            System.out.printf("\n%-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "Booking Number", "Organizer Name", "Phone Number", "Email", "Company Name", "Event Name", "Payment Status");
             for (int j = 0; j < bookingArrList.size(); j++) {
                 System.out.println(bookingArrList.get(j));
 
@@ -509,14 +509,28 @@ public class driverProgram {
             System.out.print("Enter Product Description: ");
             String prodDesc = s1.nextLine();
             //prod price
-            System.out.print("Enter Product Price: RM ");
-            double prodPrice = s1.nextDouble();
+            double prodPrice = -1; // Initialize to an invalid value
+
+            do {
+                try {
+                    System.out.print("Enter Product Price: RM ");
+                    prodPrice = s1.nextDouble();
+                    s1.nextLine(); // Consume the newline character left in the input buffer
+
+                    if (prodPrice < 0) {
+                        System.out.println("\nInvalid Input! Please enter a non-negative numeric value.");
+                    }
+                } catch (InputMismatchException e) {
+                    // Handle the exception (non-numeric input)
+                    System.out.println("\nInvalid Input! Please enter a valid numeric value.");
+                    s1.nextLine(); // Consume the invalid input
+                }
+            } while (prodPrice < 0);
 
             Product product = new Product(prodName, prodDesc, prodPrice);
             productArrList.add(product);
-            s1.nextLine();
+
         }
-        
 
         Event event;
         //phoneEvent = 1 , carEvent = 2
@@ -775,15 +789,25 @@ public class driverProgram {
         System.out.print("\nTotal: RM" + String.format("%.2f", amountToPay)
                 + "\nPayment Options:\n"
                 + "1. Card\n"
-                + "2. Cash\n"
-                + "Select a Payment Option (1-2): ");
-        int paymentNum = s1.nextInt();
-        while (paymentNum < 1 || paymentNum > 2) {
-            System.out.print("\nInvalid Input!\n"
-                    + "Enter again: ");
-            paymentNum = s1.nextInt();
-        }
-        s1.nextLine();
+                + "2. Cash\n");
+
+        int paymentNum = -1; // Initialize to an invalid value
+
+        do {
+            try {
+                System.out.print("Select a Payment Option (1-2): ");
+                paymentNum = s1.nextInt();
+                s1.nextLine(); // Consume the newline character left in the input buffer
+
+                if (paymentNum < 1 || paymentNum > 2) {
+                    System.out.println("\nInvalid Input! Please enter 1 or 2.");
+                }
+            } catch (InputMismatchException e) {
+                // Handle the exception (non-integer input)
+                System.out.println("\nInvalid Input! Please enter a valid integer (1 or 2).");
+                s1.nextLine(); // Consume the invalid input
+            }
+        } while (paymentNum < 1 || paymentNum > 2);
 
         //paymentAmount = event object's price
         //Create Card object if paymentNum = 1, 2 for cash
@@ -792,7 +816,7 @@ public class driverProgram {
             //cardNum
             System.out.print("\nEnter Card Number: ");
             String cardNum = s1.nextLine();
-            while(Card.vldCardNum(cardNum)==false){
+            while (Card.vldCardNum(cardNum) == false) {
                 System.out.print("Invalid Card Number!\n"
                         + "Enter Card Number: ");
                 cardNum = s1.nextLine();
@@ -850,18 +874,27 @@ public class driverProgram {
         } else {
 
             //amount tendered
-            System.out.print("\nEnter amount tendered: RM ");
-            double amountTendered = s1.nextDouble();
+            double amountTendered = -1; // Initialize to an invalid value
 
-            //validate amount tendered (only accept >= event.getPrice() or 0) 0 means not yet paid
-            while ((amountTendered < amountToPay && amountTendered > 0) || amountTendered < 0) {
-                s1.nextLine();
-                System.out.print("\nInvalid input!\n"
-                        + "Enter amount tendered: RM ");
-                amountTendered = s1.nextDouble();
+            do {
+                try {
+                    System.out.print("\nEnter amount tendered: RM ");
+                    amountTendered = s1.nextDouble();
 
-            }
+                    if ((amountTendered < amountToPay && amountTendered > 0) || amountTendered < 0) {
+                        s1.nextLine(); // Consume the newline character left in the input buffer
+                        System.out.print("\nInvalid input!\n"
+                                + "Enter amount tendered: RM ");
+                    }
+                } catch (InputMismatchException e) {
+                    // Handle the exception (non-numeric input)
+                    System.out.println("\nInvalid Input! Please enter a valid numeric value.");
+                    s1.nextLine(); // Consume the invalid input
+                }
+            } while ((amountTendered < amountToPay && amountTendered > 0) || amountTendered < 0);
+
             s1.nextLine();
+
             //create cash object
             Cash payment = new Cash(amountTendered, amountToPay);
 
@@ -1196,6 +1229,7 @@ public class driverProgram {
                         break;
                     case 2:
                         //do nothing to go back to previous menu
+                        optionVld = true;
 
                         System.out.println("");
                         break;

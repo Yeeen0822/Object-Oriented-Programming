@@ -59,5 +59,10 @@ public class Organizer extends Person {
         // Check if the IC matches the pattern
         return matcher.matches(); // True for valid, false for invalid
     }
+    
+    @Override
+    public String toString(){
+        return String.format("%-15s %-15s %-15s %-15s", super.getName(), super.getPhoneNo(),super.getEmail(), companyName);
+    }
 
 }

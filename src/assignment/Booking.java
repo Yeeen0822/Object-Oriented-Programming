@@ -55,7 +55,7 @@ public class Booking {
     
     @Override
     public String toString(){
-        return String.format("%-15s %-15s %-15s %-15s %-15s", bookingNum, getOrganizer().getName(),getOrganizer().getName(), getEvent().getEventName(), getPaymentMethod().getPaymentStatus());
+        return String.format("%-15s %-60s %-15s %-15s", bookingNum, organizer.toString(), getEvent().getEventName(), getPaymentMethod().getPaymentStatus());
     }
     
     
