@@ -736,6 +736,11 @@ public class driverProgram {
 
                 System.out.println("\nEvent No: " + (j + 1));
                 System.out.println("Status: " + bookingArrList.get(j).getPaymentMethod().getPaymentStatus());
+                if(bookingArrList.get(j).getEvent() instanceof CarEvent){
+                    System.out.println("Event Type: Car");
+                }else{
+                    System.out.println("Event Type: Phone");
+                }
                 System.out.println(bookingArrList.get(j).getEvent());
 
             }
