@@ -46,20 +46,6 @@ public class Organizer extends Person {
     }
 
 
-
-    public static boolean vldIC(String IC) {
-        // Regular expression for a Malaysian IC
-        String icRegex = "^[0-9]{12}$";
-
-        // Compile the regex pattern
-        Pattern pattern = Pattern.compile(icRegex);
-
-        // Match the phone number against the pattern
-        Matcher matcher = pattern.matcher(IC);
-
-        // Check if the IC matches the pattern
-        return matcher.matches(); // True for valid, false for invalid
-    }
     
     @Override
     public String toString(){
