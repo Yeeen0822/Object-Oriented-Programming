@@ -78,30 +78,29 @@ public class driverProgram {
 
         Scanner s1 = new Scanner(System.in);
         int eventChoice;
-
+        System.out.print("\nPlease Choose an Option\n"
+                + "1. Create Event Booking\n"
+                + "2. Update Event Booking\n"
+                + "3. View Event Booking\n"
+                + "4. Search Event Booking\n"
+                + "5. Pay Unpaid Booking\n"
+                + "6. Cancel Event Booking\n"
+                + "7. View Event\n"
+                + "8. Search Event\n"
+                + "9. Back\n");
         do {
             try {
-                System.out.print("\nPlease Choose an Option\n"
-                        + "1. Create Event Booking\n"
-                        + "2. Update Event Booking\n"
-                        + "3. View Event Booking\n"
-                        + "4. Search Event Booking\n"
-                        + "5. Pay Unpaid Booking\n"
-                        + "6. Cancel Event Booking\n"
-                        + "7. View Event\n"
-                        + "8. Search Event\n"
-                        + "9. Back\n"
-                        + "Enter your choice: ");
 
+                System.out.print("Enter your choice: ");
                 eventChoice = s1.nextInt();
                 s1.nextLine(); // Consume the newline character left in the input buffer
 
                 if (eventChoice < 1 || eventChoice > 9) {
-                    System.out.println("\nPlease Enter the Valid Option.");
+                    System.out.println("Please Enter the Valid Option.");
                 }
             } catch (InputMismatchException e) {
                 // Handle the exception (non-integer input)
-                System.out.println("\nPlease Enter Only Integer!");
+                System.out.println("Please Enter Only Integer!");
                 s1.nextLine(); // Consume the invalid input
                 eventChoice = -1; // Set an invalid value to loop again
             }
@@ -736,9 +735,9 @@ public class driverProgram {
 
                 System.out.println("\nEvent No: " + (j + 1));
                 System.out.println("Status: " + bookingArrList.get(j).getPaymentMethod().getPaymentStatus());
-                if(bookingArrList.get(j).getEvent() instanceof CarEvent){
+                if (bookingArrList.get(j).getEvent() instanceof CarEvent) {
                     System.out.println("Event Type: Car");
-                }else{
+                } else {
                     System.out.println("Event Type: Phone");
                 }
                 System.out.println(bookingArrList.get(j).getEvent());
@@ -1750,7 +1749,7 @@ public class driverProgram {
         System.out.println("[4] View all admins' profiles (Manager priviledge)");
         System.out.println("[5] Back");
         do {
-            optionVld= true;
+            optionVld = true;
             System.out.print("Selection: ");
             try {
                 selection = scanner.nextInt();

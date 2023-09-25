@@ -12,9 +12,9 @@ public enum VenueType {
     Pavilion(500),
     Midvalley(350),
     Genting(600);
-    final double price;
+    final int price;
 
-    VenueType(double price) {
+    VenueType(int price) {
         this.price = price;
     }
 
