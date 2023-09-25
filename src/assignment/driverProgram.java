@@ -1796,12 +1796,10 @@ public class driverProgram {
         Scanner scanner = new Scanner(System.in);
         int selection;
         boolean optionVld = true;
-
+        System.out.println("\n[1] Update Phone No");
+        System.out.println("[2] Update Email");
+        System.out.println("[3] Back");
         do {
-
-            System.out.println("\n[1] Update Phone No");
-            System.out.println("[2] Update Email");
-            System.out.println("[3] Back");
 
             System.out.print("Selection: ");
             try {
