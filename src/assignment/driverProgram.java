@@ -1742,7 +1742,7 @@ public class driverProgram {
         System.out.println("[4] View all admins' profiles (Manager priviledge)");
         System.out.println("[5] Back");
         do {
-
+            optionVld= true;
             System.out.print("Selection: ");
             try {
                 selection = scanner.nextInt();
