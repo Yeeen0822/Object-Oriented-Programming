@@ -49,7 +49,7 @@ public class Organizer extends Person {
     
     @Override
     public String toString(){
-        return String.format("%-15s %-15s %-15s %-15s", super.getName(), super.getPhoneNo(),super.getEmail(), companyName);
+        return String.format("%-15s %-15s %-30s %-15s", super.getName(), super.getPhoneNo(),super.getEmail(), companyName);
     }
 
 }

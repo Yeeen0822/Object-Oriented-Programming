@@ -176,7 +176,7 @@ public class driverProgram {
             System.out.println("\nThere is no booking!");
 
         } else {
-            System.out.printf("\n%-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "Booking Number", "Organizer Name", "Phone Number", "Email", "Company Name", "Event Name", "Payment Status");
+            System.out.printf("\n%-15s %-15s %-15s %-30s %-15s %-15s %-15s\n", "Booking Number", "Organizer Name", "Phone Number", "Email", "Company Name", "Event Name", "Payment Status");
             for (int j = 0; j < bookingArrList.size(); j++) {
                 System.out.println(bookingArrList.get(j));
 
@@ -643,7 +643,7 @@ public class driverProgram {
                     for (int i = 0; i < bookingArrList.size(); i++) {
                         if (bookingArrList.get(i).getBookingNum() == bookingNo) {
                             inputBookingNo = true;
-                            System.out.printf("\n%-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "Booking Number", "Organizer Name", "Phone Number", "Email", "Company Name", "Event Name", "Payment Status");
+                            System.out.printf("\n%-15s %-15s %-15s %-30s %-15s %-15s %-15s\n", "Booking Number", "Organizer Name", "Phone Number", "Email", "Company Name", "Event Name", "Payment Status");
                             System.out.println(bookingArrList.get(i));
                             notFound = false;
                             break;
@@ -719,7 +719,7 @@ public class driverProgram {
     }
 
     public static void viewUnpaidBooking(ArrayList<Booking> bookingArrList) {
-        System.out.printf("\n%-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "Booking Number", "Organizer Name", "Phone Number", "Email", "Company Name", "Event Name", "Payment Status");
+        System.out.printf("\n%-15s %-15s %-15s %-30s %-15s %-15s %-15s\n", "Booking Number", "Organizer Name", "Phone Number", "Email", "Company Name", "Event Name", "Payment Status");
 
         for (int j = 0; j < bookingArrList.size(); j++) {
             if (bookingArrList.get(j).getPaymentMethod().getPaymentStatus().equals("Pending")) {
@@ -1179,7 +1179,7 @@ public class driverProgram {
 
     public static void viewPaidPendingBookings(ArrayList<Booking> bookingArrList) {
         //show all bookings except bookings that have Cancelled paymentStatus
-        System.out.printf("\n%-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "Booking Number", "Organizer Name", "Phone Number", "Email", "Company Name", "Event Name", "Payment Status");
+        System.out.printf("\n%-15s %-15s %-15s %-30s %-15s %-15s %-15s\n", "Booking Number", "Organizer Name", "Phone Number", "Email", "Company Name", "Event Name", "Payment Status");
 
         for (int j = 0; j < bookingArrList.size(); j++) {
             if (bookingArrList.get(j).getPaymentMethod().getPaymentStatus().equals("Cancelled") == false) {
