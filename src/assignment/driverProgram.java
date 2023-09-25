@@ -1393,10 +1393,10 @@ public class driverProgram {
         boolean optionVld = true;
         int loginOrForgot;
         Scanner sc = new Scanner(System.in);
+        System.out.println("\n1. Login");
+        System.out.println("2. Forgot Password");
+        System.out.println("3. Back");
         do {
-            System.out.println("\n1. Login");
-            System.out.println("2. Forgot Password");
-            System.out.println("3. Back");
 
             System.out.print("Selection: ");
             try {
@@ -1483,7 +1483,7 @@ public class driverProgram {
             System.out.println("[4] Sign Out");
             System.out.println("[5] Exit");
             do {
-                
+
                 System.out.print("Selection: ");
                 try {
                     selection = scanner.nextInt();
@@ -1743,7 +1743,6 @@ public class driverProgram {
         System.out.println("[5] Back");
         do {
 
-            
             System.out.print("Selection: ");
             try {
                 selection = scanner.nextInt();
