@@ -895,8 +895,7 @@ public class driverProgram {
 
                     if ((amountTendered < amountToPay && amountTendered > 0) || amountTendered < 0) {
                         s1.nextLine(); // Consume the newline character left in the input buffer
-                        System.out.print("\nInvalid input!\n"
-                                + "Enter amount tendered: RM ");
+                        System.out.print("\nInvalid input!\n");
                     }
                 } catch (InputMismatchException e) {
                     // Handle the exception (non-numeric input)
