@@ -208,8 +208,7 @@ public class driverProgram {
                             validInput = true;
                             int updateChoice;
                             boolean stayOnUpdateEventBooking = true;
-
-                            //always stay on updateEventBooking for the entered bookingNum
+                            // Always stay on updateEventBooking for the entered bookingNum
                             while (stayOnUpdateEventBooking) {
                                 System.out.println("\n-------------------------"
                                         + "\nBooking Number: " + bookingNum
@@ -220,17 +219,24 @@ public class driverProgram {
                                         + "3. Update Event Time\n"
                                         + "4. Update Event Products\n"
                                         + "5. Back\n"
-                                        + "Enter your choice: "
-                                );
-                                updateChoice = s1.nextInt();
+                                        + "Enter your choice: ");
 
-                                while (updateChoice < 1 || updateChoice > 5) {
-                                    s1.nextLine();
-                                    System.out.print("\nInvalid choice!\n"
-                                            + "Enter a valid choice: ");
+                                try {
                                     updateChoice = s1.nextInt();
+
+                                    while (updateChoice < 1 || updateChoice > 5) {
+                                        System.out.print("\nInvalid choice!\n"
+                                                + "Enter a valid choice: ");
+                                        updateChoice = s1.nextInt();
+                                    }
+                                } catch (InputMismatchException e) {
+                                    // Handle input that is not an integer
+                                    System.out.println("\nInvalid input! Please enter a valid integer choice.");
+                                    s1.nextLine(); // Consume the invalid input
+                                    continue; // Restart the loop
                                 }
-                                s1.nextLine();
+                                s1.nextLine(); // Consume the newline character
+
                                 switch (updateChoice) {
                                     // 1: update event name
                                     case 1: {
@@ -713,7 +719,7 @@ public class driverProgram {
     }
 
     public static void viewUnpaidBooking(ArrayList<Booking> bookingArrList) {
-        System.out.printf("\n%-15s %-15s %-15s %-15s %-15s\n", "Booking Number", "Organizer Name", "Company Name", "Event Name", "Payment Status");
+        System.out.printf("\n%-15s %-15s %-15s %-15s %-15s %-15s %-15s\n", "Booking Number", "Organizer Name", "Phone Number", "Email", "Company Name", "Event Name", "Payment Status");
 
         for (int j = 0; j < bookingArrList.size(); j++) {
             if (bookingArrList.get(j).getPaymentMethod().getPaymentStatus().equals("Pending")) {

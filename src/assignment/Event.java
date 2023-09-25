@@ -112,7 +112,7 @@ public class Event {
     }
 
     public double calcFees() {
-        return decoration.price + eventVenue.price + (eventProducts.size() * 100);
+        return (decoration.price + eventVenue.price + (eventProducts.size() * 100));
     }
 
     public int getPromoterNum() {
