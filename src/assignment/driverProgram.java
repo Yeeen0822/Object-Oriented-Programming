@@ -1470,21 +1470,20 @@ public class driverProgram {
         boolean staySignedIn = true;
 
         while (staySignedIn) {
+            System.out.printf("\n%30s", "+------------------+");
+            System.out.printf("%n%30s", "|    Admin Menu    |");
+            System.out.printf("%n%30s%n", "+------------------+");
+            System.out.println("Currently Logged In As Admin: " + adminArray.get(loggedInAdmin).getName());
+            System.out.println("Admin ID: " + adminArray.get(loggedInAdmin).getAdminID());
+            System.out.println();
 
+            System.out.println("[1] Admin Profile Management");
+            System.out.println("[2] Event Management");
+            System.out.println("[3] Analytics and Reports");
+            System.out.println("[4] Sign Out");
+            System.out.println("[5] Exit");
             do {
-                System.out.printf("\n%30s", "+------------------+");
-                System.out.printf("%n%30s", "|    Admin Menu    |");
-                System.out.printf("%n%30s%n", "+------------------+");
-                System.out.println("Currently Logged In As Admin: " + adminArray.get(loggedInAdmin).getName());
-                System.out.println("Admin ID: " + adminArray.get(loggedInAdmin).getAdminID());
-                System.out.println();
-
-                System.out.println("[1] Admin Profile Management");
-                System.out.println("[2] Event Management");
-                System.out.println("[3] Analytics and Reports");
-                System.out.println("[4] Sign Out");
-                System.out.println("[5] Exit");
-
+                
                 System.out.print("Selection: ");
                 try {
                     selection = scanner.nextInt();
@@ -1736,14 +1735,15 @@ public class driverProgram {
         Scanner scanner = new Scanner(System.in);
         int selection;
         boolean optionVld = true;
-
+        //Print profile menu
+        System.out.println("\n[1] View your profile");
+        System.out.println("[2] Update your profile");
+        System.out.println("[3] Register new admin's profile (Manager priviledge)");
+        System.out.println("[4] View all admins' profiles (Manager priviledge)");
+        System.out.println("[5] Back");
         do {
 
-            System.out.println("\n[1] View your profile");
-            System.out.println("[2] Update your profile");
-            System.out.println("[3] Register new admin's profile (Manager priviledge)");
-            System.out.println("[4] View all admins' profiles (Manager priviledge)");
-            System.out.println("[5] Back");
+            
             System.out.print("Selection: ");
             try {
                 selection = scanner.nextInt();
