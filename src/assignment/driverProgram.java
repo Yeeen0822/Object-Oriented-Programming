@@ -1471,9 +1471,9 @@ public class driverProgram {
         while (staySignedIn) {
 
             do {
-                System.out.printf("\n%55s", "+------------------+");
-                System.out.printf("%n%55s", "|    Admin Menu    |");
-                System.out.printf("%n%55s%n", "+------------------+");
+                System.out.printf("\n%30s", "+------------------+");
+                System.out.printf("%n%30s", "|    Admin Menu    |");
+                System.out.printf("%n%30s%n", "+------------------+");
                 System.out.println("Currently Logged In As Admin: " + adminArray.get(loggedInAdmin).getName());
                 System.out.println("Admin ID: " + adminArray.get(loggedInAdmin).getAdminID());
                 System.out.println();
