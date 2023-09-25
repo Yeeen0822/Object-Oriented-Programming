@@ -1996,7 +1996,7 @@ public class driverProgram {
                     System.out.println("You keyed in invalid IC 3 times, auto back\n");
                     menu(adminArray, bookingArrList, registrationArrList);
                 } else {
-                    System.out.println("Please Enter A Valid IC.");
+                    System.out.println("Please Enter A Valid IC.\n");
                 }
             } while (!icValid);
 
