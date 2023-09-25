@@ -1602,7 +1602,7 @@ public class driverProgram {
 
     public static void bookingStatistic(ArrayList<Booking> bookingArrList) {
         System.out.println("\n=========================================");
-        System.out.println("             BOOKING STATISTIC           ");
+        System.out.println("             BOOKING STATISTICS           ");
         System.out.println("=========================================");
         int phoneCount = 0, carCount = 0;
 
@@ -1711,15 +1711,22 @@ public class driverProgram {
         System.out.println("=========================================");
 
         for (int i = 0; i < bookingArrList.size(); i++) {
-            if (bookingArrList.get(i).getPaymentMethod() instanceof Card) {
-                cardCount++;
+            if (bookingArrList.get(i).getPaymentMethod().getPaymentStatus().equals("Paid")) {
+                if (bookingArrList.get(i).getPaymentMethod() instanceof Card) {
 
-            } else {
-                cashCount++;
+                    cardCount++;
+
+                } else {
+                    cashCount++;
+                }
+
             }
+
         }
         System.out.println("\nNumber of Bookings Paid with Card: " + cardCount);
         System.out.println("Number of Bookings Paid with Cash: " + cashCount + "\n");
+        System.out.println("\nPercentage of Bookings Paid with Card: " + String.format("%.2f", (((double) cardCount / (cashCount + cardCount)) * 100)) + "%");
+        System.out.println("Percentage of Bookings Paid with Cash: " + String.format("%.2f", (((double) cashCount / (cashCount + cardCount)) * 100)) + "%");
 
     }
 
