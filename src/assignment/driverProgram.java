@@ -28,7 +28,7 @@ public class driverProgram {
         boolean optionVld = true;
         while (!exit) {
             do {
-
+                optionVld = true;
                 try {
 
                     switch (mainMenu()) {
@@ -44,6 +44,7 @@ public class driverProgram {
                             //exit
                             optionVld = true;
                             exit = true;
+                            System.exit(0);
                             break;
                         default:
                             optionVld = false;
@@ -1215,6 +1216,7 @@ public class driverProgram {
         boolean stayInThisMenu = true;
 
         do {
+            optionVld = true;
             System.out.println("\n-----Welcome to to participant Menu-----");
             System.out.println("1.Register For An Event");
             System.out.println("2.Back");
@@ -1397,7 +1399,7 @@ public class driverProgram {
         System.out.println("2. Forgot Password");
         System.out.println("3. Back");
         do {
-
+            optionVld = true;
             System.out.print("Selection: ");
             try {
                 loginOrForgot = sc.nextInt();
@@ -1483,7 +1485,7 @@ public class driverProgram {
             System.out.println("[4] Sign Out");
             System.out.println("[5] Exit");
             do {
-
+                optionVld = true;
                 System.out.print("Selection: ");
                 try {
                     selection = scanner.nextInt();
@@ -1534,6 +1536,7 @@ public class driverProgram {
 
         while (stayThisScreen) {
             do {
+                optionVld = true;
                 System.out.println("\n+-----------------------------+");
                 System.out.println("|    Analytics and Reports    |");
                 System.out.println("+---------------------------+");
@@ -1800,7 +1803,7 @@ public class driverProgram {
         System.out.println("[2] Update Email");
         System.out.println("[3] Back");
         do {
-
+            optionVld = true;
             System.out.print("Selection: ");
             try {
                 selection = scanner.nextInt();
