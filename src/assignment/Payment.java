@@ -49,9 +49,9 @@ public class Payment {
     @Override
     public String toString() {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        System.out.println("+------------------------------+\n");
-        System.out.println("\tRECEIPT\n");
-        System.out.println("+------------------------------+\n");
+        System.out.print("+------------------------------+\n");
+        System.out.print("|           RECEIPT            |\n");
+        System.out.print("+------------------------------+\n");
         return "DATE: " + getPaymentDate().format(dateFormatter) + "\n"
                 + "TOTAL AMOUNT    : RM " + String.format("%.2f", getPaymentAmount()) + "\n";
 
