@@ -1648,7 +1648,7 @@ public class driverProgram {
         System.out.println("            TOTAL REGISTRATIONS        ");
         System.out.println("=========================================");
         System.out.println("Total Registrations: " + registrationArrList.size());
-        System.out.printf("%-10s %-15s %-25s\n", "Event ID", "Event Name", "Number of Registrations");
+        System.out.printf("%-10s %-30s %-25s\n", "Event ID", "Event Name", "Number of Registrations");
         for (int i = 0; i < bookingArrList.size(); i++) {
             System.out.printf("%-10s %-15s %-25s\n", bookingArrList.get(i).getEvent().getEventID(),
                     bookingArrList.get(i).getEvent().getEventName(), bookingArrList.get(i).getEvent().getParticipantArr().size());
@@ -1669,7 +1669,7 @@ public class driverProgram {
         System.out.println("\n=========================================");
         System.out.println("            REGISTRATION LIST        ");
         System.out.println("=========================================\n");
-        System.out.printf("%-20s %-15s %-20s %-15s %-15s %-10s\n", "Name", "IC", "Email", "Phone No", "Event Name", "Seat Type");
+        System.out.printf("%-20s %-15s %-20s %-15s %-30s %-10s\n", "Name", "IC", "Email", "Phone No", "Event Name", "Seat Type");
         for (int i = 0; i < registrationArrList.size(); i++) {
             System.out.println(registrationArrList.get(i));
         }
