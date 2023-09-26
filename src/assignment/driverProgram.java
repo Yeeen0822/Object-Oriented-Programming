@@ -78,8 +78,11 @@ public class driverProgram {
 
         Scanner s1 = new Scanner(System.in);
         int eventChoice;
-        System.out.print("\nPlease Choose an Option\n"
-                + "1. Create Event Booking\n"
+        System.out.print(
+                  "\n+-----------------------------+"
+                + "\n|      Booking Management     |"
+                + "\n+-----------------------------+"
+                + "\n1. Create Event Booking\n"
                 + "2. Update Event Booking\n"
                 + "3. View Event Booking\n"
                 + "4. Search Event Booking\n"
@@ -87,7 +90,8 @@ public class driverProgram {
                 + "6. Cancel Event Booking\n"
                 + "7. View Event\n"
                 + "8. Search Event\n"
-                + "9. Back\n");
+                + "9. Back\n"
+        );
         do {
             try {
 
