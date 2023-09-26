@@ -38,7 +38,7 @@ public class Registration implements Comparable<Registration> {
     @Override
     public String toString() {
         //"%-20s%-15s%-20s%-15s"
-        return String.format("%-70s %-15s %-10s", participant.toString(), event.getEventName(), seatType);
+        return String.format("%-70s %-30s %-10s", participant.toString(), event.getEventName(), seatType);
     }
 
 }
