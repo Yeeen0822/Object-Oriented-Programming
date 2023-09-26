@@ -157,11 +157,11 @@ public class Event {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         boolean noPaidEvent = true;
-        System.out.printf("\n%-10s %-15s %-15s %-15s %-15s\n", "Event ID", "Event Name", "Event Date", "Event Time", "Event Venue");
+        System.out.printf("\n%-10s %-30s %-15s %-15s %-15s\n", "Event ID", "Event Name", "Event Date", "Event Time", "Event Venue");
         for (int j = 0; j < bookingArrList.size(); j++) {
             if (bookingArrList.get(j).getPaymentMethod().getPaymentStatus().equals("Paid") == true) {
                 noPaidEvent = false;
-                System.out.printf("%-10s %-15s %-15s %-15s %-15s\n", bookingArrList.get(j).getEvent().eventID, bookingArrList.get(j).getEvent().eventName, bookingArrList.get(j).getEvent().eventDate.format(dateFormatter), bookingArrList.get(j).getEvent().eventTime, bookingArrList.get(j).getEvent().eventVenue);
+                System.out.printf("%-10s %-30s %-15s %-15s %-15s\n", bookingArrList.get(j).getEvent().eventID, bookingArrList.get(j).getEvent().eventName, bookingArrList.get(j).getEvent().eventDate.format(dateFormatter), bookingArrList.get(j).getEvent().eventTime, bookingArrList.get(j).getEvent().eventVenue);
 
             }
 
